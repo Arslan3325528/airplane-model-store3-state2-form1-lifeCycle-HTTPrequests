@@ -62,6 +62,7 @@ export class App extends Component {
     inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
     inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
     modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+    modelScale: "all", //! початковий масштаб моделі в ScaleSelection
     showModal: true, //! контроль відкриття/закриття модального вікна
     // users: [], //! масив з даними користувачів
     //! 1.localStorage - Ініціалізація state.users з localStorage
@@ -620,10 +621,11 @@ export class App extends Component {
       isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
       aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
       inputSearchValue: "", //! значення inputSearch
-      adioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
+      radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelScale: "all", //! початковий масштаб моделі в ScaleSelection
       // showModal: true, //todo: var.2 відкриваємо модалку
       users,
       activeUser: null,
@@ -650,6 +652,7 @@ export class App extends Component {
       inputSearchPlaceholder, //! значення placeholder для inputSearch
       inputSearchValueTrigger, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale, //! масив моделей обраного масштабу
+      modelScale, //! початковий масштаб моделі в ScaleSelection
       showModal, //! контроль відкриття/закриття модального вікна
       users, //!  масив з даними користувачів
       activeUser, //! 🗣 активний (авторизований) користувач
@@ -683,17 +686,6 @@ export class App extends Component {
     const numberOfModelsAfterSorting = selectedModels.length;
 
     //! Оновлення users і localStorage "users"
-    // const newUsers =
-    //   activeUser
-    //     // ? users.findIndex(user => user.userEmail === activeUser.userEmail)
-    //     ? users.splice(activeUserId, 1, activeUser)
-    //     : null
-    // console.log("#️⃣🗣#️⃣🗣 Індекс Активного (авторизованого) користувача_render():", activeUserId); //!
-    
-    // users.splice(activeUserId, 1, activeUser);
-    // localStorage.setItem("users", JSON.stringify(users));
-
-
     if (users.length && activeUser) {
       const newUsers = users.map((user, index) =>
         index === activeUserId ? activeUser : user
@@ -712,6 +704,7 @@ export class App extends Component {
     console.log("⭕️Значення параметра для пошуку/фільтрації радіо-кнопки:", radioButtonValue);
     console.log("🔲Значення placeholder для inputSearch:", inputSearchPlaceholder);
     console.log("📕📗Масив моделей обраного масштабу:", modelsSelectedScale);
+    console.log("Початковий масштаб моделі в ScaleSelection:", modelScale);
     console.log("🌀 Контроль відкриття/закриття модального вікна:", showModal);
     console.log("👨‍👩‍👦‍👦 Масив з даними користувачів:", users);
     console.log("🗣 Активний (авторизований) користувач:", activeUser);
@@ -780,7 +773,8 @@ export class App extends Component {
         
         {/*//!  Вибір масштабу моделі */}
         <ScaleSelection
-          aircrafts={aircrafts} //! ппочатково сортований вхідний масив УСІХ моделей
+          modelScale={modelScale} //! початковий масштаб моделі в ScaleSelection
+          aircrafts={aircrafts} //! початково сортований вхідний масив УСІХ моделей
           isLocked={isCartButton} //! тригер: "якщо активна кнопка «Кошик»"
           onGetModelsSelectedScale={this.getModelsSelectedScale} 
         />

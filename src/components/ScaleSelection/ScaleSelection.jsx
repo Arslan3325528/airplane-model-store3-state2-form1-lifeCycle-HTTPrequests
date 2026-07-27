@@ -9,7 +9,8 @@ import css from "./ScaleSelection.module.css";
 //! Компонент-клас
 export class ScaleSelection extends Component {
   state = {
-    modelScale: "all", //! масштаб моделі
+    // modelScale: "all", //! масштаб моделі
+    modelScale: this.props.modelScale, //! масштаб моделі
     // modelsSelectedScale: [] //! масив моделей обраного масштабу
   };
 
