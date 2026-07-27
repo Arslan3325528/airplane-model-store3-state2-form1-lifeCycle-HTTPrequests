@@ -67,6 +67,7 @@ export class App extends Component {
     //! 1.localStorage - Ініціалізація state.users з localStorage
     users: JSON.parse(localStorage.getItem("users")) || [], //! масив з даними користувачів
     activeUser: null, //! 🗣 активний (авторизований) користувач
+    activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
     modalType: "",  //! 🧾 індикатор типу модального вікна
     isCartButtonDisabled: true,  //! 🔐 тригер блокування кнопки «Кошик»
   };
@@ -105,12 +106,21 @@ export class App extends Component {
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
   componentDidUpdate(prevProps, prevState) {
     //todo: indicesSelectedModels
+    if (localStorage.getItem("indicesSelectedModels") && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+      console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+      localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+    };
+    
     if (prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
       // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
       this.setState({
         selectedModels: this.state.indicesSelectedModels.flatMap(id =>
           aircrafts.filter((el) => id === el.id))
-          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief"
+          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
+        activeUser:
+          localStorage.getItem("indicesSelectedModels")
+            ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
+            : null,
       });
     };
 
@@ -220,9 +230,10 @@ export class App extends Component {
   //*✅ Так додає останній елемент
   updateSelectedModels = () => {
     this.setState(prevState => ({
-      selectedModels: prevState.indicesSelectedModels.flatMap(id =>
-          aircrafts.filter((el) => id === el.id))
-        .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief"
+      selectedModels:
+        prevState.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id))
+        .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
+      // activeUser: {...prevState.activeUser, indicesSelectedModels: this.state.indicesSelectedModels},
     }));
   };
 
@@ -571,7 +582,7 @@ export class App extends Component {
     console.log("❗️🗣 Активний (авторизований) користувач__accountLogin:", activeUser); //!
 
     const activeUserId = users.findIndex(user => user.userEmail === userEmail);
-    console.log("#️⃣🗣 Індекс Активного (авторизованого) користувача_accountLogin::", activeUserId); //!
+    console.log("#️⃣🗣 Індекс активного (авторизованого) користувача_accountLogin:", activeUserId); //!
     localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача
 
     activeUser.isActive = true;
@@ -581,6 +592,7 @@ export class App extends Component {
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
       users,
       activeUser,
+      activeUserId,
       isCartButtonDisabled: false,
       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
       selectedModels:
@@ -602,6 +614,16 @@ export class App extends Component {
     // console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
     this.setState({
+      aircraftsArr: aircrafts, //! 
+      aircraftsTitle: "Магазин моделей літальних апаратів",
+      activeButton: "allButton", //! візуалізація активної кнопки
+      isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
+      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      inputSearchValue: "", //! значення inputSearch
+      adioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
+      inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
+      inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
+      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
       // showModal: true, //todo: var.2 відкриваємо модалку
       users,
       activeUser: null,
@@ -609,8 +631,6 @@ export class App extends Component {
       indicesSelectedModels: [], //! масив індексів обраних моделей
       selectedModels: [], //! масив обраних моделей
     });
-    // localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
-    // localStorage.removeItem("users");
     this.toggleModal(); //todo: var.3 відкриваємо модалку
   };
 
@@ -633,6 +653,7 @@ export class App extends Component {
       showModal, //! контроль відкриття/закриття модального вікна
       users, //!  масив з даними користувачів
       activeUser, //! 🗣 активний (авторизований) користувач
+      activeUserId, //! #️⃣🗣 індекс активного (авторизованого) користувача
       modalType, //! 🧾 індикатор типу модального вікна
       isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
     } = this.state;
@@ -660,8 +681,28 @@ export class App extends Component {
 
     //! Кількість обраних моделей після сортування
     const numberOfModelsAfterSorting = selectedModels.length;
-    
 
+    //! Оновлення users і localStorage "users"
+    // const newUsers =
+    //   activeUser
+    //     // ? users.findIndex(user => user.userEmail === activeUser.userEmail)
+    //     ? users.splice(activeUserId, 1, activeUser)
+    //     : null
+    // console.log("#️⃣🗣#️⃣🗣 Індекс Активного (авторизованого) користувача_render():", activeUserId); //!
+    
+    // users.splice(activeUserId, 1, activeUser);
+    // localStorage.setItem("users", JSON.stringify(users));
+
+
+    if (users.length && activeUser) {
+      const newUsers = users.map((user, index) =>
+        index === activeUserId ? activeUser : user
+      );
+      console.log("newUsers:", newUsers); //!
+      localStorage.setItem("users", JSON.stringify(newUsers));
+    };
+    
+    
     console.log("----------------------------------------------");
     console.log("ℹ️Mасив індексів обраних моделей ", indicesSelectedModels);
     console.log("Ⓜ️Масив обраних моделей:", selectedModels);
@@ -674,9 +715,11 @@ export class App extends Component {
     console.log("🌀 Контроль відкриття/закриття модального вікна:", showModal);
     console.log("👨‍👩‍👦‍👦 Масив з даними користувачів:", users);
     console.log("🗣 Активний (авторизований) користувач:", activeUser);
+    console.log("#️⃣🗣 Індекс Активного(авторизованого) користувача", activeUserId);
     console.log("🧾 Індикатор типу модального вікна:", modalType);
     console.log("🔐 Тригер блокування кнопки «Кошик»:", isCartButtonDisabled);
     console.log("______________________________________________");
+    // console.log("#️⃣🗣#️⃣🗣 Індекс Активного (авторизованого) користувача_render():", activeUser.userName); //!
 
     return (
       <>
