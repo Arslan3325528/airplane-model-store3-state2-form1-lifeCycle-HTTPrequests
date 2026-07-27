@@ -46,13 +46,14 @@ export class App extends Component {
     aircraftsArr: aircrafts,
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
-    // indicesSelectedModels: [], //! масив індексів обраних моделей
+    indicesSelectedModels: [], //! масив індексів обраних моделей
     //! 1.localStorage - Ініціалізація state.indicesSelectedModels з localStorage
-    indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
-    // selectedModels: [], //! масив обраних моделей
-    selectedModels: (JSON.parse(localStorage.getItem("indicesSelectedModels")) || []).flatMap(id =>
-      aircrafts.filter((el) => id === el.id)) //! масив обраних моделей
-      .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+    // indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+    selectedModels: [], //! масив обраних моделей
+    // selectedModels:
+    //   (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+    //     .flatMap(id => aircrafts.filter((el) => id === el.id))
+    //     .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
     isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
     // totalTypes: aircrafts.length, //! кількість типів ЛА (всіх літальних апаратів)
     inputSearchValue: "", //! значення inputSearch
@@ -73,10 +74,10 @@ export class App extends Component {
   //! 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   componentDidMount() {
     //todo: indicesSelectedModels
-    const saved = localStorage.getItem("indicesSelectedModels");
-    if (!saved) {
-      localStorage.setItem("indicesSelectedModels", JSON.stringify([]));
-    };
+    // const saved = localStorage.getItem("indicesSelectedModels");
+    // if (!saved) {
+    //   localStorage.setItem("indicesSelectedModels", JSON.stringify([]));
+    // };
 
     //todo: users
     const users = localStorage.getItem("users");
@@ -86,11 +87,16 @@ export class App extends Component {
       // console.log("❗️❗️❗️JSON.parse(users).length:", JSON.parse(users).length); //!
       const activeUser = JSON.parse(users).find(user => user.isActive === true);
       console.log("componentDidMount🗣 Активний(авторизований) користувач:", activeUser); //!
-      if (activeUser) { //! 3.Мкщо в масиві users є активний користувач
+      if (activeUser) { //! 3.Якщо в масиві users є активний користувач
         this.setState({
           showModal: false,
           activeUser,
           isCartButtonDisabled: false,
+          indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+          selectedModels:
+            (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+              .flatMap(id => aircrafts.filter((el) => id === el.id))
+              .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
         })
       };
     };
@@ -100,7 +106,7 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     //todo: indicesSelectedModels
     if (prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
-      localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
       this.setState({
         selectedModels: this.state.indicesSelectedModels.flatMap(id =>
           aircrafts.filter((el) => id === el.id))
@@ -558,11 +564,16 @@ export class App extends Component {
   };
 
   //! Вхід в обліковий запис
-  accountLogin = ({userEmail}) => {
-    console.log("🙆‍♂️Вхід в обліковий запис:", userEmail); //!
+  accountLogin = ({ userEmail }) => {
+    console.log("🙆‍♂️Вхід в обліковий запис:", userEmail); //! 
     const users = JSON.parse(localStorage.getItem("users"));
     const activeUser = users.find(user => user.userEmail === userEmail);
     console.log("🗣 🗣 🗣 Активний(авторизований) користувач:", activeUser); //!
+
+    const activeUserId = users.findIndex(user => user.userEmail === userEmail);
+    console.log("🗣 Індекс Активног(авторизованого) користувача:", activeUserId); //!
+    localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача
+
     activeUser.isActive = true;
     console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
@@ -571,6 +582,11 @@ export class App extends Component {
       users,
       activeUser,
       isCartButtonDisabled: false,
+      indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+      selectedModels:
+        (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+          .flatMap(id => aircrafts.filter((el) => id === el.id))
+          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
     });
     // this.toggleModal(); //todo: var.3 закриваємо модалку  
   };
@@ -578,6 +594,7 @@ export class App extends Component {
   //! Завершення сеансу облікового запису
   signOut = () => {
     console.log("⬇️Sign Out");
+    localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
     const users = JSON.parse(localStorage.getItem("users"));
     const activeUser = users.find(user => user.isActive === true);
     // console.log("🗣 🗣 🗣 Активний(авторизований) користувач:", activeUser); //!
@@ -589,7 +606,11 @@ export class App extends Component {
       users,
       activeUser: null,
       isCartButtonDisabled: true,
+      indicesSelectedModels: [], //! масив індексів обраних моделей
+      selectedModels: [], //! масив обраних моделей
     });
+    // localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
+    // localStorage.removeItem("users");
     this.toggleModal(); //todo: var.3 відкриваємо модалку
   };
 

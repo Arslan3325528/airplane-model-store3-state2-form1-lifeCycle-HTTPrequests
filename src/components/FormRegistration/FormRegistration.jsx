@@ -23,7 +23,8 @@ export class FormRegistration extends Component {
     handleSubmit = event => {
         event.preventDefault();
         //! isActive - це тригер 🗣 активного (авторизованого) користувача
-        const { userName, userEmail, userPassword, userExperience, userAge, isActive = false } = this.state;
+        //! indicesSelectedModels - це масив індексів обраних моделей користувача
+        const { userName, userEmail, userPassword, userExperience, userAge, isActive = false, indicesSelectedModels = [] } = this.state;
         
         // console.log(`Name: ${userName}, ✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
         //! Перевірка на унікальність userEmail
@@ -38,7 +39,7 @@ export class FormRegistration extends Component {
         };
 
         // this.props.onSubmit({ ...this.state }); //! підняття стану + передача state в App.jsx
-        this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive }); //! підняття стану + передача частини state в App.jsx
+        this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels }); //! підняття стану + передача частини state в App.jsx
         this.reset();  //! очищуємо поля всіх інпутів
         // this.props.onClose(); //! закриваємо модалку
     };
