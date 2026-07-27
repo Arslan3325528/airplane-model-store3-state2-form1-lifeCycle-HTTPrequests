@@ -14,6 +14,16 @@ export class ScaleSelection extends Component {
     // modelsSelectedScale: [] //! масив моделей обраного масштабу
   };
 
+  //! 🔄 Для пепререндеру
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.modelScale !== this.props.modelScale) {
+      this.setState({
+        modelScale:
+          this.props.modelScale
+      });
+    };
+  };
+
   handleChangeModelScale = (event) => {
     // console.log("Зміна масштабу моделі");
     // console.log("event.currentTarget:", event.currentTarget);
@@ -69,6 +79,7 @@ export class ScaleSelection extends Component {
               <select
                 className={css.scaleSelectionSelect}
                 name="modelScale"
+                // value={this.props.modelScale ? modelScale : "all"}
                 value={modelScale}
                 onChange={this.handleChangeModelScale}
                 disabled={isLocked} //! блокування, якщо активна кнопка «Кошик»

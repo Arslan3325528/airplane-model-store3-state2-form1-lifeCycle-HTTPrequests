@@ -14,6 +14,7 @@ export function PlanesList({
     // onHighlightTextProtection, //! функція підсвічування тексту та допоміжна функція ---> ВИНОСИМО в utils
     radioButtonValue, //! ⭕️Значення параметра для пошуку/фільтрації радіо-кнопки
     isCartOn, //! тригер: "якщо активна кнопка «Кошик»"
+    isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
 })
 {
     return (
@@ -49,6 +50,7 @@ export function PlanesList({
                                 // onHighlightTextProtection={onHighlightTextProtection} //! ---> ВИНОСИМО в utils
                                 inputSearchValue={inputSearchValue} //! значення inputSearch
                                 radioButtonValue={radioButtonValue} //! ⭕️ значення параметра для пошуку/фільтрації радіо-кнопки
+                                isCartButtonDisabled={isCartButtonDisabled} //! 🔐 тригер блокування кнопки «Кошик»
                             />
                         </li>
                     )}

@@ -46,6 +46,7 @@ export function Planes({
   // onHighlightTextProtection, //! функція підсвічування тексту та допоміжна функція ---> ВИНОСИМО в utils
   inputSearchValue, //! значення inputSearch
   radioButtonValue, //! ⭕️ значення параметра для пошуку/фільтрації радіо-кнопки
+  isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
 })
 {
   //! Рахуємо кількість моделей <numberModels> виходячи з наявності фактичної ціни
@@ -115,7 +116,7 @@ export function Planes({
               : css.planeButton 
         }
         //! Бокування кнопки, якщо немає в наявності
-        disabled={modelActualImages[0] === template}
+        disabled={modelActualImages[0] === template || isCartButtonDisabled}
 
         // onClick={() => console.log("ID:", aircraftId)}
         onClick={() => onActiveId(aircraftId)}

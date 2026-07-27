@@ -83,7 +83,7 @@
     outline: 1px #902a00 solid;
 }
 
-/*! Блокувення кнопки */
+/*! Блокування кнопки */
 .button:disabled {
     color: #c1c1c1;
     cursor: not-allowed;

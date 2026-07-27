@@ -569,6 +569,17 @@ export class App extends Component {
     // });
 
     this.setState(prevState => ({
+      aircraftsArr: aircrafts, //! 
+      aircraftsTitle: "Магазин моделей літальних апаратів",
+      activeButton: "allButton", //! візуалізація активної кнопки
+      isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
+      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      inputSearchValue: "", //! значення inputSearch
+      radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
+      inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
+      inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
+      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelScale: "_", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true,
       users: [...prevState.users, data],
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
@@ -590,6 +601,17 @@ export class App extends Component {
     console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
     this.setState({
+      aircraftsArr: aircrafts, //! 
+      aircraftsTitle: "Магазин моделей літальних апаратів",
+      activeButton: "allButton", //! візуалізація активної кнопки
+      isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
+      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      inputSearchValue: "", //! значення inputSearch
+      radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
+      inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
+      inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
+      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelScale: "__", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
       users,
       activeUser,
@@ -625,7 +647,7 @@ export class App extends Component {
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
-      modelScale: "all", //! початковий масштаб моделі в ScaleSelection
+      modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
       users,
       activeUser: null,
@@ -825,6 +847,7 @@ export class App extends Component {
             // onHighlightTextProtection={this.highlightTextProtection} //! функція підсвічування тексту та допоміжна функція ---> ВИНОСИМО в utils
             radioButtonValue={radioButtonValue} //! ⭕️ значення параметра для пошуку/фільтрації радіо-кнопки
             isCartOn={isCartButton} //! тригер: "якщо активна кнопка «Кошик»"
+            isCartButtonDisabled={isCartButtonDisabled} //! 🔐 тригер блокування кнопки «Кошик»
           />
         </Section >
       </>

@@ -116,14 +116,17 @@
 }
 
 /*! Якщо немає в наявності */
-.buttonDisabled {
+/*! Блокування кнопки */
+.buttonDisabled,
+.planeButton:disabled {
     color: #c1c1c1;
     cursor: not-allowed;
     background-color: #808080;
     text-shadow: none;
     box-shadow: none;
 }
-.planeButton.buttonDisabled:hover {
+.planeButton.buttonDisabled:hoverб
+.planeButton:disabled {
     color: #c1c1c1;
     background-color: #808080;
 }
