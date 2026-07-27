@@ -11,7 +11,8 @@ export function Filter({
   onHelicopters,
   onCart,
   filterButton, //! візуалізація активної кнопки
-  numberOfSelectedModels //! кількість обраних моделей
+  numberOfSelectedModels, //! кількість обраних моделей
+  isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
 })
 {
   return (
@@ -75,6 +76,7 @@ export function Filter({
             : css.buttonCartFiltration
         }
         type="button"
+        disabled={isCartButtonDisabled} //! блокування кнопки
         onClick={onCart}
       >
         Кошик&nbsp;&nbsp;

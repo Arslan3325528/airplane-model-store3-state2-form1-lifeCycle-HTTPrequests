@@ -67,6 +67,7 @@ export class App extends Component {
     users: JSON.parse(localStorage.getItem("users")) || [], //! масив з даними користувачів
     activeUser: null, //! 🗣 активний (авторизований) користувач
     modalType: "",  //! 🧾 індикатор типу модального вікна
+    isCartButtonDisabled: true,  //! 🔐 тригер блокування кнопки «Кошик»
   };
 
   //! 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
@@ -78,18 +79,18 @@ export class App extends Component {
     };
 
     //todo: users
-    // let activeUser = {};
     const users = localStorage.getItem("users");
-    if (!users) {
+    if (!users) { //! 1.Якщо є масив users
       localStorage.setItem("users", JSON.stringify([]));
-    } else if (JSON.parse(users).length) {
+    } else if (JSON.parse(users).length) { //! 2.Якщо масив users не пустий
       // console.log("❗️❗️❗️JSON.parse(users).length:", JSON.parse(users).length); //!
       const activeUser = JSON.parse(users).find(user => user.isActive === true);
       console.log("componentDidMount🗣 Активний(авторизований) користувач:", activeUser); //!
-      if (activeUser) {
+      if (activeUser) { //! 3.Мкщо в масиві users є активний користувач
         this.setState({
           showModal: false,
           activeUser,
+          isCartButtonDisabled: false,
         })
       };
     };
@@ -568,7 +569,8 @@ export class App extends Component {
     this.setState({
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
       users,
-      activeUser
+      activeUser,
+      isCartButtonDisabled: false,
     });
     // this.toggleModal(); //todo: var.3 закриваємо модалку  
   };
@@ -585,7 +587,8 @@ export class App extends Component {
     this.setState({
       // showModal: true, //todo: var.2 відкриваємо модалку
       users,
-      activeUser: null
+      activeUser: null,
+      isCartButtonDisabled: true,
     });
     this.toggleModal(); //todo: var.3 відкриваємо модалку
   };
@@ -610,6 +613,7 @@ export class App extends Component {
       users, //!  масив з даними користувачів
       activeUser, //! 🗣 активний (авторизований) користувач
       modalType, //! 🧾 індикатор типу модального вікна
+      isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
     } = this.state;
 
     //! Рахуємо кількість типів ЛА
@@ -650,6 +654,7 @@ export class App extends Component {
     console.log("👨‍👩‍👦‍👦 Масив з даними користувачів:", users);
     console.log("🗣 Активний (авторизований) користувач:", activeUser);
     console.log("🧾 Індикатор типу модального вікна:", modalType);
+    console.log("🔐 Тригер блокування кнопки «Кошик»:", isCartButtonDisabled);
     console.log("______________________________________________");
 
     return (
@@ -725,6 +730,7 @@ export class App extends Component {
           onCart={this.cartFiltration}
           filterButton={activeButton} //! візуалізація активної кнопки
           numberOfSelectedModels={numberOfModels} //! кількість обраних моделей
+          isCartButtonDisabled={isCartButtonDisabled} //! 🔐 тригер блокування кнопки «Кошик»
         />
 
         {/*//!  Sorter */}
