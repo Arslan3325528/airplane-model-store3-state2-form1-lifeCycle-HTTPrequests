@@ -568,10 +568,10 @@ export class App extends Component {
     console.log("🙆‍♂️Вхід в обліковий запис:", userEmail); //! 
     const users = JSON.parse(localStorage.getItem("users"));
     const activeUser = users.find(user => user.userEmail === userEmail);
-    console.log("🗣 🗣 🗣 Активний(авторизований) користувач:", activeUser); //!
+    console.log("❗️🗣 Активний (авторизований) користувач__accountLogin:", activeUser); //!
 
     const activeUserId = users.findIndex(user => user.userEmail === userEmail);
-    console.log("🗣 Індекс Активног(авторизованого) користувача:", activeUserId); //!
+    console.log("#️⃣🗣 Індекс Активного (авторизованого) користувача_accountLogin::", activeUserId); //!
     localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача
 
     activeUser.isActive = true;
@@ -597,7 +597,7 @@ export class App extends Component {
     localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
     const users = JSON.parse(localStorage.getItem("users"));
     const activeUser = users.find(user => user.isActive === true);
-    // console.log("🗣 🗣 🗣 Активний(авторизований) користувач:", activeUser); //!
+    console.log("❗️🗣 Активний(авторизований) користувач__signOut:", activeUser); //!
     activeUser.isActive = false;
     // console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
