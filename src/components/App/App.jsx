@@ -107,26 +107,30 @@ export class App extends Component {
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
   componentDidUpdate(prevProps, prevState) {
     //todo: indicesSelectedModels
-    if (localStorage.getItem("indicesSelectedModels") && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+    // if (localStorage.getItem("indicesSelectedModels") && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+    //   console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+    //   localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+    // };
+    
+    if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
       console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
       localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
-    };
-    
-    if (prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
-      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
       this.setState({
         selectedModels: this.state.indicesSelectedModels.flatMap(id =>
           aircrafts.filter((el) => id === el.id))
           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
-        activeUser:
-          localStorage.getItem("indicesSelectedModels")
-            ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
-            : null,
+        activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
+        users: prevState.users.map((user, index) =>
+          index === this.state.activeUserId
+          ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
+          : user)
       });
     };
 
     //todo: users
     if (prevState.users !== this.state.users) {
+      console.log("✅🖍✅🖍 Перезаписуємо localStorage 'users_componentDidUpdate");
       localStorage.setItem("users", JSON.stringify(this.state.users));
     };
   };
@@ -584,6 +588,12 @@ export class App extends Component {
       users: [...prevState.users, data],
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
     }));
+    //! прокрутити сторінку вгору
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   //! Вхід в обліковий запис
@@ -623,7 +633,13 @@ export class App extends Component {
           .flatMap(id => aircrafts.filter((el) => id === el.id))
           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
     });
-    // this.toggleModal(); //todo: var.3 закриваємо модалку  
+    // this.toggleModal(); //todo: var.3 закриваємо модалку
+    //! прокрутити сторінку вгору
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   //! Завершення сеансу облікового запису
@@ -649,13 +665,20 @@ export class App extends Component {
       modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
       modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
-      users,
-      activeUser: null,
-      isCartButtonDisabled: true,
+      users, //! масив з даними користувачів
+      activeUser: null, //! 🗣 активний (авторизований) користувач
+      activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
+      isCartButtonDisabled: true, ///! 🔐 тригер блокування кнопки «Кошик»
       indicesSelectedModels: [], //! масив індексів обраних моделей
       selectedModels: [], //! масив обраних моделей
     });
     this.toggleModal(); //todo: var.3 відкриваємо модалку
+    //! прокрутити сторінку вгору
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
 
@@ -708,13 +731,13 @@ export class App extends Component {
     const numberOfModelsAfterSorting = selectedModels.length;
 
     //! Оновлення users і localStorage "users"
-    if (users.length && activeUser) {
-      const newUsers = users.map((user, index) =>
-        index === activeUserId ? activeUser : user
-      );
-      console.log("newUsers:", newUsers); //!
-      localStorage.setItem("users", JSON.stringify(newUsers));
-    };
+    // if (users.length && activeUser) {
+    //   const newUsers = users.map((user, index) =>
+    //     index === activeUserId ? activeUser : user
+    //   );
+    //   console.log("newUsers:", newUsers); //!
+    //   localStorage.setItem("users", JSON.stringify(newUsers));
+    // };
     
     
     console.log("----------------------------------------------");
