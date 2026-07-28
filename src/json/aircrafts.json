@@ -870,5 +870,43 @@
         "https://lh3.googleusercontent.com/pw/AP1GczM9q-QwnsYWt3byp582HWCywr904EqlPZitUOYBM-1VB8lbd4jPMZoJ-9RXRuNnancTHqw2-KGC_il04pp0svAJ4kMm4loVjUqNweJ2gF89v6D9VpV4WAYZYRUPp8wWlLF87BKsjSKD7a5O-6yKHJWV=w2450-h1838-s-no-gm?authuser=0"
       ]
     }
+  },
+  {
+    "id": "0020",
+    "aircraftType": "plane",
+    "name": {
+      "brief": "F/A-18F",
+      "full": "F/A-18E/F Super Hornet",
+      "nickname": "Супер Горнет, Супер Шершень («Super Hornet»)"
+    },
+    "info": {
+      "year": 1995,
+      "countries": ["США"],
+      "type": "Палубний винищувач-бомбардувальник та штурмовик",
+      "price": "$65–80 млн",
+      "description": "Двомісний реактивний палубний багатоцільовий винищувач-бомбардувальник та штурмовик четвертого покоління. Літери у назві F/A розшифровуються як Fighter (винищувач) і Attack (штурмовик), що вказує на його здатність однаково ефективно вести повітряний бій та завдавати ударів по наземних чи морських цілях. Часто використовується ВМС США як тактичний повітряний заправник з підвісним контейнером"
+    },
+    "url": {
+      "wikipedia": "https://ru.wikipedia.org/w/index.php?title=McDonnell_Douglas_F/A-18_Hornet",
+      "main": "https://upload.wikimedia.org/wikipedia/commons/f/ff/McDonnell_Douglas_FA-18C_Hornet_of_VMFA-212_in_flight_over_the_South_China_Sea_on_8_October_2003_%286638451%29.jpg",
+      "promotional": "https://lh3.googleusercontent.com/pw/AP1GczMA43-s-iX6GvYw19j6_jyPfQUgonBVlDAoZ3qu3Bt4ynypd46a9rdsReWZGFkAJkpysa2uHZXNvzzCAixgXQPTCfyA3eKd-1m2uw4xnlPD0j8tvdrDjCMyjyltcU8KSNOzxbhozwe8lCjHgemuDHcb=w1387-h1386-s-no-gm?authuser=0"
+    },
+    "manufacturing": {
+      "start": "1995-01-01T00:00:00",
+      "end": "now"
+    },
+    "model": {
+      "scale": [72],
+      "colorsPrice": {
+        "lightGray": 920,
+        "lightBlue": 950
+      },
+      "actualImages_": [
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white-comp-1.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-black-comp-2.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white+black-comp-3.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white-comp-4.jpg"
+      ]
+    }
   }
 ]
