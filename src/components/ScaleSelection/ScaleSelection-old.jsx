@@ -61,29 +61,12 @@ export class ScaleSelection extends Component {
     } = this.state;
 
     const {
-      isLocked, //! тригер: "якщо активна кнопка «Кошик»"
-      aircrafts //! початково сортований вхідний масив УСІХ моделей
+      isLocked //! тригер: "якщо активна кнопка «Кошик»"
     } = this.props;
-
-    
-    //todo: Set – це спеціальна колекція JavaScript, яка зберігає унікальні значення
-    // const numbers = [1, 2, 2, 3, 3, 3];
-    // const uniqueNumbers = new Set(numbers);
-    // console.log("🔺🔺🔺uniqueNumbers:", uniqueNumbers); //todo: Set(3) {1, 2, 3}
-    //! Формуємо диапазон(масив) значень для select з допоогою Set
-    const brandSelectionOption =
-      [
-        // "all",
-        ...new Set(
-        aircrafts.flatMap(aircraft => aircraft.model.scale)
-        ),
-        32
-      ].sort((a, b) => b - a);
 
     console.log("******************************************************");
     console.log("📕Масштаб моделі:", modelScale);
     // console.log("📕Масив моделей обраного масштабу:", modelsSelectedScale);
-    console.log("📕Диапазон(масив) значень для select:", brandSelectionOption);
     console.log("******************************************************");
 
     return (
@@ -102,17 +85,13 @@ export class ScaleSelection extends Component {
                 disabled={isLocked} //! блокування, якщо активна кнопка «Кошик»
               >
                 <option className={css.scaleSelectionOption} value="all">Всі</option>
-                {/* <option className={css.scaleSelectionOption} value="200">1:200</option>
+                <option className={css.scaleSelectionOption} value="200">1:200</option>
                 <option className={css.scaleSelectionOption} value="144">1:144</option>
                 <option className={css.scaleSelectionOption} value="100">1:100</option>
                 <option className={css.scaleSelectionOption} value="72">1:72</option>
                 <option className={css.scaleSelectionOption} value="60">1:60</option>
                 <option className={css.scaleSelectionOption} value="48">1:48</option>
-                <option className={css.scaleSelectionOption} value="32">1:32</option> */}
-              {/* //! Формуємо динамічну розмітку значень select */}
-              {brandSelectionOption.map((brand) => (
-                <option className={css.scaleSelectionOption} key={brand} value={String(brand)}>{brand}</option>
-              ))}
+                <option className={css.scaleSelectionOption} value="32">1:32</option>
               </select>
             </label>
           </>

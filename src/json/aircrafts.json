@@ -155,7 +155,7 @@
       "end": "now"
     },
     "model": {
-      "scale": [72, 100],
+      "scale": [100, 72],
       "colorsPrice": {
         "main72": 820,
         "main100": 480
@@ -403,7 +403,7 @@
       "end": "1958-01-01T00:00:00"
     },
     "model": {
-      "scale": [48],
+      "scale": [48, 42],
       "colorsPrice": {
         "green": "_690",
         "black": "_620",
