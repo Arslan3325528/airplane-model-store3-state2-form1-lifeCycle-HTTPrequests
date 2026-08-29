@@ -901,11 +901,11 @@
         "lightGray": 920,
         "lightBlue": 950
       },
-      "actualImages_": [
-        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white-comp-1.jpg",
-        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-black-comp-2.jpg",
-        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white+black-comp-3.jpg",
-        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/f-14-white-comp-4.jpg"
+      "actualImages": [
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/fa-18f-comp-1.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/fa-18f-comp-2.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/fa-18f-comp-3.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle/images/planes-actual/fa-18f-comp-4.jpg"
       ]
     }
   }
