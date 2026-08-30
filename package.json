@@ -1,12 +1,12 @@
 {
-  "name": "airplane-model-store3-state2-form1-lifeCycle",
-  "homepage": "https://Arslan3325528.github.io/airplane-model-store3-state2-form1-lifeCycle",
+  "name": "airplane-model-store3-state2-form1-lifeCycle-HTTPrequests",
+  "homepage": "https://Arslan3325528.github.io/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/airplane-model-store3-state2-form1-lifeCycle/",
+    "build": "vite build --base=/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
