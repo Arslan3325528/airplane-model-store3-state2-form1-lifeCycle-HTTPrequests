@@ -26,13 +26,15 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider theme={theme}>
         {/* <App /> */}
         {/* <AppColorBox />  */}
+        {/* //! Debounce */}
         {/* <AppSearchDebounce /> */}
         {/* <AppSearchDebounceTextBacklight /> */}
+        {/* //! Forms */}
         {/* <AppUncontrolledElementsForm onSubmit={values => console.log(values)} /> */}
         {/* <AppControlledElementsForm /> */}
         {/* <AppComplexForms onSubmit={values => console.log(values)} /> */}
+        {/* //! Life Cycle*/}
         {/* <AppComplexForms /> */}
-
         {/* //! HTTPRequest */}
         <AppHTTPRequestBasics />
       </ThemeProvider>
