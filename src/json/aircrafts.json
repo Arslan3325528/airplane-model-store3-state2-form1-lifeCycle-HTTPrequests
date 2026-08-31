@@ -930,5 +930,42 @@
         "https://lh3.googleusercontent.com/pw/AP1GczN77PCpjjmLwLF_zuufejO-SXcaNojcLGw1GEDI8ZtPHwTYcGrVqhqXxEXCd-GuAAUXcykrHBTxIriV7JZnRihhGtFAORaIBSSq2esOFVrp2Ub45BaDYuXKL8W2OR2t3pwMI9SJuu17Ak_lwlN-RX_F=w2450-h1838-s-no-gm?authuser=0"
       ]
     }
+  },
+  {
+    "id": "0021",
+    "aircraftType": "helicopter",
+    "name": {
+      "brief": "Z-10",
+      "full": "CAIC WZ-10",
+      "nickname": "Changhe Z-10, Лютий Грім («霹雳火», «Пи Ли Хуо»)"
+    },
+    "info": {
+      "year": 2010,
+      "countries": ["Китай"],
+      "type": "Ударний вертоліт",
+      "price": "$25-30 млн",
+      "description": "Перший спеціалізований ударний гелікоптер Китаю. Виконаний за класичною схемою, з тандемним розміщенням екіпажу. Розроблений для потреб Народно-визвольної армії Китаю (НВАК) за участю російського конструкторського бюро імені Камова. Основне призначення - знищення бронетехніки, живої сили та укріплень противника, а також безпосередня вогнева підтримка наземних військ на полі бою"
+    },
+    "url": {
+      "wikipedia": "https://ru.wikipedia.org/w/index.php?title=CAIC_WZ-10&stable=1",
+      "main": "https://upload.wikimedia.org/wikipedia/commons/8/85/PLAAF_Changhe_WZ-10_-_Jordan.jpg",
+      "promotional": "https://lh3.googleusercontent.com/pw/AP1GczPrFYlSpzwcC4uCXQGk-T3UEglLnQjqEOMFxl-J9mgrQhexhKyNGG_vOOut0uUxB3-ODuxCkq0pZ55wSS-TfH1Z7LVUq5-2jDvifTaNMqwZ1S1178b69RAzTQHu0Otu2h8WVydEwAO63vzXeIFmxTiN=w1319-h1319-s-no-gm?authuser=0"
+    },
+    "manufacturing": {
+      "start": "2010-01-01T00:00:00",
+      "end": "now"
+    },
+    "model": {
+      "scale": [72],
+      "colorsPrice": {
+        "main": 740
+      },
+      "_actualImages": [
+        "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-1.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-2.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-3.jpg",
+        "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-4.jpg"
+      ]
+    }
   }
 ]
