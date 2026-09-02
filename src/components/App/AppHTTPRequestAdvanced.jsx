@@ -7,6 +7,9 @@
 // https://pokeapi.co/api/v2/pokemon
 
 import React, { Component } from "react";
+// https://www.npmjs.com/package/react-toasti
+// https://fkhadra.github.io/react-toastify/introduction/
+import { ToastContainer } from 'react-toastify'; //! 01.Підлючення бібліотеки react-toastify 
 import { PokemonForm } from '@/components/Pokemon/PokemonForm.jsx';
 
 import css from "./AppHTTPRequestAdvanced.module.css";
@@ -31,13 +34,16 @@ export class AppHTTPRequestAdvanced extends Component {
       } = this.state;
   
       console.log("----------------------------------------------");
-    console.log("✅🐷 Ім'я покемона:", pokemonName);
+      console.log("✅🐷 Ім'я покемона:", pokemonName);
       // console.log("✅⏳ Індикатор завантаження (лоадер):", loading);
       console.log("----------------------------------------------");
     
       return (
         <div className={css.mainContainer} >
           <PokemonForm onSubmit={this.submitForm} />
+
+          {/* //! 01.Підлючення бібліотеки react-toastify */}
+          <ToastContainer autoClose={2000} /> 
         </div>
       );
     };

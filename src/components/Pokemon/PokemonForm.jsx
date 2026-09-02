@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
-// import { toast } from 'react-toastify';
+// https://www.npmjs.com/package/react-toasti
+// https://fkhadra.github.io/react-toastify/introduction/
+import { toast } from 'react-toastify'; //! 02.Підлючення/виклик бібліотеки react-toastify
 
 import css from "./PokemonForm.module.css";
 
@@ -23,7 +25,8 @@ export class PokemonForm extends Component {
         //! Перевірка на пустий інпут
         if (this.state.pokemonName.trim() === "") {
             alert("Введіть ім'я покемона");
-            // toast.error("Введіть ім'я покемона");
+            // toast("Введіть ім'я покемона"); //! 02.Підлючення/виклик бібліотеки react-toastify
+            toast.error("Введіть ім'я покемона"); //! 02.Підлючення/виклик бібліотеки react-toastify
             return;
         };
 
