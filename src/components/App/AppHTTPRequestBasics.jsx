@@ -3,6 +3,9 @@
 //   "color: white; background-color: #D33F49",
 // );
 
+// https://pokeapi.co/
+// https://pokeapi.co/api/v2/pokemon
+
 import React, { Component } from "react";
 import css from "./AppHTTPRequestBasics.module.css";
 
@@ -35,6 +38,7 @@ export class AppHTTPRequestBasics extends Component {
     console.log("🐷 Покемон:", pokemon);
     console.log("⏳ Індикатор завантаження (лоадер):", loading);
     console.log("----------------------------------------------");
+
     return (
       <div className={css.mainContainer} >
         {loading && <h1>Завантажуємо покемон...</h1>}

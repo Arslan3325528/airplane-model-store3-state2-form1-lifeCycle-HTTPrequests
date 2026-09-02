@@ -11,6 +11,8 @@ export * from './AppComplexForms.jsx';
 
 //! HTTPRequest
 export * from './AppHTTPRequestBasics.jsx';
+export * from './AppHTTPRequestAdvanced.jsx';
+
 
 
 

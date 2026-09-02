@@ -1,0 +1,24 @@
+.pokemonForm {
+    width: 70%;
+    margin: 20px auto;
+    display: flex;
+    gap: 10px;
+}
+
+.pokemonFormInput {
+    width: 200px;
+}
+
+.pokemonButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    background-color: #008080;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.2), 4px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 16px 8px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.9);
+}

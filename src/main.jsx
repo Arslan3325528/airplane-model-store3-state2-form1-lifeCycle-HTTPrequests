@@ -17,6 +17,7 @@ import {
   AppComplexForms, //! 4.4.3.Складні форми
 
   AppHTTPRequestBasics, //! 6.1.Основи HTTP-запитів у React
+  AppHTTPRequestAdvanced, //! 6.2.Архітектура компонентів та станів з HTTP-запитами
 } from '@/components/App';
 
 
@@ -36,7 +37,8 @@ createRoot(document.getElementById('root')).render(
         {/* //! Life Cycle*/}
         {/* <AppComplexForms /> */}
         {/* //! HTTPRequest */}
-        <AppHTTPRequestBasics />
+        {/* <AppHTTPRequestBasics /> */}
+        <AppHTTPRequestAdvanced />
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
