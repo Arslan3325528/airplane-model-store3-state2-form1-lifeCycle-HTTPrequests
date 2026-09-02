@@ -42,8 +42,7 @@ export class AppHTTPRequestAdvanced extends Component {
       return (
         <div className={css.mainContainer} >
           <PokemonForm onSubmit={this.submitForm} />
-          <PokemonInfo />
-
+          <PokemonInfo pokemonName={pokemonName} />
           {/* //! 01.Підлючення бібліотеки react-toastify */}
           <ToastContainer autoClose={2000} /> 
         </div>

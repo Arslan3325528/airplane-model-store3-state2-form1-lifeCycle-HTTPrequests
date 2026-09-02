@@ -1,0 +1,19 @@
+/* body {
+    margin-top: 20px;
+}
+
+.mainContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    color: #510019;
+    
+    outline: 2px solid red;
+} */
+
+.pokemonContainer {
+    padding: 20px;
+    color: #000051;
+    outline: 2px solid blue;
+}
