@@ -33,7 +33,7 @@ export class PokemonInfo extends Component {
       // fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemonName}`);
       // fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
 
-      this.setState({ loading: true });
+      this.setState({ loading: true }); //! індикатор завантаження (лоадер)
 
       setTimeout(() => {
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
@@ -43,6 +43,7 @@ export class PokemonInfo extends Component {
           .finally(() => this.setState({ loading: false }));
       }, 2000);
 
+      
       // this.setState({ status: Status.PENDING });
 
       // setTimeout(() => {
