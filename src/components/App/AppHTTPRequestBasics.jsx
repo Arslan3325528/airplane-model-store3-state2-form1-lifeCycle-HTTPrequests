@@ -12,30 +12,34 @@ import css from "./AppHTTPRequestBasics.module.css";
 
 export class AppHTTPRequestBasics extends Component {
   state = {
-    pokemon: null,
+    pokemon: null, //! об'єкт з даними про Покемона
     loading: false //! індикатор завантаження (лоадер)
   };
 
   componentDidMount() {
-    this.setState({ loading: true });
+    this.setState({ loading: true }); //! індикатор завантаження (лоадер) = true
 
     setTimeout(() => {
       fetch("https://pokeapi.co/api/v2/pokemon/ditto")
         .then(res => res.json())
         // .then(pokemon => console.log("pokemon:", pokemon))
         .then(pokemon => this.setState({ pokemon }))
-        .finally(() => this.setState({ loading: false }));
+        .finally(() => this.setState({ loading: false })); //! індикатор завантаження (лоадер) = false
     }, 2000);
   };
 
   render() {
     const {
-      pokemon,
-      loading
+      pokemon, //! об'єкт з даними про Покемона
+      loading  //! індикатор завантаження (л
     } = this.state;
 
     console.log("----------------------------------------------");
-    console.log("🐷 Покемон:", pokemon);
+    console.log("{🐷} Покемон-об'єкт:", pokemon);
+    // console.log("🐷 Покемон-ім'я:", pokemon.name); //! ❌ - так буде помилка при першому render
+    console.log("🐷 Покемон-ім'я(1):", pokemon?.name); //!-(1) ✅
+    //! ✅ або:
+    console.log("🐷 Покемон-ім'я(2)::", pokemon && pokemon.name); //!-(1) ✅
     console.log("⏳ Індикатор завантаження (лоадер):", loading);
     console.log("----------------------------------------------");
 

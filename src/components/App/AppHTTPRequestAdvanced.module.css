@@ -5,6 +5,8 @@ body {
 .mainContainer {
     max-width: 800px;
     margin: 0 auto;
+    display: grid;
+    justify-content: center;
     padding: 20px;
     text-align: center;
     color: #510019;
