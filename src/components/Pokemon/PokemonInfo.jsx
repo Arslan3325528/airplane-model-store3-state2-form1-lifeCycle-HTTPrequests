@@ -15,7 +15,7 @@ import css from "./PokemonInfo.module.css";
 
 export class PokemonInfo extends Component {
   state = {
-    pokemon: null,
+    pokemon: null, 
     loading: false //! індикатор завантаження (лоадер)
     // error: null,
     // status: Status.IDLE,
@@ -43,7 +43,7 @@ export class PokemonInfo extends Component {
           .finally(() => this.setState({ loading: false }));
       }, 2000);
 
-      
+
       // this.setState({ status: Status.PENDING });
 
       // setTimeout(() => {
@@ -76,14 +76,15 @@ export class PokemonInfo extends Component {
           <div className={css.pokemonContainer}>
             Тут буде покемон після фетчу і коли він запишеться в state:
             <p><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
-            {/* <img
-              src={pokemon.url}
+            <img
+              // src={pokemon.sprites.back_default}
+              src={pokemon.sprites.other.home.front_default}
               width="300"
               alt={pokemon.name}
-            /> */}
+            />
           </div>
         )}
       </div>
     );
-  }
+  };
 }
