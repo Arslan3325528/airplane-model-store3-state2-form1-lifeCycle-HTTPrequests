@@ -15,7 +15,7 @@ import css from "./PokemonInfo.module.css";
 
 export class PokemonInfo extends Component {
   state = {
-    pokemon: null, 
+    pokemon: null, //! об'єкт з даними про Покемона
     loading: false //! індикатор завантаження (лоадер)
     // error: null,
     // status: Status.IDLE,
@@ -23,7 +23,7 @@ export class PokemonInfo extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.pokemonName;
-    const nextName = this.props.pokemonName;
+    const nextName = this.props.pokemonName; //! ім'я покемона (оновлене)
 
     if (prevName !== nextName) {
       console.log("❗️Змінилося ім'я ПОКЕМОНА");
