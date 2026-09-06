@@ -40,7 +40,7 @@ export class PokemonInfo extends Component {
       }); 
 
 
-      setTimeout(() => {
+      setTimeout(() => { //! імітуємо час завантаження даних
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
           .then(res => res.json())
           // .then(pokemon => console.log("pokemon:", pokemon))
@@ -54,7 +54,7 @@ export class PokemonInfo extends Component {
 
       // this.setState({ status: Status.PENDING });
 
-      // setTimeout(() => {
+      // setTimeout(() => { //! імітуємо час завантаження даних
       //   pokemonAPI
       //     .fetchPokemon(nextName)
       //     .then(pokemon => this.setState({ pokemon, status: Status.RESOLVED }))
@@ -93,13 +93,15 @@ export class PokemonInfo extends Component {
 
         {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
 
-        {pokemon && (
+        {/* {pokemon && ( */}
+        {pokemon && !loading &&(
           <div className={css.pokemonContainer}>
             Тут з'явитися покемон після фетчу і коли він запишеться в state:
             <p><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img
-              // src={pokemon.sprites.back_default}
-              src={pokemon.sprites.other.home.front_default}
+              // src={pokemon.sprites.front_default} //todo: var.1
+              // src={pokemon.sprites.other.home.front_default} //todo: var.2
+              src={pokemon.sprites.other['official-artwork'].front_default} //todo: var.3
               width="300"
               alt={pokemon.name}
             />

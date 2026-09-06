@@ -19,7 +19,7 @@ export class AppHTTPRequestBasics extends Component {
   componentDidMount() {
     this.setState({ loading: true }); //! індикатор завантаження (лоадер) = true
 
-    setTimeout(() => {
+    setTimeout(() => { //! імітуємо час завантаження даних
       fetch("https://pokeapi.co/api/v2/pokemon/ditto")
         .then(res => res.json())
         // .then(pokemon => console.log("pokemon:", pokemon))
