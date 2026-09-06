@@ -65,6 +65,10 @@ export class PokemonInfo extends Component {
 
   render() {
     const {
+      pokemonName, //! ім'я покемона
+    } = this.props;
+
+    const {
       pokemon, //! об'єкт з даними про Покемона
       loading, //! індикатор завантаження (лоадер)
       pokemonNameChange, //! тригер/індикатор зміни імені покемона
@@ -85,7 +89,7 @@ export class PokemonInfo extends Component {
 
         {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2> */}
         {/* {pokemonNameChange && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>} */}
-        {loading && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>}
+        {loading && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>}
 
         {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
 
