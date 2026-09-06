@@ -36,10 +36,12 @@ export class AppHTTPRequestBasics extends Component {
 
     console.log("----------------------------------------------");
     console.log("{🐷} Покемон-об'єкт:", pokemon);
+
     // console.log("🐷 Покемон-ім'я:", pokemon.name); //! ❌ - так буде помилка при першому render
-    console.log("🐷 Покемон-ім'я(1):", pokemon?.name); //!-(1) ✅
-    //! ✅ або:
-    console.log("🐷 Покемон-ім'я(2)::", pokemon && pokemon.name); //!-(1) ✅
+    console.log("🐷 Покемон-ім'я(1)::", pokemon && pokemon.name); //!-(1) ✅
+    //! ✅ або більш сучасний варіант:
+    console.log("🐷 Покемон-ім'я(2):", pokemon?.name); //!-(2) ✅
+    
     console.log("⏳ Індикатор завантаження (лоадер):", loading);
     console.log("----------------------------------------------");
 
