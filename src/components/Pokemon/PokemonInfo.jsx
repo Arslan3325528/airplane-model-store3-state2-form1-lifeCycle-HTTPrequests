@@ -16,7 +16,8 @@ import css from "./PokemonInfo.module.css";
 export class PokemonInfo extends Component {
   state = {
     pokemon: null, //! об'єкт з даними про Покемона
-    loading: false //! індикатор завантаження (лоадер)
+    loading: false, //! індикатор завантаження (лоадер)
+    pokemonNameChange: false, //! тригер/індикатор зміни імені покемона
     // error: null,
     // status: Status.IDLE,
   };
@@ -33,15 +34,22 @@ export class PokemonInfo extends Component {
       // fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemonName}`);
       // fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
 
-      this.setState({ loading: true }); //! індикатор завантаження (лоадер)
+      this.setState({
+        loading: true, //! індикатор завантаження (лоадер)
+        pokemonNameChange: true //! тригер/індикатор зміни імені покемона
+      }); 
+
 
       setTimeout(() => {
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
           .then(res => res.json())
           // .then(pokemon => console.log("pokemon:", pokemon))
           .then(pokemon => this.setState({ pokemon }))
-          .finally(() => this.setState({ loading: false }));
-      }, 2000);
+          .finally(() => this.setState({
+            loading: false, //! індикатор завантаження (лоадер)
+            pokemonNameChange: false //! тригер/індикатор зміни імені покемона
+          }));
+      }, 3000);
 
 
       // this.setState({ status: Status.PENDING });
@@ -57,24 +65,33 @@ export class PokemonInfo extends Component {
 
   render() {
     const {
-      pokemon,
-      loading
+      pokemon, //! об'єкт з даними про Покемона
+      loading, //! індикатор завантаження (лоадер)
+      pokemonNameChange, //! тригер/індикатор зміни імені покемона
     } = this.state;
 
     console.log("----------------------------------------------");
     console.log("ℹ️🐷 Покемон:", pokemon);
     console.log("⏳ Індикатор завантаження (лоадер):", loading);
+    console.log("⏳ Тригер/індикатор зміни імені покемона:", pokemonNameChange);
     console.log("----------------------------------------------");
 
     return (
-      <div>
+      <div className={css.pokemonInfo}>
         <h1>PokemonInfo</h1>
-        {!pokemon && <h2>Введіть ім'я покемона</h2>}
-        <p><u><i>Ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></p>
-        {loading && <h1>Завантажуємо покемон...</h1>}
+
+        {/* {!pokemon && <h2><i>Введіть ім'я покемона</i></h2>} */}
+        {!pokemon && !loading && <h2><i>Введіть ім'я покемона</i></h2>}
+
+        {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2> */}
+        {/* {pokemonNameChange && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>} */}
+        {loading && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>}
+
+        {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
+
         {pokemon && (
           <div className={css.pokemonContainer}>
-            Тут буде покемон після фетчу і коли він запишеться в state:
+            Тут з'явитися покемон після фетчу і коли він запишеться в state:
             <p><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img
               // src={pokemon.sprites.back_default}

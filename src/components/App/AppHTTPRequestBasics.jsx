@@ -47,7 +47,7 @@ export class AppHTTPRequestBasics extends Component {
 
     return (
       <div className={css.mainContainer} >
-        {loading && <h1>Завантажуємо покемон...</h1>}
+        {loading && <h1 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h1>}
         {pokemon && (
           <div className={css.pokemonContainer}>
             Тут буде покемон після фетчу і коли він запишеться в state:

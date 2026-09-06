@@ -1,12 +1,16 @@
 .pokemonForm {
-    width: 70%;
-    margin: 20px auto;
+    min-width: 90%;
+    /* margin: 20px auto; */
+    padding: 10px 20px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
+    outline: 2px solid green;
 }
 
 .pokemonFormInput {
-    width: 200px;
+    max-width: 70%;
 }
 
 .pokemonButton {
