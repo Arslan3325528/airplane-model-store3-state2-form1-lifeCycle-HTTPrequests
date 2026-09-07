@@ -96,8 +96,8 @@ export class PokemonInfo extends Component {
         {/* {pokemon && ( */}
         {pokemon && !loading &&(
           <div className={css.pokemonContainer}>
-            Тут з'явитися покемон після фетчу і коли він запишеться в state:
-            <p><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
+            {/* Тут з'явитися покемон після фетчу і коли він запишеться в state: */}
+            <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img
               // src={pokemon.sprites.front_default} //todo: var.1
               // src={pokemon.sprites.other.home.front_default} //todo: var.2
@@ -110,4 +110,4 @@ export class PokemonInfo extends Component {
       </div>
     );
   };
-}
+};

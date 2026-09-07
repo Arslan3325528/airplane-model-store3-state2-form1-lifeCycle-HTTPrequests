@@ -14,3 +14,7 @@
     padding: 20px;
     outline: 1px dashed blue;
 }
+
+.pokemonName {
+    font-size: x-large;
+}
