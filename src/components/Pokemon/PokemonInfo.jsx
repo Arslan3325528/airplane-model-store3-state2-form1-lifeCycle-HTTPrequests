@@ -35,6 +35,7 @@ export class PokemonInfo extends Component {
       // fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
 
       this.setState({
+        pokemon: null, //? var.2 прибираємо попереднього покемона при завантаженні наступного
         loading: true, //! індикатор завантаження (лоадер)
         pokemonNameChange: true //! тригер/індикатор зміни імені покемона
       }); 
@@ -93,8 +94,10 @@ export class PokemonInfo extends Component {
 
         {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
 
-        {/* {pokemon && ( */}
-        {pokemon && !loading &&(
+        
+        {/* //? var.1 прибираємо попереднього покемона при завантаженні наступного */}
+        {/* {pokemon && !loading &&(  */}
+        {pokemon && (
           <div className={css.pokemonContainer}>
             {/* Тут з'явитися покемон після фетчу і коли він запишеться в state: */}
             <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
