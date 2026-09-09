@@ -960,11 +960,22 @@
       "colorsPrice": {
         "main": 740
       },
-      "_actualImages": [
+      "actualImages": [
         "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-1.jpg",
         "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-2.jpg",
         "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-3.jpg",
         "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/z-10-comp-4.jpg"
+      ],
+      "actualFullImages": [
+        "https://lh3.googleusercontent.com/pw/AP1GczMRDPun3mj2QucBDKZmwz4VHqQ-pZyyu21121mHbFSeeDMexN0-RtAa6mvx0HeIwJJ08AWSDF82fdoeD8YcLGIXc09U96ta8BcAi1l3MkudxLi3HJ_OjSf-qqxSH-yiDZwIhs4wjQNXFbbYHrs0MXTQ=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczMPir2uaOJMw88eGXtu80366rdq1OKuRO3p2ISHtu0Tv9-AvFsJtWK41Uek1iEA58k81suSy9DBBzBlx5JwqhAZaJTO027qWAD-xq29DpFQ9noQDtOMxGYEVIUJqK_Ta2lfe4SPRbOTFt076nNay8hN=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczM4r77aJBgSp--JWUqiZTLM16q9Yz4JPRjCXdmEzvawqI5ro_hHAR5DzXmVL3dbc4Y8IoYQVb3vmx_k6TT9TvXLBLVWJCC8KdSeTB8H-v-EDPOeqnTxmz-MWYysvWGiYQWuTW6Xa3Egtmqg-8Y2HL3J=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczOF8zVYhhm25JQ-hoqZTCX3tV9Zxn4Qn4HnjV8EZXGUj6VeWMC5TRU6LZ4o_R3tdgBEpoNSMmY5sRG6EC_BBI3qK3GOgdNPlPes70ZiIm3SuEesRi635j0_rAczN3WYXqNAZ7auGnf9IEn-6PczeIWI=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczPM71HF5XFprhLry-ipafs3fMjOYMZnROcd3LVGSPkvft9hBBlaiCIg2Sr0Huma6r17h5-Tywf3fa2b4eShVS8HZv_QZ78NhAPDIuwV-Lyi7UCB3pNGD6BVrdZqez6ENoeFwT7xvYOK0SRzC1kPo9c3=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczOzeYix_YKLx8ooYJTClnk5FO87hZYHL5yKLd_XxfO2ruMj5W52ylzIXr-fTOYbYyRU4C88KIWbi9hWwBEpS35MJE3dUri_yBQmhb7fr82A7eAacB3P-98JuvKFuI9ZdOZBDKrgqdLXihCcsJthkxeL=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczMTrq39QuHpk5vkVO1GipmfDS3UrcMbUHV5pTZQ2iFySG6cbTbDPOlov-AZdJE1Vkq-pYfUimMJl67S58iX5ZSRnowj4mwpDie_SirtDRti0lw24jRSvQUpQ8b4SoJDuU0jO0zeQw-QWj3rP-S4K8Jt=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczN_U7AgnPhYvolBXI70dqoYP_GPsnLGFDk3C19Fn8qkWC5CcKNbZJOIVmg-LTPr1b1Pn1bTPN9uz1-dnFqM-LgAJqkuDImHWJhm4yedxRhGG2OL-lVt1BhzDJBDsCGboYd2azqK6MeYWSwSwkZWFmr4=w2450-h1838-s-no-gm?authuser=0",
+        "https://lh3.googleusercontent.com/pw/AP1GczOQ8--lOo0AyRCP6K1yHmv80ludfihLOyFaNT2sWwjTTTaWVKd91CE2EA8jO3pbX8exj6ePVDddXB66j6oYSK9G9nfNqcAYd6cZWCAzefWUZy_fEKaSfSd2qzv2slCQTOk24atd3u-o7_VzQAkYRgzX=w2450-h1838-s-no-gm?authuser=0"
       ]
     }
   }
