@@ -17,7 +17,6 @@ export class PokemonInfoAndErrors extends Component {
   state = {
     pokemon: null, //! об'єкт з даними про Покемона
     loading: false, //! індикатор завантаження (лоадер)
-    pokemonNameChange: false, //! тригер/індикатор зміни імені покемона
     error: null, //todo: Обробка помилок
     // status: Status.IDLE,
   };
@@ -37,7 +36,6 @@ export class PokemonInfoAndErrors extends Component {
       this.setState({
         pokemon: null, //? var.2 прибираємо попереднього покемона при завантаженні наступного
         loading: true, //! індикатор завантаження (лоадер)
-        // pokemonNameChange: true //! тригер/індикатор зміни імені покемона
         error: null, //todo: Обробка помилок - прибираємо можливу попередню помилку
       }); 
 
@@ -49,19 +47,20 @@ export class PokemonInfoAndErrors extends Component {
           .then(response => {
             if (response.ok) {
               return response.json()
-            }
+            };
             return Promise.reject(new Error(`Покемена з ім'ям ${nextName} не існує`))
           })
-
           // .then(pokemon => console.log("pokemon:", pokemon))
           .then(pokemon => this.setState({
             pokemon,
             error: null, // todo: Обробка помилок
           }))
-          .catch(error => this.setState({ error })) //todo: Обробка помилок
+          .catch(error => this.setState({
+            pokemon: null,
+            error
+          })) //todo: Обробка помилок
           .finally(() => this.setState({
             loading: false, //! індикатор завантаження (лоадер)
-            // pokemonNameChange: false //! тригер/індикатор зміни імені покемона
           }));
       }, 3000);
 
@@ -109,7 +108,6 @@ export class PokemonInfoAndErrors extends Component {
         {!pokemon && !loading && !error && <h2><i>Введіть ім'я покемона</i></h2>}
 
         {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2> */}
-        {/* {pokemonNameChange && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>} */}
         {loading && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>}
 
         {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
