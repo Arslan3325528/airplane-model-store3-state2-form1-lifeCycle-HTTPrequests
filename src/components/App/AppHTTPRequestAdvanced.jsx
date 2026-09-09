@@ -12,6 +12,7 @@ import React, { Component } from "react";
 import { ToastContainer } from 'react-toastify'; //! 01.Підлючення бібліотеки react-toastify 
 import { PokemonForm } from '@/components/Pokemon/PokemonForm.jsx';
 import { PokemonInfo } from '@/components/Pokemon/PokemonInfo.jsx';
+import {PokemonInfoAndErrors } from '@/components/Pokemon/PokemonInfoAndErrors.jsx'; //! обробка помилок 
 
 import css from "./AppHTTPRequestAdvanced.module.css";
 
@@ -42,7 +43,9 @@ export class AppHTTPRequestAdvanced extends Component {
       return (
         <div className={css.mainContainer} >
           <PokemonForm onSubmit={this.submitForm} />
-          <PokemonInfo pokemonName={pokemonName} />
+          {/* <PokemonInfo pokemonName={pokemonName} /> */}
+          {/* //! Обробка помилок */}
+          <PokemonInfoAndErrors pokemonName={pokemonName} />
           {/* //! 01.Підлючення бібліотеки react-toastify */}
           <ToastContainer autoClose={2000} /> 
         </div>

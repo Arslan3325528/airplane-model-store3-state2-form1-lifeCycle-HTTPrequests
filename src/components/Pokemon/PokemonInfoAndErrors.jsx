@@ -1,12 +1,25 @@
 import { Component } from 'react';
+// import PokemonDataView from './PokemonDataView';
+// import PokemonErrorView from './PokemonErrorView';
+// import PokemonPendingView from './PokemonPendingView';
+// import pokemonAPI from '../services/pokemon-api';
+
 import css from "./PokemonInfo.module.css";
 
+// const Status = {
+//   IDLE: 'idle',
+//   PENDING: 'pending',
+//   RESOLVED: 'resolved',
+//   REJECTED: 'rejected',
+// };
 
-export class PokemonInfo extends Component {
+export class PokemonInfoAndErrors extends Component {
   state = {
     pokemon: null, //! об'єкт з даними про Покемона
     loading: false, //! індикатор завантаження (лоадер)
-    // pokemonNameChange: false, //! тригер/індикатор зміни імені покемона
+    pokemonNameChange: false, //! тригер/індикатор зміни імені покемона
+    error: null, //todo: Обробка помилок
+    // status: Status.IDLE,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,18 +38,42 @@ export class PokemonInfo extends Component {
         pokemon: null, //? var.2 прибираємо попереднього покемона при завантаженні наступного
         loading: true, //! індикатор завантаження (лоадер)
         // pokemonNameChange: true //! тригер/індикатор зміни імені покемона
+        error: null, //todo: Обробка помилок - прибираємо можливу попередню помилку
       }); 
+
 
       setTimeout(() => { //! імітуємо час завантаження даних
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
-          .then(res => res.json())
+          // .then(res => res.json())
+          // todo: Обробка помилок
+          .then(response => {
+            if (response.ok) {
+              return response.json()
+            }
+            return Promise.reject(new Error(`Покемена з ім'ям ${nextName} не існує`))
+          })
+
           // .then(pokemon => console.log("pokemon:", pokemon))
-          .then(pokemon => this.setState({ pokemon }))
+          .then(pokemon => this.setState({
+            pokemon,
+            error: null, // todo: Обробка помилок
+          }))
+          .catch(error => this.setState({ error })) //todo: Обробка помилок
           .finally(() => this.setState({
             loading: false, //! індикатор завантаження (лоадер)
             // pokemonNameChange: false //! тригер/індикатор зміни імені покемона
           }));
       }, 3000);
+
+
+      // this.setState({ status: Status.PENDING });
+
+      // setTimeout(() => { //! імітуємо час завантаження даних
+      //   pokemonAPI
+      //     .fetchPokemon(nextName)
+      //     .then(pokemon => this.setState({ pokemon, status: Status.RESOLVED }))
+      //     .catch(error => this.setState({ error, status: Status.REJECTED }));
+      // }, 3000);
     }
   }
 
@@ -49,20 +86,27 @@ export class PokemonInfo extends Component {
       pokemon, //! об'єкт з даними про Покемона
       loading, //! індикатор завантаження (лоадер)
       // pokemonNameChange, //! тригер/індикатор зміни імені покемона
+      error, //todo: Обробка помилок
     } = this.state;
 
     console.log("----------------------------------------------");
     console.log("ℹ️🐷 Покемон:", pokemon);
     console.log("ℹ️⏳ Індикатор завантаження (лоадер):", loading);
     // console.log("ℹ️⏳ Тригер/індикатор зміни імені покемона:", pokemonNameChange);
+    console.log("ℹ️❌ Помилка:", error);
     console.log("----------------------------------------------");
 
     return (
       <div className={css.pokemonInfo}>
         <h1>PokemonInfo</h1>
 
-        {/* {!pokemon && <h2><i>Введіть ім'я покемона</i></h2>} */}
-        {!pokemon && !loading && <h2><i>Введіть ім'я покемона</i></h2>}
+        {/* //todo: Обробка помилок */}
+        {/* {error && <h2>Покемена з ім'ям {pokemonName} не існує</h2>} */}
+        {error && <h2>{error.message}</h2>}
+
+        {/* {!pokemon && !loading && <h2><i>Введіть ім'я покемона</i></h2>} */}
+        {/* //todo: Обробка помилок */}
+        {!pokemon && !loading && !error && <h2><i>Введіть ім'я покемона</i></h2>}
 
         {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2> */}
         {/* {pokemonNameChange && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2>} */}
