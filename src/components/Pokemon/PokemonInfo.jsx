@@ -4,7 +4,7 @@ import css from "./PokemonInfo.module.css";
 
 export class PokemonInfo extends Component {
   state = {
-    pokemon: null, //! об'єкт з даними про Покемона
+    pokemon: null, //! об'єкт з даними про покемона
     loading: false, //! індикатор завантаження (лоадер)
   };
 
@@ -25,6 +25,7 @@ export class PokemonInfo extends Component {
         loading: true, //! індикатор завантаження (лоадер)
       }); 
 
+      //! Робимо HTTP-запит:
       setTimeout(() => { //! імітуємо час завантаження даних
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
           .then(res => res.json())
@@ -43,7 +44,7 @@ export class PokemonInfo extends Component {
     } = this.props;
 
     const {
-      pokemon, //! об'єкт з даними про Покемона
+      pokemon, //! об'єкт з даними про покемона
       loading, //! індикатор завантаження (лоадер)
     } = this.state;
 

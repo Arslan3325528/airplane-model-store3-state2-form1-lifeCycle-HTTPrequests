@@ -15,7 +15,7 @@ import css from "./PokemonInfo.module.css";
 
 export class PokemonInfoAndErrors extends Component {
   state = {
-    pokemon: null, //! об'єкт з даними про Покемона
+    pokemon: null, //! об'єкт з даними про покемона
     loading: false, //! індикатор завантаження (лоадер)
     error: null, //todo: Обробка помилок
     // status: Status.IDLE,
@@ -34,12 +34,12 @@ export class PokemonInfoAndErrors extends Component {
       // fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
 
       this.setState({
-        pokemon: null, //? var.2 прибираємо попереднього покемона при завантаженні наступного
+        pokemon: null, //! прибираємо попереднього покемона при завантаженні наступного
         loading: true, //! індикатор завантаження (лоадер)
         error: null, //todo: Обробка помилок - прибираємо можливу попередню помилку
       }); 
 
-
+      //! Робимо HTTP-запит:
       setTimeout(() => { //! імітуємо час завантаження даних
         fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
           // .then(res => res.json())
@@ -82,9 +82,8 @@ export class PokemonInfoAndErrors extends Component {
     } = this.props;
 
     const {
-      pokemon, //! об'єкт з даними про Покемона
+      pokemon, //! об'єкт з даними про покемона
       loading, //! індикатор завантаження (лоадер)
-      // pokemonNameChange, //! тригер/індикатор зміни імені покемона
       error, //todo: Обробка помилок
     } = this.state;
 
@@ -107,16 +106,12 @@ export class PokemonInfoAndErrors extends Component {
         {/* //todo: Обробка помилок */}
         {!pokemon && !loading && !error && <h2><i>Введіть ім'я покемона</i></h2>}
 
-        {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{this.props.pokemonName}</b></h2> */}
         {loading && <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>}
 
         {loading && <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>}
 
-        {/* //? var.1 прибираємо попереднього покемона при завантаженні наступного */}
-        {/* {pokemon && !loading &&(  */}
         {pokemon && (
           <div className={css.pokemonContainer}>
-            {/* Тут з'явитися покемон після фетчу і коли він запишеться в state: */}
             <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img
               // src={pokemon.sprites.front_default} //todo: var.1
