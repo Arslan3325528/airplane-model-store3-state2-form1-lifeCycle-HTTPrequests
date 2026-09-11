@@ -6,12 +6,18 @@ import { Component } from 'react';
 
 import css from "./PokemonInfo.module.css";
 
-// const Status = {
-//   IDLE: 'idle',
-//   PENDING: 'pending',
-//   RESOLVED: 'resolved',
-//   REJECTED: 'rejected',
-// };
+//? - Застосуємо такі статуси:
+//?     - idle - запиту ще немає, нічого не відбувається
+//?     - pending - пішов запит
+//?     - resolved - успішна відповідь на запит
+//?     - rejected - відповідь на запит з помилкою
+
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
 
 export class PokemonInfoAndErrorsStateMachine extends Component {
