@@ -1,12 +1,25 @@
 import { Component } from 'react';
+// import PokemonDataView from './PokemonDataView';
+// import PokemonErrorView from './PokemonErrorView';
+// import PokemonPendingView from './PokemonPendingView';
+// import pokemonAPI from '../services/pokemon-api';
+
 import css from "./PokemonInfo.module.css";
 
+// const Status = {
+//   IDLE: 'idle',
+//   PENDING: 'pending',
+//   RESOLVED: 'resolved',
+//   REJECTED: 'rejected',
+// };
 
-export class PokemonInfoAndErrors extends Component {
+
+export class PokemonInfoAndErrorsStateMachine extends Component {
   state = {
     pokemon: null, //! об'єкт з даними про покемона
     loading: false, //! індикатор завантаження (лоадер)
     error: null, //todo: Обробка помилок
+    // status: Status.IDLE,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,17 +53,26 @@ export class PokemonInfoAndErrors extends Component {
             pokemon,
             error: null, // todo: Обробка помилок
           }))
-          // todo: Обробка помилок
           .catch(error => this.setState({
             pokemon: null,
             error
-          }))
+          })) //todo: Обробка помилок
           .finally(() => this.setState({
             loading: false, //! індикатор завантаження (лоадер)
           }));
       }, 3000);
-    };
-  };
+
+
+      // this.setState({ status: Status.PENDING });
+
+      // setTimeout(() => { //! імітуємо час завантаження даних
+      //   pokemonAPI
+      //     .fetchPokemon(nextName)
+      //     .then(pokemon => this.setState({ pokemon, status: Status.RESOLVED }))
+      //     .catch(error => this.setState({ error, status: Status.REJECTED }));
+      // }, 3000);
+    }
+  }
 
   render() {
     const {
@@ -75,10 +97,8 @@ export class PokemonInfoAndErrors extends Component {
         <h1>PokemonInfo</h1>
 
         {/* //todo: Обробка помилок */}
-        {/* {error && <h2>Покемена з ім'ям {pokemonName} не існує</h2>} */}
         {error && <h2>{error.message}</h2>}
 
-        {/* {!pokemon && !loading && <h2><i>Введіть ім'я покемона</i></h2>} */}
         {/* //todo: Обробка помилок */}
         {!pokemon && !loading && !error && <h2><i>Введіть ім'я покемона</i></h2>}
 

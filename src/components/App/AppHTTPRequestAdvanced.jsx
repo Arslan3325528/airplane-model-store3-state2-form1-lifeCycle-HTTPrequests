@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify'; //! 01.Підлючення б�
 import { PokemonForm } from '@/components/Pokemon/PokemonForm.jsx'; //! форма для отримання ім'я покемона
 import { PokemonInfo } from '@/components/Pokemon/PokemonInfo.jsx'; //! компонент, який приймає ім'я покемона, робить запит та будує розмітку 
 import { PokemonInfoAndErrors } from '@/components/Pokemon/PokemonInfoAndErrors.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки 
+import { PokemonInfoAndErrorsStateMachine } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine
 
 import css from "./AppHTTPRequestAdvanced.module.css";
 
@@ -41,10 +42,18 @@ export class AppHTTPRequestAdvanced extends Component {
     
       return (
         <div className={css.mainContainer} >
+          {/* //! Форма для отримання ім'я покемона */}
           <PokemonForm onSubmit={this.submitForm} />
+
+          {/* //! HTTP-запит + Розмітка */}
           {/* <PokemonInfo pokemonName={pokemonName} /> */}
-          {/* //! Обробка помилок */}
-          <PokemonInfoAndErrors pokemonName={pokemonName} />
+
+          {/* //! HTTP-запит + Розмітка + Обробка помилок */}
+          {/* <PokemonInfoAndErrors pokemonName={pokemonName} /> */}
+
+          {/* //! HTTP-запит + Розмітка + Обробка помилок + State Machine */}
+          <PokemonInfoAndErrorsStateMachine pokemonName={pokemonName} />
+          
           {/* //! 01.Підлючення бібліотеки react-toastify */}
           <ToastContainer autoClose={2000} /> 
         </div>
