@@ -89,9 +89,9 @@ export class PokemonInfoAndErrors extends Component {
     } = this.state;
 
     console.log("----------------------------------------------");
-    console.log("ℹ️🐷 Покемон:", pokemon);
+    console.log("ℹ️props-> 🐷 Покемон-ім'я:", pokemonName);
+    console.log("ℹ️{🐷} Покемон-об'єкт:", pokemon);
     console.log("ℹ️⏳ Індикатор завантаження (лоадер):", loading);
-    // console.log("ℹ️⏳ Тригер/індикатор зміни імені покемона:", pokemonNameChange);
     console.log("ℹ️❌ Помилка:", error);
     console.log("----------------------------------------------");
 
