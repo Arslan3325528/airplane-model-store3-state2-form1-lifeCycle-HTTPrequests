@@ -1,26 +1,20 @@
 import { Component } from 'react';
-// import PokemonDataView from './PokemonDataView';
-// import PokemonErrorView from './PokemonErrorView';
-// import PokemonPendingView from './PokemonPendingView';
-// import pokemonAPI from '../services/pokemon-api';
 
 import css from "./PokemonInfo.module.css";
 
-//? - Застосуємо такі статуси:
+//? Застосуємо такі статуси:
 //?     - idle - запиту ще немає, нічого не відбувається
 //?     - pending - пішов запит
 //?     - rejected - відповідь на запит з помилкою
 //?     - resolved - успішна відповідь на запит
 
-// const Status = {
-//   IDLE: 'idle',
-//   PENDING: 'pending',
-//   REJECTED: 'rejected',
-//   RESOLVED: 'resolved',
-// };
+//* Плюси використання паттерна State Machine:
+//*     - Зникають проблеми скидання полів «щоб працювало».
+//*     - Не слід стежити за значеннями N полів. 
+//*     - Зрозуміліші умови рендеру розмітки.
 
 
-export class PokemonInfoAndErrorsStateMachine extends Component {
+export class PokemonInfoAndErrorsStateMachine1 extends Component {
   state = {
     pokemon: null, //! об'єкт з даними про покемона
     // loading: false, //! індикатор завантаження (лоадер) - вже не потрібен
@@ -76,18 +70,8 @@ export class PokemonInfoAndErrorsStateMachine extends Component {
             // loading: false, //! індикатор завантаження (лоадер) - вже не потрібно
           }));
       }, 3000);
-
-
-      // this.setState({ status: Status.PENDING });
-
-      // setTimeout(() => { //! імітуємо час завантаження даних
-      //   pokemonAPI
-      //     .fetchPokemon(nextName)
-      //     .then(pokemon => this.setState({ pokemon, status: Status.RESOLVED }))
-      //     .catch(error => this.setState({ error, status: Status.REJECTED }));
-      // }, 3000);
-    }
-  }
+    };
+  };
 
 
   render() {
@@ -139,7 +123,7 @@ export class PokemonInfoAndErrorsStateMachine extends Component {
     // );
 
     //*: New
-    //? - Застосуємо такі статуси:
+    //? Застосуємо такі статуси:
     //?     - idle - запиту ще немає, нічого не відбувається
     //?     - pending - пішов запит
     //?     - rejected - відповідь на запит з помилкою
