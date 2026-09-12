@@ -1,4 +1,4 @@
-import css from "./PokemonInfo.module.css";
+import css from "./PokemonInfoViewСontainer.module.css";
 
 //! Звичайний компонент
 export function PokemonInfoViewСontainer({
