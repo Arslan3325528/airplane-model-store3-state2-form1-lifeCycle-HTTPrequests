@@ -110,6 +110,7 @@ export class PokemonInfoAndErrorsStateMachine extends Component {
     console.log("ℹ️❓ Статус:", status);
     console.log("----------------------------------------------");
 
+    //todo: old
     // return (
     //   <div className={css.pokemonInfo}>
     //     <h1>PokemonInfo</h1>
@@ -137,6 +138,7 @@ export class PokemonInfoAndErrorsStateMachine extends Component {
     //   </div>
     // );
 
+    //*: New
     //? - Застосуємо такі статуси:
     //?     - idle - запиту ще немає, нічого не відбувається
     //?     - pending - пішов запит
