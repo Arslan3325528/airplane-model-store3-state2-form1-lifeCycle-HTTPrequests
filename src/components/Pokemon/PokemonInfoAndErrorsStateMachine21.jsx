@@ -38,7 +38,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
             if (response.ok) {
               return response.json()
             };
-            return Promise.reject(new Error(`Покемена з ім'ям ${nextName} не існує`))
+            return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
           })
           .then(pokemon =>
             this.setState({
@@ -106,7 +106,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
-          <h2>{error.message}</h2>
+          <h2 className={css.pokemonInfoTitleError}>{error.message}</h2>
         </div>
       );
     };

@@ -6,6 +6,11 @@
     outline: 2px solid blue;
 }
 
+.pokemonInfoTitleError {
+    color: #9b0000;
+    text-shadow: 4px 4px 12px #310000;
+}
+
 .pokemonInfoLoading {
     font-family: monospace;
 }

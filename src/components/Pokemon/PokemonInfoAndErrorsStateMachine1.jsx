@@ -50,7 +50,7 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
             if (response.ok) {
               return response.json()
             };
-            return Promise.reject(new Error(`Покемена з ім'ям ${nextName} не існує`))
+            return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
           })
           // .then(pokemon => console.log("pokemon:", pokemon))
           .then(pokemon =>
@@ -100,7 +100,7 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
     //     <h1>PokemonInfo</h1>
 
     //     {/* //todo: Обробка помилок */}
-    //     {error && <h2>{error.message}</h2>}
+    //     {error && <h2 className={css.pokemonInfoTitleError}>{error.message}</h2>}
 
     //     {/* //todo: Обробка помилок */}
     //     {!pokemon && !loading && !error && <h2><i>Введіть ім'я покемона</i></h2>}
@@ -158,7 +158,7 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
-          <h2>{error.message}</h2>
+          <h2 className={css.pokemonInfoTitleError}>{error.message}</h2>
         </div>
       );
     };
