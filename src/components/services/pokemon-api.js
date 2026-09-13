@@ -6,7 +6,7 @@ function fetchPokemon(name) {
       };
       return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
     });
-}
+};
 
 const api = {
   fetchPokemon,

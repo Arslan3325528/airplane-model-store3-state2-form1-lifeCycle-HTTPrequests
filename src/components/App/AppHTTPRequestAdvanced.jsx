@@ -15,7 +15,8 @@ import { PokemonInfo } from '@/components/Pokemon/PokemonInfo.jsx'; //! комп
 import { PokemonInfoAndErrors } from '@/components/Pokemon/PokemonInfoAndErrors.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки 
 import { PokemonInfoAndErrorsStateMachine1 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine1.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine1
 import { PokemonInfoAndErrorsStateMachine21 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine21.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-1
-import { PokemonInfoAndErrorsStateMachine22 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine22.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-1
+import { PokemonInfoAndErrorsStateMachine22 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine22.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-2
+import { PokemonInfoAndErrorsStateMachine23 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine23.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-3
 
 import css from "./AppHTTPRequestAdvanced.module.css";
 
@@ -60,7 +61,10 @@ export class AppHTTPRequestAdvanced extends Component {
           {/* <PokemonInfoAndErrorsStateMachine21 pokemonName={pokemonName} /> */}
 
           {/* //! HTTP-запит + Розмітка + Обробка помилок + State Machine2-2 */}
-          <PokemonInfoAndErrorsStateMachine22 pokemonName={pokemonName} />
+          {/* <PokemonInfoAndErrorsStateMachine22 pokemonName={pokemonName} /> */}
+
+          {/* //! HTTP-запит + Розмітка + Обробка помилок + State Machine2-3 */}
+          <PokemonInfoAndErrorsStateMachine23 pokemonName={pokemonName} />
           
           {/* //! 01.Підлючення бібліотеки react-toastify */}
           <ToastContainer autoClose={2000} /> 
