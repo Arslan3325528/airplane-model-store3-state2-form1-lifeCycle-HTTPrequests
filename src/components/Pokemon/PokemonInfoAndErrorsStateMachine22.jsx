@@ -6,7 +6,7 @@ import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
 import pokemonAPI from '../services/pokemon-api.js'
 
-// import css from "./PokemonInfo.module.css";
+import css from "./PokemonInfo.module.css";
 
 //? Застосуємо такі статуси:
 //?     - idle - запиту ще немає, нічого не відбувається
@@ -102,7 +102,7 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
         //   <h1>PokemonInfo</h1>
         //   <h2><i>Введіть ім'я покемона</i></h2>
         // </div>
-        <PokemonInfoViewСontainer title="PokemonInfo">
+        <PokemonInfoViewСontainer title="Pokemon Info">
           <h2><i>Введіть ім'я покемона</i></h2>
         </PokemonInfoViewСontainer>
       );
@@ -110,14 +110,13 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
 
     //? pending - пішов запит
     if (status === 'pending') {
-      // return <PokemonPendingView pokemonName={pokemonName} />; //!
       return (
         // <div className={css.pokemonInfo}>
         //   <h1>PokemonInfo</h1>
         //   <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>
         //   <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
         // </div>
-        <PokemonInfoViewСontainer title="PokemonInfo">
+        <PokemonInfoViewСontainer title="Pokemon Info">
           {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>
           <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2> */}
           <PokemonInfoViewPending pokemonName={pokemonName} />
@@ -132,7 +131,7 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
         //   <h1>PokemonInfo</h1>
         //   <h2 className={css.pokemonInfoTitleError}>{error.message}</h2> 
         // </div>
-        <PokemonInfoViewСontainer title="PokemonInfo">
+        <PokemonInfoViewСontainer title="Pokemon Info">
           {/* <h2 className={css.pokemonInfoTitleError}>{error.message}</h2> */}
           <PokemonInfoViewError errorMessage={error.message} />
         </PokemonInfoViewСontainer>
@@ -153,7 +152,7 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
         //     />
         //   </div>
         // </div>
-        <PokemonInfoViewСontainer title="PokemonInfo">
+        <PokemonInfoViewСontainer title="Pokemon Info">
           {/* <div className={css.pokemonContainer}>
             <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img

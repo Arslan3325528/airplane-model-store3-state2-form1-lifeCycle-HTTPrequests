@@ -84,7 +84,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
     if (status === 'idle') {
       return (
         <div className={css.pokemonInfo}>
-          <h1>PokemonInfo</h1>
+          <h1>Pokemon Info</h1>
           <h2><i>Введіть ім'я покемона</i></h2>
         </div>
       );
@@ -94,7 +94,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
     if (status === 'pending') {
       return (
         <div className={css.pokemonInfo}>
-          <h1>PokemonInfo</h1>
+          <h1>Pokemon Info</h1>
           <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>
           <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
         </div>
@@ -105,7 +105,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
     if (status === 'rejected') {
       return (
         <div className={css.pokemonInfo}>
-          <h1>PokemonInfo</h1>
+          <h1>Pokemon Info</h1>
           <h2 className={css.pokemonInfoTitleError}>{error.message}</h2>
         </div>
       );
@@ -115,7 +115,7 @@ export class PokemonInfoAndErrorsStateMachine21 extends Component {
     if (status === 'resolved') {
       return (
         <div className={css.pokemonInfo}>
-          <h1>PokemonInfo</h1>
+          <h1>Pokemon Info</h1>
           <div className={css.pokemonContainer}>
             <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img

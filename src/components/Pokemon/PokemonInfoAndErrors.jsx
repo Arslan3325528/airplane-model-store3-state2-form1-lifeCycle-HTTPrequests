@@ -72,7 +72,7 @@ export class PokemonInfoAndErrors extends Component {
 
     return (
       <div className={css.pokemonInfo}>
-        <h1>PokemonInfo</h1>
+        <h1>Pokemon Info</h1>
 
         {/* //todo: Обробка помилок */}
         {/* {error && <h2>Покемена з ім'ям {pokemonName} не існує</h2>} */}

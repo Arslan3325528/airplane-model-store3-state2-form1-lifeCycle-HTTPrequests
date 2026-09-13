@@ -56,7 +56,7 @@ export class PokemonInfo extends Component {
 
     return (
       <div className={css.pokemonInfo}>
-        <h1>PokemonInfo</h1>
+        <h1>Pokemon Info</h1>
 
         {/* {!pokemon && <h2><i>Введіть ім'я покемона</i></h2>} */}
         {!pokemon && !loading && <h2><i>Введіть ім'я покемона</i></h2>}

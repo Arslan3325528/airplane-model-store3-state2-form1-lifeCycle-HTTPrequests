@@ -4,7 +4,7 @@ function fetchPokemon(name) {
       if (response.ok) {
         return response.json();
       };
-      return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
+      return Promise.reject(new Error(`Покемена з ім'ям «${name}» не існує`))
     });
 };
 
