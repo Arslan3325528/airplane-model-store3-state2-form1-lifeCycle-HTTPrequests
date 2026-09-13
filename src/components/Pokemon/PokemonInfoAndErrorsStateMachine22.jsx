@@ -4,13 +4,9 @@ import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
 import { PokemonInfoViewPending } from './PokemonInfoViewPending.jsx';
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
+import pokemonAPI from '../services/pokemon-api.js'
 
-// import PokemonDataView from './PokemonDataView';
-// import PokemonErrorView from './PokemonErrorView';
-// import PokemonPendingView from './PokemonPendingView';
-// import pokemonAPI from '../services/pokemon-api';
-
-import css from "./PokemonInfo.module.css";
+// import css from "./PokemonInfo.module.css";
 
 //? Застосуємо такі статуси:
 //?     - idle - запиту ще немає, нічого не відбувається
@@ -22,13 +18,6 @@ import css from "./PokemonInfo.module.css";
 //*     - Зникають проблеми скидання полів «щоб працювало».
 //*     - Не слід стежити за значеннями N полів. 
 //*     - Зрозуміліші умови рендеру розмітки.
-
-// const Status = {
-//   IDLE: 'idle',
-//   PENDING: 'pending',
-//   REJECTED: 'rejected',
-//   RESOLVED: 'resolved',
-// };
 
 
 export class PokemonInfoAndErrorsStateMachine22 extends Component {
@@ -50,38 +39,36 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
       this.setState({ status: 'pending' }); //! статус
 
       //! Робимо HTTP-запит:
-      setTimeout(() => { //! імітуємо час завантаження даних
-        fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
-          .then(response => {
-            if (response.ok) {
-              return response.json()
-            };
-            return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
-          })
-          .then(pokemon =>
-            this.setState({
-              pokemon,
-              status: 'resolved', //! статус 
-            }))
-          //todo: Обробка помилок
-          .catch(error =>
-            this.setState({
-              error,
-              status: 'rejected', //! статус 
-            }));
-      }, 3000);
-
-
-      // this.setState({ status: Status.PENDING });
-
       // setTimeout(() => { //! імітуємо час завантаження даних
-      //   pokemonAPI
-      //     .fetchPokemon(nextName)
-      //     .then(pokemon => this.setState({ pokemon, status: Status.RESOLVED }))
-      //     .catch(error => this.setState({ error, status: Status.REJECTED }));
+      //   fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
+      //     .then(response => {
+      //       if (response.ok) {
+      //         return response.json()
+      //       };
+      //       return Promise.reject(new Error(`Покемена з ім'ям «${nextName}» не існує`))
+      //     })
+      //     .then(pokemon =>
+      //       this.setState({
+      //         pokemon,
+      //         status: 'resolved', //! статус 
+      //       }))
+      //     //todo: Обробка помилок
+      //     .catch(error =>
+      //       this.setState({
+      //         error,
+      //         status: 'rejected', //! статус 
+      //       }));
       // }, 3000);
-    }
-  }
+
+      //! Робимо HTTP-запит:
+      setTimeout(() => { //! імітуємо час завантаження даних
+        pokemonAPI
+          .fetchPokemon(nextName)
+          .then(pokemon => this.setState({ pokemon, status: 'resolved' }))
+          .catch(error => this.setState({ error, status: 'rejected' }));
+      }, 3000);
+    };
+  };
 
 
   render() {

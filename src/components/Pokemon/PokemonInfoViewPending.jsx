@@ -1,22 +1,23 @@
 import { ImSpinner } from 'react-icons/im';
-// import PokemonDataView from './PokemonDataView';
-// import pendingImage from './pending.png';
+import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
+import pendingImage from './pending.png';
 
 import css from "./PokemonInfoViewPending.module.css";
 
 
 export function PokemonInfoViewPending({ pokemonName }) {
-  // const pokemon = {
-  //   name: pokemonName,
-  //   sprites: {
-  //     other: {
-  //       'official-artwork': {
-  //         front_default: pendingImage,
-  //       },
-  //     },
-  //   },
-  //   stats: [],
-  // };
+  //! Для React-skeleton
+  const pokemonSkeleton = {
+    name: pokemonName,
+    sprites: {
+      other: {
+        'official-artwork': {
+          front_default: pendingImage,
+        },
+      },
+    },
+    stats: [],
+  };
 
   return (
     <div role="alert">
@@ -25,7 +26,8 @@ export function PokemonInfoViewPending({ pokemonName }) {
         <ImSpinner size="36" className={css.iconSpin} />
         <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
       </div>
-      {/* <PokemonDataView pokemon={pokemon} /> */}
+      {/* //! React-skeleton (шаблон) */}
+      <PokemonInfoViewData pokemon={pokemonSkeleton} />
     </div>
   );
 };
