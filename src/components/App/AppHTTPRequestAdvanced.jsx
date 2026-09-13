@@ -17,7 +17,6 @@ import { PokemonInfoAndErrorsStateMachine1 } from '@/components/Pokemon/PokemonI
 import { PokemonInfoAndErrorsStateMachine21 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine21.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-1
 import { PokemonInfoAndErrorsStateMachine22 } from '@/components/Pokemon/PokemonInfoAndErrorsStateMachine22.jsx'; //! /! компонент, який приймає ім'я покемона, робить запит, будує розмітку та обробляє помилки + State Machine2-1
 
-
 import css from "./AppHTTPRequestAdvanced.module.css";
 
 

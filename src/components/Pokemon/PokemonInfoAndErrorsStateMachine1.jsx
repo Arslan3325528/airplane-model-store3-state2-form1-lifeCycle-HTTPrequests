@@ -131,7 +131,6 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
 
     //? idle - запиту ще немає, нічого не відбувається
     if (status === 'idle') {
-      // return <div>Введите имя покемона.</div>;
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
@@ -142,7 +141,6 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
 
     //? pending - пішов запит
     if (status === 'pending') {
-      // return <PokemonPendingView pokemonName={pokemonName} />;
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
@@ -154,7 +152,6 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
 
     //? rejected - відповідь на запит з помилкою
     if (status === 'rejected') {
-      // return <PokemonErrorView message={error.message} />;
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
@@ -165,7 +162,6 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
 
     //? resolved - успішна відповідь на запит
     if (status === 'resolved') {
-      // return <PokemonDataView pokemon={pokemon} />;
       return (
         <div className={css.pokemonInfo}>
           <h1>PokemonInfo</h1>
