@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
 
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
+import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
 
 // import PokemonDataView from './PokemonDataView';
 // import PokemonErrorView from './PokemonErrorView';
@@ -166,14 +167,16 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
         //   </div>
         // </div>
         <PokemonInfoViewСontainer title="PokemonInfo">
-          <div className={css.pokemonContainer}>
+          {/* <div className={css.pokemonContainer}>
             <p className={css.pokemonName}><u><i>Покемон</i></u>: <b>{pokemon.name}</b></p>
             <img
               src={pokemon.sprites.other['official-artwork'].front_default} //todo: var.3
               width="300"
               alt={pokemon.name}
             />
-          </div>
+          </div> */}
+          <PokemonInfoViewData pokemon={pokemon} />
+
         </PokemonInfoViewСontainer>
       );
     };
