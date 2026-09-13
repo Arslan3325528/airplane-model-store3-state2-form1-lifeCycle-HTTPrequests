@@ -1,0 +1,26 @@
+.pokemonInfoLoading {
+    font-family: monospace;
+}
+
+.spinnerBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    /* outline: 2px dotted red; */
+}
+
+.iconSpin {
+    margin-right: 10px;
+    color: #a95dff;
+    animation: iconSpin 2s infinite linear;
+}
+
+@keyframes iconSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}

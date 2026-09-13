@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
-
+import { PokemonInfoViewPending } from './PokemonInfoViewPending.jsx';
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
 
@@ -131,8 +131,9 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
         //   <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
         // </div>
         <PokemonInfoViewСontainer title="PokemonInfo">
-          <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>
-          <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
+          {/* <h2><u><i>Ви ввели ім'я покемона</i></u>: <b>{pokemonName}</b></h2>
+          <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2> */}
+          <PokemonInfoViewPending pokemonName={pokemonName} />
         </PokemonInfoViewСontainer>
       );
     };
@@ -153,7 +154,6 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
 
     //? resolved - успішна відповідь на запит
     if (status === 'resolved') {
-      // return <PokemonDataView pokemon={pokemon} />; //!
       return (
         // <div className={css.pokemonInfo}>
         //   <h1>PokemonInfo</h1>
@@ -176,7 +176,6 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
             />
           </div> */}
           <PokemonInfoViewData pokemon={pokemon} />
-
         </PokemonInfoViewСontainer>
       );
     };
