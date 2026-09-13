@@ -19,7 +19,6 @@ export class PokemonInfoAndErrorsStateMachine1 extends Component {
     pokemon: null, //! об'єкт з даними про покемона
     // loading: false, //! індикатор завантаження (лоадер) - вже не потрібен
     error: null, //todo: Обробка помилок
-    // status: Status.IDLE,
     status: 'idle', //! статус
   };
 
