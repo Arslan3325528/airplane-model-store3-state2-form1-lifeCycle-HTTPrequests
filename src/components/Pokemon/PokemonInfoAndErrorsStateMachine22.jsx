@@ -1,5 +1,8 @@
 import { Component } from 'react';
-import {PokemonInfoViewСontainer} from './PokemonInfoViewСontainer.jsx';
+
+import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
+
+import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 
 // import PokemonDataView from './PokemonDataView';
 // import PokemonErrorView from './PokemonErrorView';
@@ -135,14 +138,14 @@ export class PokemonInfoAndErrorsStateMachine22 extends Component {
 
     //? rejected - відповідь на запит з помилкою
     if (status === 'rejected') {
-      // return <PokemonErrorView message={error.message} />; //!
       return (
         // <div className={css.pokemonInfo}>
         //   <h1>PokemonInfo</h1>
         //   <h2 className={css.pokemonInfoTitleError}>{error.message}</h2> 
         // </div>
         <PokemonInfoViewСontainer title="PokemonInfo">
-          <h2 className={css.pokemonInfoTitleError}>{error.message}</h2> 
+          {/* <h2 className={css.pokemonInfoTitleError}>{error.message}</h2> */}
+          <PokemonInfoViewError errorMessage={error.message} />
         </PokemonInfoViewСontainer>
       );
     };
