@@ -3,7 +3,7 @@ import pendingImage from './pending.jpg';
 
 //! + Бібліотеки з Loaders (спінерами)
 import { ImSpinner } from 'react-icons/im';
-import { ClipLoader } from "react-spinners";
+import { ClipLoader, MoonLoader, RingLoader } from "react-spinners";
 
 import css from "./PokemonInfoViewPending.module.css";
 
@@ -58,7 +58,17 @@ export function PokemonInfoViewPendingLoaders({ pokemonName }) {
         {/* //! Loader: бібліотека react-spinners */}
         <ClipLoader
           size={36}
-          color="#19ffff"
+          color="#09caff"
+          aria-label="Завантаження покемона"
+        />
+        <MoonLoader
+          size={26}
+          color="#ff5119"
+          aria-label="Завантаження покемона"
+        />
+        <RingLoader
+          size={26}
+          color="#51ff00"
           aria-label="Завантаження покемона"
         />
         <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
