@@ -2,6 +2,7 @@ import { Component } from 'react';
 
 import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
 import { PokemonInfoViewPending } from './PokemonInfoViewPending.jsx';
+import { PokemonInfoViewPendingLoaders } from './PokemonInfoViewPendingLoaders.jsx'; //! + бібліотеки з Loaders (спінерами)
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
 import pokemonAPI from '../services/pokemon-api.js'
@@ -94,7 +95,9 @@ export class PokemonInfoAndErrorsStateMachine23 extends Component {
     if (status === 'pending') {
       return (
         <PokemonInfoViewСontainer title="Pokemon Info">
-          <PokemonInfoViewPending pokemonName={pokemonName} />
+          {/* <PokemonInfoViewPending pokemonName={pokemonName} /> */}
+          {/* //! + Бібліотеки з Loaders (спінерами) */}
+          <PokemonInfoViewPendingLoaders pokemonName={pokemonName} />
         </PokemonInfoViewСontainer>
       );
     };
