@@ -9,13 +9,15 @@ export function PokemonInfoViewData({ pokemon: { name, sprites, stats } }) {
         src={sprites.other['official-artwork'].front_default} //todo: var.3
         alt={name}
       />
+      {/* //! Рендеримо додатковий список властивостей покемона */}
       <ul className={css.pokemonStats}>
         {stats.map((item, index) => (
-          <li key={item.stat.name}>
-            <i>{index + 1}.{item.stat.name}</i>: <b>{item.base_stat}</b>
+          <li key={index}>
+            <i>{index + 1}.{item.stat.name}</i>: <b>{item.base_stat}</b> 
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
+

@@ -36,14 +36,28 @@ export class PokemonInfoAndErrorsStateMachine23 extends Component {
       console.log("⏮️prevName (prevProps.pokemonName): ", prevProps.pokemonName);
       console.log("⏭️nextName (this.props.pokemonName): ", this.props.pokemonName);
 
-      this.setState({ status: 'pending' }); //! статус
+      this.setState({
+        pokemon: null, //! прибираємо попереднього покемона при завантаженні наступного
+        error: null, //! прибираємо можливу попередню помилку
+        status: 'pending' //! статус: pending - пішов запит
+      });
 
       //! Робимо HTTP-запит:
       setTimeout(() => { //! імітуємо час завантаження даних
         pokemonAPI
           .fetchPokemon(nextName)
-          .then(pokemon => this.setState({ pokemon, status: 'resolved' }))
-          .catch(error => this.setState({ error, status: 'rejected' }));
+          .then(pokemon =>
+            this.setState({
+              pokemon,
+              error: null, //! прибираємо можливу попередню помилку
+              status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
+            }))
+          .catch(error =>
+            this.setState({
+              pokemon: null, //! прибираємо попереднього покемона якщо відповідь з ПОМИЛКЛЮ
+              error,
+              status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКЛЮ
+            }));
       }, 3000);
     };
   };

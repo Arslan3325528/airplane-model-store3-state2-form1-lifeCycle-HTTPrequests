@@ -1,6 +1,6 @@
 import { ImSpinner } from 'react-icons/im';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
-import pendingImage from './pending.png';
+import pendingImage from './pending.jpg';
 
 import css from "./PokemonInfoViewPending.module.css";
 
@@ -16,7 +16,34 @@ export function PokemonInfoViewPending({ pokemonName }) {
         },
       },
     },
-    stats: [],
+    //! Додатковий список властивостей покемона
+    // stats: [],
+    stats: [
+      {
+        stat: { name: "hp" },
+        base_stat: "⏳"
+      },
+      {
+        stat: { name: "attack" },
+        base_stat: "⏳"
+      },
+      {
+        stat: { name: "defense" },
+        base_stat: "⏳"
+      },
+      {
+        stat: { name: "special-attack" },
+        base_stat: "⏳"
+      },
+      {
+        stat: { name: "special-defense" },
+        base_stat: "⏳"
+      },
+      {
+        stat: { name: "speed" },
+        base_stat: "⏳"
+      }
+    ],
   };
 
   return (
