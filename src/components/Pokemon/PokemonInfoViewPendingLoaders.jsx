@@ -4,6 +4,9 @@ import pendingImage from './pending.jpg';
 //! + Бібліотеки з Loaders (спінерами)
 import { ImSpinner } from 'react-icons/im';
 import { ClipLoader, MoonLoader, RingLoader } from "react-spinners";
+import { Oval, ThreeDots } from "react-loader-spinner";
+import { Ring } from "ldrs/react"; //! ldrs
+import "ldrs/react/Ring.css";
 
 import css from "./PokemonInfoViewPending.module.css";
 
@@ -61,15 +64,40 @@ export function PokemonInfoViewPendingLoaders({ pokemonName }) {
           color="#09caff"
           aria-label="Завантаження покемона"
         />
-        <MoonLoader
+        {/* <MoonLoader
           size={26}
           color="#ff5119"
           aria-label="Завантаження покемона"
-        />
+        /> */}
         <RingLoader
           size={26}
           color="#51ff00"
           aria-label="Завантаження покемона"
+        />
+        {/* //! Loader: бібліотека react-loader-spinner */}
+        <Oval
+          height={36}
+          width={36}
+          color="#10ff0c"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#fc1f1f"
+          strokeWidth={9}
+          strokeWidthSecondary={5}
+        />
+        <ThreeDots
+          height="36"
+          width="80"
+          radius="9"
+          color="#36d7b7"
+          ariaLabel="three-dots-loading"
+          visible={true}
+        />
+        {/* //! Loader: бібліотека ldrs */}
+        <Ring
+          size={36}
+          speed={1.5}
+          bgOpacity={0.25}
         />
         <h2 className={css.pokemonInfoLoading}>Завантажуємо покемон...</h2>
       </div>
