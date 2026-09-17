@@ -12,7 +12,7 @@ import { Sorter } from '@/components/Sorter/Sorter.jsx';
 import { Section } from '@/components/Section/Section.jsx';
 import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 
-import aircrafts from '@/json/aircrafts.json';
+// import aircrafts from '@/json/aircrafts.json';
 import aircraftsAPI from '@/components/services/aircrafts-api.js' //! запити з json-server
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
@@ -20,32 +20,33 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 // import css from "./App.module.css";
 
 
-//! Приклад початкового сортування на ім'я (за полем name.brief)
-aircrafts.sort((a, b) => a.name.brief.localeCompare(b.name.brief));
-//! Приклад початкового сортування за роком створення (за полем info.year)
-// aircrafts.sort((a, b) => a.info.year - b.info.year);
+// //! Приклад початкового сортування на ім'я (за полем name.brief)
+// aircrafts.sort((a, b) => a.name.brief.localeCompare(b.name.brief));
+// //! Приклад початкового сортування за роком створення (за полем info.year)
+// // aircrafts.sort((a, b) => a.info.year - b.info.year);
 
-//! Сортування з перенесенням відсутніх моделей у кінець списку
-// console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-const yesArr = aircrafts.filter(item => item.model.actualImages);
-const noArr = aircrafts.filter(item => !item.model.actualImages);
-// console.log("✅Є наявності", yesArr);
-// console.log("❌Немає в наявності", noArr);
+// //! Сортування з перенесенням відсутніх моделей у кінець списку
+// // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+// const yesArr = aircrafts.filter(item => item.model.actualImages);
+// const noArr = aircrafts.filter(item => !item.model.actualImages);
+// // console.log("✅Є наявності", yesArr);
+// // console.log("❌Немає в наявності", noArr);
 
-// aircrafts.splice(0, aircrafts.length);
-//? або
-aircrafts.length = 0;
-// console.log("0️⃣aircrafts__Після очищення:", aircrafts);
+// // aircrafts.splice(0, aircrafts.length);
+// //? або
+// aircrafts.length = 0;
+// // console.log("0️⃣aircrafts__Після очищення:", aircrafts);
 
-aircrafts.push(...yesArr, ...noArr);
-// console.log("🆗aircrafts__Після кінцевого сортування:", aircrafts);
-// console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+// aircrafts.push(...yesArr, ...noArr);
+// // console.log("🆗aircrafts__Після кінцевого сортування:", aircrafts);
+// // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 //! Компонент-клас
 export class App extends Component {
   state = {
-    aircraftsArr: aircrafts,
-    aircraftsArrNew: null,
+    aircrafts: [],
+    // aircraftsArr: aircrafts,
+    aircraftsArr: [],
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
     indicesSelectedModels: [], //! масив індексів обраних моделей
@@ -59,11 +60,13 @@ export class App extends Component {
     isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
     // totalTypes: aircrafts.length, //! кількість типів ЛА (всіх літальних апаратів)
     inputSearchValue: "", //! значення inputSearch
-    aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+    // aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+    aircraftsArrAfterFiltration: null,  //? дубльоване значення aircraftsArr після фільтрації
     radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
     inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
     inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
-    modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+    // modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+    modelsSelectedScale: null, //? масив моделей обраного масштабу
     modelScale: "all", //! початковий масштаб моделі в ScaleSelection
     showModal: true, //! контроль відкриття/закриття модального вікна
     // users: [], //! масив з даними користувачів
@@ -77,6 +80,29 @@ export class App extends Component {
 
   //! 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   componentDidMount() {
+    //todo: aircrafts
+    //! Робимо HTTP-запит з json-server:
+    setTimeout(() => { //! імітуємо час завантаження даних
+      aircraftsAPI
+        .fetchAircrafts()
+        .then(aircrafts =>
+          this.setState({
+            aircrafts,
+            aircraftsArr: aircrafts,
+            aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+            modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+            // error: null, //! прибираємо можливу попередню помилку
+            // status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
+          }))
+        .catch(error =>
+          this.setState({
+            aircraftsArr: null,
+            // error,
+            // status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
+          }));
+    }, 1000);
+
+
     //todo: indicesSelectedModels
     // const saved = localStorage.getItem("indicesSelectedModels");
     // if (!saved) {
@@ -99,30 +125,11 @@ export class App extends Component {
           indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
           selectedModels:
             (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
-              .flatMap(id => aircrafts.filter((el) => id === el.id))
+              .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
               .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
         })
       };
     };
-
-    //todo: aircrafts
-    //! Робимо HTTP-запит з json-server:
-    setTimeout(() => { //! імітуємо час завантаження даних
-      aircraftsAPI
-        .fetchAircrafts()
-        .then(aircraftsArrNew =>
-          this.setState({
-            aircraftsArrNew,
-            // error: null, //! прибираємо можливу попередню помилку
-            // status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
-          }))
-        .catch(error =>
-          this.setState({
-            aircraftsArrNew: null, //! прибираємо попереднього якщо відповідь з ПОМИЛКОЮ
-            // error,
-            // status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
-          }));
-    }, 1000);
 
   };
 
@@ -140,7 +147,7 @@ export class App extends Component {
       localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
       this.setState({
         selectedModels: this.state.indicesSelectedModels.flatMap(id =>
-          aircrafts.filter((el) => id === el.id))
+          this.state.aircrafts.filter((el) => id === el.id))
           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
         activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
         users: prevState.users.map((user, index) =>
@@ -160,7 +167,7 @@ export class App extends Component {
   //! Рахуємо загальну кількість моделей <totalModels> виходячи з наявності фактичної ціни:
   //todo-1
   // getTotalModels = () => {
-  //   return aircrafts.reduce((previousValue, element, index, array) => {
+  //   return this.state.aircrafts.reduce((previousValue, element, index, array) => {
   //     const valuesArr = Object.values(element.model.colorsPrice);
   //     const totalAircraftSameType = valuesArr.filter(item => Number(item)).length;
   //     let total = previousValue + totalAircraftSameType;
@@ -173,25 +180,25 @@ export class App extends Component {
   //   }, 0);
   // };
   //todo-2
-  // getTotalModels = () => aircrafts.reduce((previousValue, element) => {
+  // getTotalModels = () => this.state.aircrafts.reduce((previousValue, element) => {
   //     return previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length;
   // }, 0);
   //todo-3
   // getTotalModels = () =>
-  //   aircrafts.reduce((previousValue, element) =>
+  //   this.state.aircrafts.reduce((previousValue, element) =>
   //     previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length, 0);
 
   allFiltration = () => {
     console.log("Клік в кнопку ВСІ");
-    console.log("allAircrafts:", aircrafts);
+    console.log("allAircrafts:", this.state.aircrafts);
     this.setState({
-      // aircraftsArr: aircrafts,
+      // aircraftsArr: this.state.aircrafts,
       aircraftsArr: this.state.modelsSelectedScale, //! з додаванням вибору моделей певного масштабу
       aircraftsTitle: "Магазин моделей літальних апаратів",
       activeButton: "allButton", //! візуалізація активної кнопки
       isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
-      // totalTypes: aircrafts.length, //! кількість типів ЛА (всіх літальних апаратів)
-      // aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      // totalTypes: this.state.aircrafts.length, //! кількість типів ЛА (всіх літальних апаратів)
+      // aircraftsArrAfterFiltration: this.state.aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
       aircraftsArrAfterFiltration: this.state.modelsSelectedScale,  //! дубльоване значення aircraftsArr після фільтрації з додаванням вибору моделей певного масштабу
       inputSearchValue: "", //! значення inputSearch
     });
@@ -200,7 +207,7 @@ export class App extends Component {
 
   planeFiltration = () => {
     console.log("Клік в кнопку Літаки");
-    // const onlyPlanes = aircrafts.filter(aircraft => aircraft.aircraftType === "plane");
+    // const onlyPlanes = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "plane");
     const onlyPlanes = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "plane"); //! з додаванням вибору моделей певного масштабу
     console.log("onlyPlanes:", onlyPlanes);
     this.setState({
@@ -216,7 +223,7 @@ export class App extends Component {
 
   biplaneFiltration = () => {
     console.log("Клік в кнопку Біплани");
-    // const onlyBiplane = aircrafts.filter(aircraft => aircraft.aircraftType === "biplane");
+    // const onlyBiplane = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "biplane");
     const onlyBiplane = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "biplane"); //! з додаванням вибору моделей певного масштабу
     console.log("onlyBiplane:", onlyBiplane);
     this.setState({
@@ -232,7 +239,7 @@ export class App extends Component {
 
   helicopterFiltration = () => {
     console.log("Клік в кнопку Вертольоти");
-    // const onlyHelicopters = aircrafts.filter(aircraft => aircraft.aircraftType === "helicopter");
+    // const onlyHelicopters = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "helicopter");
     const onlyHelicopters = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "helicopter"); //! з додаванням вибору моделей певного масштабу
     console.log("onlyHelicopters:", onlyHelicopters);
     this.setState({
@@ -248,17 +255,17 @@ export class App extends Component {
 
   //! Імпортуємо з @/utils/updateSelectedModels.js
   //! Формуємо(оновлюємо) масив обраних моделей [selectedModels] НЕ зберігаючи його в state:
-  // updateSelectedModels = () => this.state.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id)); //! без сортування
+  // updateSelectedModels = () => this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id)); //! без сортування
   // updateSelectedModels = () =>
   //   this.state.indicesSelectedModels.flatMap(id =>
-  //     aircrafts.filter((el) => id === el.id))
+  //     this.state.aircrafts.filter((el) => id === el.id))
   //     .sort((a, b) =>a.name.brief.localeCompare(b.name.brief)); //! з сортуванням за полем "name.brief"
   //! Формуємо(оновлюємо) масив обраних моделей [selectedModels] зберігаючи його в state:
   //*✅ Так додає останній елемент
   updateSelectedModels = () => {
     this.setState(prevState => ({
       selectedModels:
-        prevState.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id))
+        prevState.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
         .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
       // activeUser: {...prevState.activeUser, indicesSelectedModels: this.state.indicesSelectedModels},
     }));
@@ -269,7 +276,7 @@ export class App extends Component {
     console.log("Клік в кнопку Кошик");
     this.updateSelectedModels();
     // Формуємо(оновлюємо) масив обраних моделей [selectedModels] не зберігаючи його в state:
-    // const selectedModels = this.state.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id));
+    // const selectedModels = this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id));
     // console.log("selectedModels:", selectedModels);
     this.setState({
       // selectedModels,
@@ -303,7 +310,7 @@ export class App extends Component {
             // : [...prevState.indicesSelectedModels, id] //! без сортування
             // : [...this.state.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
             : [...prevState.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
-        // selectedModels: updateSelectedModels(prevState.indicesSelectedModels, aircrafts), //!❌ так НЕ додає останній елемент
+        // selectedModels: updateSelectedModels(prevState.indicesSelectedModels, this.state.aircrafts), //!❌ так НЕ додає останній елемент
       };
     });
     this.updateSelectedModels(); //*✅ так додає останній елемент
@@ -388,7 +395,7 @@ export class App extends Component {
     //! Виносимо логіку фільтрації в окремий метод performSearch
     // const prevArray =
     //   this.state.isCartButton
-    //     ? this.state.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id))
+    //     ? this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
     //       .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief"
     //     // ? this.state.selectedModels
     //     : this.state.aircraftsArrAfterFiltration
@@ -459,7 +466,7 @@ export class App extends Component {
       inputSearchValue: "",
       aircraftsArr: this.state.aircraftsArrAfterFiltration, //! ❓❓❓
       selectedModels:
-        this.state.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id))
+        this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
         .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief",
     });
 
@@ -595,16 +602,16 @@ export class App extends Component {
     // });
 
     this.setState(prevState => ({
-      aircraftsArr: aircrafts, //! 
+      aircraftsArr: this.state.aircrafts, //! 
       aircraftsTitle: "Магазин моделей літальних апаратів",
       activeButton: "allButton", //! візуалізація активної кнопки
       isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
-      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      aircraftsArrAfterFiltration: this.state.aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
       inputSearchValue: "", //! значення inputSearch
       radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
-      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "_", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true,
       users: [...prevState.users, data],
@@ -633,16 +640,16 @@ export class App extends Component {
     console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
     this.setState({
-      aircraftsArr: aircrafts, //! 
+      aircraftsArr: this.state.aircrafts, //! 
       aircraftsTitle: "Магазин моделей літальних апаратів",
       activeButton: "allButton", //! візуалізація активної кнопки
       isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
-      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      aircraftsArrAfterFiltration: this.state.aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
       inputSearchValue: "", //! значення inputSearch
       radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
-      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "__", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
       users,
@@ -652,7 +659,7 @@ export class App extends Component {
       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
       selectedModels:
         (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
-          .flatMap(id => aircrafts.filter((el) => id === el.id))
+          .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
     });
     // this.toggleModal(); //todo: var.3 закриваємо модалку
@@ -675,16 +682,16 @@ export class App extends Component {
     // console.log("users:", users); //!
     localStorage.setItem("users", JSON.stringify(users));
     this.setState({
-      aircraftsArr: aircrafts, //! 
+      aircraftsArr: this.state.aircrafts, //! 
       aircraftsTitle: "Магазин моделей літальних апаратів",
       activeButton: "allButton", //! візуалізація активної кнопки
       isCartButton: false, //! тригер: "якщо активна кнопка «Кошик»"
-      aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+      aircraftsArrAfterFiltration: this.state.aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
       inputSearchValue: "", //! значення inputSearch
       radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
-      modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+      modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
       users, //! масив з даними користувачів
@@ -706,8 +713,9 @@ export class App extends Component {
 
   render() {
     const {
-      aircraftsArr,
-      aircraftsArrNew,
+      aircrafts, //! початковий масив aircraftsArr з json-server
+      aircraftsArr, //! запис початкового масиву aircrafts в aircraftsArr
+      // aircraftsArrNew,
       aircraftsTitle,
       activeButton, //! візуалізація активної кнопки
       indicesSelectedModels, //! масив індексів обраних моделей
@@ -738,9 +746,9 @@ export class App extends Component {
         previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length, 0);
 
     //! Формуємо(оновлюємо) масив обраних моделей [selectedModels]
-    // const selectedModels = indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id));
+    // const selectedModels = indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id));
     // const selectedModels = this.updateSelectedModels();
-    // const selectedModelsBeforeSorting = updateSelectedModels(indicesSelectedModels, aircrafts); //! якщо імпортуємо;  це до сортування
+    // const selectedModelsBeforeSorting = updateSelectedModels(indicesSelectedModels, this.state.aircrafts); //! якщо імпортуємо;  це до сортування
     //! Після сортування
     // const selectedModels = selectedModelsBeforeSorting.filter(
     //   aircraft => aircraft.name.brief.toLowerCase().startsWith(inputSearchValue.trim().toLowerCase())
@@ -764,7 +772,8 @@ export class App extends Component {
     
     
     console.log("----------------------------------------------");
-    console.log("✈️Mасив aircraftsArr з json-server", aircraftsArrNew);
+    console.log("✈️Початковий сортований масив aircrafts з json-server", aircrafts);
+    console.log("✈️->✈️Запис початкового сортованого масиву aircrafts в aircraftsArr", aircraftsArr);
     console.log("ℹ️Mасив індексів обраних моделей ", indicesSelectedModels);
     console.log("Ⓜ️Масив обраних моделей:", selectedModels);
     console.log("🔢Кількість обраних моделей:", numberOfModels);

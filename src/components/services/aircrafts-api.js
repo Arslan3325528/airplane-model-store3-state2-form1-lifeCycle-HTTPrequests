@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { aircraftsSort } from '@/utils'; //! Початкове сортування на ім'я (за полем name.brief) + сортування з перенесенням відсутніх моделей у кінець списку
+import { aircraftsSort } from '@/utils'; //! початкове сортування на ім'я (за полем name.brief) + сортування з перенесенням відсутніх моделей у кінець списку
 
 const BASE_URL = "http://localhost:3000/aircrafts"
 
