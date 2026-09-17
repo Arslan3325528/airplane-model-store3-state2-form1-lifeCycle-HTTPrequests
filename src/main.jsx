@@ -8,10 +8,13 @@ import './index.css';
 
 //! Aбсолютний шлях + Реекспорт
 import {
-  App,
-  AppColorBox,
+  App, //! Aircrafts 
+
+  AppColorBox, //! State
+
   AppSearchDebounce, //! Пошук елементів + Debounce
   AppSearchDebounceTextBacklight, //! Пошук елементів + Debounce + Підсвічування тексту
+
   AppUncontrolledElementsForm, //! 4.4.1.Неконтрольовані елементи форм
   AppControlledElementsForm, //! 4.4.2.Контрольовані елементи форм
   AppComplexForms, //! 4.4.3.Складні форми
@@ -25,7 +28,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter basename="/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests">
       <ThemeProvider theme={theme}>
-        {/* <App /> */}
+        {/* //! Aircrafts */}
+        <App />
+        {/* //! State */}
         {/* <AppColorBox />  */}
         {/* //! Debounce */}
         {/* <AppSearchDebounce /> */}
@@ -38,7 +43,7 @@ createRoot(document.getElementById('root')).render(
         {/* <AppComplexForms /> */}
         {/* //! HTTPRequest */}
         {/* <AppHTTPRequestBasics /> */}
-        <AppHTTPRequestAdvanced />
+        {/* <AppHTTPRequestAdvanced /> */}
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
