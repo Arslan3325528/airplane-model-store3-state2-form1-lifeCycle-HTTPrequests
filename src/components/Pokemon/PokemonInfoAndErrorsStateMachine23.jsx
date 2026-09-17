@@ -55,9 +55,9 @@ export class PokemonInfoAndErrorsStateMachine23 extends Component {
             }))
           .catch(error =>
             this.setState({
-              pokemon: null, //! прибираємо попереднього покемона якщо відповідь з ПОМИЛКЛЮ
+              pokemon: null, //! прибираємо попереднього покемона якщо відповідь з ПОМИЛКОЮ
               error,
-              status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКЛЮ
+              status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
             }));
       }, 3000);
     };

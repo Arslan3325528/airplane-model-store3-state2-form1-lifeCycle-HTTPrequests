@@ -13,6 +13,7 @@ import { Section } from '@/components/Section/Section.jsx';
 import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 
 import aircrafts from '@/json/aircrafts.json';
+import aircraftsAPI from '@/components/services/aircrafts-api.js' //! запити з json-server
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
 
@@ -24,19 +25,19 @@ aircrafts.sort((a, b) => a.name.brief.localeCompare(b.name.brief));
 //! Приклад початкового сортування за роком створення (за полем info.year)
 // aircrafts.sort((a, b) => a.info.year - b.info.year);
 
-//! Сортування, в якому моделі, яких немає в наявності знаходяться в кінці списку
+//! Сортування з перенесенням відсутніх моделей у кінець списку
 // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-const yes = aircrafts.filter(item => item.model.actualImages);
-const no = aircrafts.filter(item => !item.model.actualImages);
-// console.log("✅Є наявності", yes);
-// console.log("❌Немає в наявності", no);
+const yesArr = aircrafts.filter(item => item.model.actualImages);
+const noArr = aircrafts.filter(item => !item.model.actualImages);
+// console.log("✅Є наявності", yesArr);
+// console.log("❌Немає в наявності", noArr);
 
 // aircrafts.splice(0, aircrafts.length);
 //? або
 aircrafts.length = 0;
 // console.log("0️⃣aircrafts__Після очищення:", aircrafts);
 
-aircrafts.push(...yes, ...no);
+aircrafts.push(...yesArr, ...noArr);
 // console.log("🆗aircrafts__Після кінцевого сортування:", aircrafts);
 // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
@@ -44,6 +45,7 @@ aircrafts.push(...yes, ...no);
 export class App extends Component {
   state = {
     aircraftsArr: aircrafts,
+    aircraftsArrNew: null,
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
     indicesSelectedModels: [], //! масив індексів обраних моделей
@@ -102,6 +104,26 @@ export class App extends Component {
         })
       };
     };
+
+    //todo: aircrafts
+    //! Робимо HTTP-запит з json-server:
+    setTimeout(() => { //! імітуємо час завантаження даних
+      aircraftsAPI
+        .fetchAircrafts()
+        .then(aircraftsArrNew =>
+          this.setState({
+            aircraftsArrNew,
+            // error: null, //! прибираємо можливу попередню помилку
+            // status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
+          }))
+        .catch(error =>
+          this.setState({
+            aircraftsArrNew: null, //! прибираємо попереднього якщо відповідь з ПОМИЛКОЮ
+            // error,
+            // status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
+          }));
+    }, 1000);
+
   };
 
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
@@ -685,6 +707,7 @@ export class App extends Component {
   render() {
     const {
       aircraftsArr,
+      aircraftsArrNew,
       aircraftsTitle,
       activeButton, //! візуалізація активної кнопки
       indicesSelectedModels, //! масив індексів обраних моделей
@@ -741,6 +764,7 @@ export class App extends Component {
     
     
     console.log("----------------------------------------------");
+    console.log("✈️Mасив aircraftsArr з json-server", aircraftsArrNew);
     console.log("ℹ️Mасив індексів обраних моделей ", indicesSelectedModels);
     console.log("Ⓜ️Масив обраних моделей:", selectedModels);
     console.log("🔢Кількість обраних моделей:", numberOfModels);
