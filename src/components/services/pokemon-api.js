@@ -17,7 +17,7 @@ import axios from "axios";
 //? Тому ручна перевірка response.ok та Promise.reject(...) більше не потрібні.
 //? Axios автоматично поміщає JSON-відповідь у response.data.
 
-//*: NEW-1 (axios)
+//* NEW-1 (axios)
 // function fetchPokemon(name) {
 //   return axios
 //     .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
@@ -25,7 +25,7 @@ import axios from "axios";
 // };
 
 
-//*: NEW-3 (axios + обробка помилок (формуємо власну помилку))
+//* NEW-3 (axios + обробка помилок (формуємо власну помилку))
 // function fetchPokemon(name) {
 //   return axios
 //     .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
@@ -41,7 +41,7 @@ import axios from "axios";
 // };
 
 
-//*: NEW-3 (axios + обробка помилок (формуємо власні помилки) + async/await)
+//* NEW-3 (axios + обробка помилок (формуємо власні помилки) + async/await)
 async function fetchPokemon(name) {
   try {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);

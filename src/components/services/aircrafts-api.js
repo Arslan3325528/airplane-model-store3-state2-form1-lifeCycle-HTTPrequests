@@ -2,12 +2,17 @@ import axios from "axios";
 
 import { aircraftsSort } from '@/utils'; //! початкове сортування на ім'я (за полем name.brief) + сортування з перенесенням відсутніх моделей у кінець списку
 
-const BASE_URL = "http://localhost:3000/aircrafts"
+const BASE_URL = "http://localhost:3000/";
+const ENDPOINT_AIRCRAFTS_DB = "aircraftsDB";
+const ENDPOINT_AIRCRAFTS = "aircrafts";
+const ENDPOINT_USERS_AIRCRAFTS = "usersAircrafts";
+const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest";
 
-//*: NEW-3 (axios + обробка помилок (формуємо власні помилки) + async/await)
-async function fetchAircrafts(name) {
+
+async function fetchAircrafts() {
+  const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`
   try {
-    const response = await axios.get(BASE_URL);
+    const response = await axios.get(url);
     console.log("🅰️xios==>✅response:", response);
     // return response.data;
     return aircraftsSort(response.data);
