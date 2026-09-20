@@ -5,7 +5,8 @@ import { PokemonInfoViewPending } from './PokemonInfoViewPending.jsx';
 import { PokemonInfoViewPendingLoaders } from './PokemonInfoViewPendingLoaders.jsx'; //! + бібліотеки з Loaders (спінерами)
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
-import pokemonAPI from '../services/pokemon-api.js'
+// import pokemonAPI from '../../services/pokemon-api.js';
+import  pokemonAPI from '@/services/pokemon-api.js'; 
 
 // import css from "./PokemonInfo.module.css";
 

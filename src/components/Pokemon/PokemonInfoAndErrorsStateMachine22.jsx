@@ -4,7 +4,8 @@ import { PokemonInfoViewСontainer } from './PokemonInfoViewСontainer.jsx';
 import { PokemonInfoViewPending } from './PokemonInfoViewPending.jsx';
 import { PokemonInfoViewError } from './PokemonInfoViewError.jsx';
 import { PokemonInfoViewData } from './PokemonInfoViewData.jsx';
-import pokemonAPI from '../services/pokemon-api.js'
+// import pokemonAPI from '../../services/pokemon-api.js';
+import pokemonAPI from '@/services/pokemon-api.js'; 
 
 import css from "./PokemonInfo.module.css";
 

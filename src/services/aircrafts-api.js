@@ -9,7 +9,7 @@ const ENDPOINT_USERS_AIRCRAFTS = "usersAircrafts";
 const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest";
 
 
-async function fetchAircrafts() {
+export async function fetchAircrafts() {
   const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`
   try {
     const response = await axios.get(url);
@@ -34,8 +34,8 @@ async function fetchAircrafts() {
 };
 
 
-const api = {
-  fetchAircrafts,
-};
+// const api = {
+//   fetchAircrafts,
+// };
 
-export default api;
+// export default api;

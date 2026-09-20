@@ -12,8 +12,8 @@ import { Sorter } from '@/components/Sorter/Sorter.jsx';
 import { Section } from '@/components/Section/Section.jsx';
 import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 
-// import aircrafts from '@/json/aircrafts.json';
-import aircraftsAPI from '@/components/services/aircrafts-api.js' //! запити з json-server
+// import aircrafts from '@/json/aircrafts.json'; //! aircrafts --> з файла aircrafts.json
+import { fetchAircrafts } from '@/services' //!  this.state.aircrafts --> запити з json-server
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
 
@@ -83,8 +83,7 @@ export class App extends Component {
     //todo: aircrafts
     //! Робимо HTTP-запит з json-server:
     setTimeout(() => { //! імітуємо час завантаження даних
-      aircraftsAPI
-        .fetchAircrafts()
+        fetchAircrafts()
         .then(aircrafts =>
           this.setState({
             aircrafts,
