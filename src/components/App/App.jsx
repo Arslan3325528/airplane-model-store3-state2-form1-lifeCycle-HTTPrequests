@@ -41,12 +41,34 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 // // console.log("🆗aircrafts__Після кінцевого сортування:", aircrafts);
 // // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
+//? ***** План переходу с localStorage на HTTP-запити с json-server *****
+//?
+//? 1. Перший Render (змінюємо деякі початкові значення State):
+//?   - aircrafts: [], NEW!!! - початковий масив aircraftsArr з json-server
+//?   - aircraftsArr: [],
+//?   - aircraftsArrAfterFiltration: [],
+//?   - modelsSelectedScale: [],
+//?   - users: [],
+//?
+//? 2. componentDidMount():
+//? Робимо декілька HTTP-запитів на json-server "http://localhost:3000"
+//?   2.1. Робимо HTTP-запит на json-server: "http://localhost:3000/aircrafts" ==> [aircrafts] та оновлюємо State:
+//?     - aircrafts: [aircrafts],  ==> завантажуємо loader: true
+//?     - aircraftsArr: [aircrafts],
+//?     - aircraftsArrAfterFiltration: [aircrafts],
+//?     - modelsSelectedScale: [aircrafts],
+//?   2.2. Робимо HTTP-запит на json-server: "http://localhost:3000/usersAircrafts" ==> [users] та оновлюємо State:
+//?     - users: [users],
+//?   2.3. Робимо запит на localStorage: localStorage.getItem("activeUserId") ==> user.id
+//?     - якщо activeUserId існуэ, то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State: this.setState({activeUser, activeUserId})
+//? 
+
 //! Компонент-клас
 export class App extends Component {
   state = {
-    aircrafts: [],
-    // aircraftsArr: aircrafts,
-    aircraftsArr: [],
+    aircrafts: [], //? початковий масив aircraftsArr з json-server
+    // aircraftsArr: aircrafts, //! запис початкового масиву aircrafts в aircraftsArr
+    aircraftsArr: [], //? запис початкового масиву aircrafts в aircraftsArr
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
     indicesSelectedModels: [], //! масив індексів обраних моделей
@@ -61,17 +83,18 @@ export class App extends Component {
     // totalTypes: aircrafts.length, //! кількість типів ЛА (всіх літальних апаратів)
     inputSearchValue: "", //! значення inputSearch
     // aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
-    aircraftsArrAfterFiltration: null,  //? дубльоване значення aircraftsArr після фільтрації
+    aircraftsArrAfterFiltration: [],  //? дубльоване значення aircraftsArr після фільтрації
     radioButtonValue: "brief", //! значення параметра для пошуку/фільтрації радіо-кнопки
     inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
     inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
     // modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
-    modelsSelectedScale: null, //? масив моделей обраного масштабу
+    modelsSelectedScale: [], //? масив моделей обраного масштабу
     modelScale: "all", //! початковий масштаб моделі в ScaleSelection
     showModal: true, //! контроль відкриття/закриття модального вікна
     // users: [], //! масив з даними користувачів
     //! 1.localStorage - Ініціалізація state.users з localStorage
-    users: JSON.parse(localStorage.getItem("users")) || [], //! масив з даними користувачів
+    // users: JSON.parse(localStorage.getItem("users")) || [], //! масив з даними користувачів
+    users: [], //? масив з даними користувачів
     activeUser: null, //! 🗣 активний (авторизований) користувач
     activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
     modalType: "",  //! 🧾 індикатор типу модального вікна
@@ -81,7 +104,7 @@ export class App extends Component {
   //! 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   componentDidMount() {
     //todo: aircrafts
-    //! Робимо HTTP-запит з json-server:
+    //! Робимо HTTP-запит на json-server:
     setTimeout(() => { //! імітуємо час завантаження даних
         fetchAircrafts()
         .then(aircrafts =>
