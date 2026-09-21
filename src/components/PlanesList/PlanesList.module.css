@@ -48,3 +48,12 @@
     text-align: center;
     color: #ff5119;
 }
+
+.spinnerBox {
+    margin-top: 50px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    /* outline: 1px dotted red; */
+}

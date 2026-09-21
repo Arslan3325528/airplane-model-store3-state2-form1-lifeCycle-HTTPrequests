@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import css from "./PlanesList.module.css"; 
 import { Planes } from '@/components/Planes/Planes.jsx'; //? Модальні вікна для блока зображень з Yet Another React Lightbox
 
+//! Бібліотеки з Loaders (спінерами)
+import { Oval, ThreeDots } from "react-loader-spinner";
+
 import { getBgColorCSSModule } from '@/utils'; 
 
 
@@ -15,6 +18,7 @@ export function PlanesList({
     radioButtonValue, //! ⭕️Значення параметра для пошуку/фільтрації радіо-кнопки
     isCartOn, //! тригер: "якщо активна кнопка «Кошик»"
     isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
+    loader, //! ⏳ індикатор завантаження (лоадер)
 })
 {
     return (
@@ -55,8 +59,24 @@ export function PlanesList({
                         </li>
                     )}
                 </ul>
+                // : (inputSearchValue || inputSearchValueTrigger || !isCartOn)
+                //     ? <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2> 
+                //     : <h2 className={css.invitation}>Додайте товар до кошику... 😉</h2>
                 : (inputSearchValue || inputSearchValueTrigger || !isCartOn)
-                    ? <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2> 
+                    ?
+                    loader
+                        ? <div className={css.spinnerBox}>
+                            <ThreeDots
+                                height="90"
+                                width="max-content"
+                                radius="19"
+                                color="#36d7b7"
+                                ariaLabel="three-dots-loading"
+                                visible={true}
+                            />
+                            <h2 className={css.invitation}>Завантажуємо дані... ⏳</h2>
+                        </div>
+                        : <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2>
                     : <h2 className={css.invitation}>Додайте товар до кошику... 😉</h2>
             }
         </>

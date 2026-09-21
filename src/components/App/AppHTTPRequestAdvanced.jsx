@@ -38,7 +38,7 @@ export class AppHTTPRequestAdvanced extends Component {
 
   render() {
       const {
-        pokemonName,
+        pokemonName, //! 🐷 Ім'я покемона
       } = this.state;
   
       console.log("----------------------------------------------");

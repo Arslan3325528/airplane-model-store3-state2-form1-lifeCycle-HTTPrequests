@@ -13,7 +13,12 @@ import { Section } from '@/components/Section/Section.jsx';
 import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 
 // import aircrafts from '@/json/aircrafts.json'; //! aircrafts --> з файла aircrafts.json
-import { fetchAircrafts } from '@/services' //!  this.state.aircrafts --> запити з json-server
+// import { fetchAircrafts } from '@/services' //!  this.state.aircrafts --> запити з json-server
+//!  this.state.aircrafts  + this.state.users --> запити з json-server
+import {
+  fetchAircrafts,
+  fetchUsersAircrafts,
+} from "@/services";
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
 
@@ -61,7 +66,10 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?     - users: [users],
 //?   2.3. Робимо запит на localStorage: localStorage.getItem("activeUserId") ==> user.id
 //?     - якщо activeUserId існуэ, то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State: this.setState({activeUser, activeUserId})
-//? 
+//?
+
+//! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 //! Компонент-клас
 export class App extends Component {
@@ -99,59 +107,87 @@ export class App extends Component {
     activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
     modalType: "",  //! 🧾 індикатор типу модального вікна
     isCartButtonDisabled: true,  //! 🔐 тригер блокування кнопки «Кошик»
+    loader: false, //! ⏳ індикатор завантаження (лоадер)
   };
 
-  //! 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
+  //? Вся логіка початкового завантаження знаходитьсяу окремому методі:
+  loadInitialData = async () => {
+    this.setState({ loader: true });
+
+    try {
+      const [aircrafts, users] = await Promise.all([
+        fetchAircrafts(),
+        fetchUsersAircrafts(),
+      ]);
+
+      //! Штучно затримуємо відображення результату на 2 секунди
+      await delay(2000);
+
+      this.setState({
+        aircrafts,
+        aircraftsArr: aircrafts,
+        aircraftsArrAfterFiltration: aircrafts,
+        modelsSelectedScale: aircrafts,
+        users,
+        loader: false,
+      });
+
+    } catch (error) {
+      console.log("❌", error);
+      this.setState({ loader: false });
+    }
+  };
+
+  //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
+  //todo_NEW-2: aircrafts + users
   componentDidMount() {
-    //todo: aircrafts
-    //! Робимо HTTP-запит на json-server:
-    setTimeout(() => { //! імітуємо час завантаження даних
-        fetchAircrafts()
-        .then(aircrafts =>
-          this.setState({
-            aircrafts,
-            aircraftsArr: aircrafts,
-            aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
-            modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
-            // error: null, //! прибираємо можливу попередню помилку
-            // status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
-          }))
-        .catch(error =>
-          this.setState({
-            aircraftsArr: null,
-            // error,
-            // status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
-          }));
-    }, 1000);
 
+    // //todo_NEW-1: aircrafts
+    // //? Робимо HTTP-запит на json-server:
+    // setTimeout(() => { //! імітуємо час завантаження даних
+    //     fetchAircrafts()
+    //     .then(aircrafts =>
+    //       this.setState({
+    //         aircrafts,
+    //         aircraftsArr: aircrafts,
+    //         aircraftsArrAfterFiltration: aircrafts,  //! дубльоване значення aircraftsArr після фільтрації
+    //         modelsSelectedScale: aircrafts, //! масив моделей обраного масштабу
+    //         // error: null, //! прибираємо можливу попередню помилку
+    //         // status: 'resolved' //! статус: resolved - УСПІШНА відповідь на запит
+    //       }))
+    //     .catch(error =>
+    //       this.setState({
+    //         aircraftsArr: null,
+    //         // error,
+    //         // status: 'rejected' //! статус: rejected - відповідь на запит з ПОМИЛКОЮ
+    //       }));
+    // }, 1000);
 
-    //todo: indicesSelectedModels
-    // const saved = localStorage.getItem("indicesSelectedModels");
-    // if (!saved) {
-    //   localStorage.setItem("indicesSelectedModels", JSON.stringify([]));
+    //todo_old: users
+    // const users = localStorage.getItem("users");
+    // if (!users) { //! 1.Якщо є масив users
+    //   localStorage.setItem("users", JSON.stringify([]));
+    // } else if (JSON.parse(users).length) { //! 2.Якщо масив users не пустий
+    //   // console.log("❗️❗️❗️JSON.parse(users).length:", JSON.parse(users).length); //!
+    //   const activeUser = JSON.parse(users).find(user => user.isActive === true);
+    //   console.log("componentDidMount🗣 Активний(авторизований) користувач:", activeUser); //!
+    //   if (activeUser) { //! 3.Якщо в масиві users є активний користувач
+    //     this.setState({
+    //       showModal: false,
+    //       activeUser,
+    //       isCartButtonDisabled: false,
+    //       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+    //       selectedModels:
+    //         (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+    //           .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
+    //           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+    //     })
+    //   };
     // };
 
-    //todo: users
-    const users = localStorage.getItem("users");
-    if (!users) { //! 1.Якщо є масив users
-      localStorage.setItem("users", JSON.stringify([]));
-    } else if (JSON.parse(users).length) { //! 2.Якщо масив users не пустий
-      // console.log("❗️❗️❗️JSON.parse(users).length:", JSON.parse(users).length); //!
-      const activeUser = JSON.parse(users).find(user => user.isActive === true);
-      console.log("componentDidMount🗣 Активний(авторизований) користувач:", activeUser); //!
-      if (activeUser) { //! 3.Якщо в масиві users є активний користувач
-        this.setState({
-          showModal: false,
-          activeUser,
-          isCartButtonDisabled: false,
-          indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
-          selectedModels:
-            (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
-              .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
-              .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
-        })
-      };
-    };
+    //todo_NEW-2: aircrafts + users
+    //? Робимо два HTTP-запита на json-server:
+    this.loadInitialData();
 
   };
 
@@ -757,6 +793,7 @@ export class App extends Component {
       activeUserId, //! #️⃣🗣 індекс активного (авторизованого) користувача
       modalType, //! 🧾 індикатор типу модального вікна
       isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
+      loader, //! ⏳ індикатор завантаження (лоадер)
     } = this.state;
 
     //! Рахуємо кількість типів ЛА
@@ -811,6 +848,7 @@ export class App extends Component {
     console.log("#️⃣🗣 Індекс Активного(авторизованого) користувача", activeUserId);
     console.log("🧾 Індикатор типу модального вікна:", modalType);
     console.log("🔐 Тригер блокування кнопки «Кошик»:", isCartButtonDisabled);
+    console.log("⏳ Індикатор завантаження (лоадер)", loader);
     console.log("______________________________________________");
     // console.log("#️⃣🗣#️⃣🗣 Індекс Активного (авторизованого) користувача_render():", activeUser.userName); //!
 
@@ -818,7 +856,7 @@ export class App extends Component {
       <>
         {/*//!  Модалка Реєстрації та Ідентифікації/Аутентифікації (Login) користувача */}
         {/* {showModal && !activeUser &&} */}
-        { showModal &&
+        { showModal && !loader &&
           < ModalRegistrationIdentification
             onClose={this.toggleModal}
           >
@@ -926,6 +964,7 @@ export class App extends Component {
             radioButtonValue={radioButtonValue} //! ⭕️ значення параметра для пошуку/фільтрації радіо-кнопки
             isCartOn={isCartButton} //! тригер: "якщо активна кнопка «Кошик»"
             isCartButtonDisabled={isCartButtonDisabled} //! 🔐 тригер блокування кнопки «Кошик»
+            loader={loader} //! ⏳ індикатор завантаження (лоадер)
           />
         </Section >
       </>

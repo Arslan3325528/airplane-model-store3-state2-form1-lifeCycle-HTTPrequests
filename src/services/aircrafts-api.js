@@ -8,12 +8,13 @@ const ENDPOINT_AIRCRAFTS = "aircrafts";
 const ENDPOINT_USERS_AIRCRAFTS = "usersAircrafts";
 const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest";
 
-
+//? запит на "http://localhost:3000/aircrafts"
 export async function fetchAircrafts() {
-  const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`
+  const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`;
+
   try {
     const response = await axios.get(url);
-    console.log("🅰️xios==>✅response:", response);
+    console.log("🅰️xios==>✅response-aircrafts:", response);
     // return response.data;
     return aircraftsSort(response.data);
   } catch (error) {
@@ -28,11 +29,27 @@ export async function fetchAircrafts() {
     //   throw new Error(`Сталася синтаксична помилка при введенні імені «${name}»`);
     // };
     //! Інша помилка
-    console.log("🅰️xios==>❌error-(інша помилка):", error);
+    console.log("🅰️xios==>❌error-aircrafts(інша помилка):", error);
     throw error;
   };
 };
 
+
+//? запит на ""http://localhost:3000/usersAircrafts"
+export async function fetchUsersAircrafts() {
+  // const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS}`;
+  const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тичасово для тесту
+
+  try {
+    const response = await axios.get(url);
+    console.log("🅰️xios==>✅response-usersAircrafts:", response);
+    return response.data;
+  } catch (error) {
+    //! Інша помилка
+    console.log("🅰️xios==>❌error-usersAircrafts(інша помилка):", error);
+    throw error;
+  };
+};
 
 // const api = {
 //   fetchAircrafts,

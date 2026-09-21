@@ -30,8 +30,8 @@ export class AppHTTPRequestBasics extends Component {
 
   render() {
     const {
-      pokemon, //! об'єкт з даними про Покемона
-      loading  //! індикатор завантаження (л
+      pokemon, //! {🐷} об'єкт з даними про Покемона
+      loading  //! ⏳ індикатор завантаження (лоадер)
     } = this.state;
 
     console.log("----------------------------------------------");
