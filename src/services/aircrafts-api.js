@@ -21,11 +21,11 @@ export async function fetchAircrafts() {
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
       console.log("🅰️xios==>❌error-aircrafts(Відсутня відповідь сервера):", error.response);
-      throw new Error(`Відсутній зв'язок з сервером DB`);
+      throw new Error(`Відсутній зв'язок з сервером aircrafts-DB`);
     };
     //! Помилка: 404
     // if (error.response?.status === 404) {
-    //   console.log("🅰️xios==>❌rror-aircrafts(404)", error);
+    //   console.log("🅰️xios==>❌error-aircrafts(404)", error);
     //   throw new Error(`Літака з ім'ям «${name}» не існує`);
     // };
     //! Помилка: Інша помилка
@@ -48,11 +48,26 @@ export async function fetchUsersAircrafts() {
     console.log("🅰️xios==>✅response-usersAircrafts:", response);
     return response.data;
   } catch (error) {
-    //! Інша помилка
-    console.log("🅰️xios==>❌error-usersAircrafts(інша помилка):", error);
+    //! Помилка: Відсутня відповідь сервера
+    if (!error.response) {
+      console.log("🅰️xios==>❌error-usersAircrafts(Відсутня відповідь сервера):", error.response);
+      throw new Error(`Відсутній зв'язок з сервером users-DB`);
+    };
+    //! Помилка: 404
+    // if (error.response?.status === 404) {
+    //   console.log("🅰️xios==>❌error-usersAircrafts(404)", error);
+    //   throw new Error(`Літака з ім'ям «${name}» не існує`);
+    // };
+    //! Помилка: Інша помилка
+    console.log("🅰️xios==>❌error-usersAircrafts(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
     throw error;
   };
 };
+
+
 
 // const api = {
 //   fetchAircrafts,
