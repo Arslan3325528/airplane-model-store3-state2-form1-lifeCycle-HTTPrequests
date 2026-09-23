@@ -111,7 +111,8 @@ export class App extends Component {
     error: null, //! ❌ обробка помилок
   };
 
-  //? Вся логіка початкового завантаження знаходитьсяу окремому методі:
+  //? Вся логіка початкового завантаження знаходитьсяу окремому методі
+  //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
   loadInitialData = async () => {
     this.setState({ loader: true });
 
@@ -137,8 +138,8 @@ export class App extends Component {
       console.log("❌", error);
       this.setState({
         loader: false,
-        error, //todo: var.1
-        // error: error.message //todo: var.2
+        // error: error.message //todo: var.1
+        error, //todo: var.2
       });
     }
   };
@@ -146,7 +147,6 @@ export class App extends Component {
   //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   //todo_NEW-2: aircrafts + users
   componentDidMount() {
-
     // //todo_NEW-1: aircrafts
     // //? Робимо HTTP-запит на json-server:
     // setTimeout(() => { //! імітуємо час завантаження даних
@@ -191,7 +191,8 @@ export class App extends Component {
     // };
 
     //todo_NEW-2: aircrafts + users
-    //? Робимо два HTTP-запита на json-server:
+    //? Вся логіка початкового завантаження знаходитьсяу окремому методі
+    //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
     this.loadInitialData();
 
   };

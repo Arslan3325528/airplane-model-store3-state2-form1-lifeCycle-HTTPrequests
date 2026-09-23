@@ -22,8 +22,8 @@ export function PlanesList({
     error, //! ❌ обробка помилок
 }) {
     if (error) {
-        return <h2 className={css.invitation}>❌ {error.message}</h2> //todo: var.1
-        // return <h2 className={css.invitation}>❌ {error}</h2> //todo: var.2
+        // return <h2 className={css.invitation}>❌ {error}</h2> //todo: var.1
+        return <h2 className={css.invitation}>❌ {error.message}</h2> //todo: var.2
     } else {
         return (
             <>
