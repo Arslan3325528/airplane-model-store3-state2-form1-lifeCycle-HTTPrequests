@@ -23,13 +23,16 @@ export async function fetchAircrafts() {
     //   console.log("🅰️xios==>❌error-404", error);
     //   throw new Error(`Покемена з ім'ям «${name}» не існує`);
     // };
-    //! Помилка: 400
-    // if (error.response?.status === 400) {
-    //   console.log("🅰️xios==>❌error-400:", error);
-    //   throw new Error(`Сталася синтаксична помилка при введенні імені «${name}»`);
-    // };
+    //! Помилка: Відсутня відповідь сервера
+    if (!error.response) {
+      console.log("🅰️xios==>❌error-«Відсутня відповідь сервера»:", error.responserror);
+      throw new Error(`Відсутній зв'язок з сервером DB`);
+    };
     //! Інша помилка
     console.log("🅰️xios==>❌error-aircrafts(інша помилка):", error);
+    // console.log("🅰️🅰️xios-інша помилка==>❌error.response:", error.response);
+    // console.log("🅰️🅰️xios-інша помилка==>❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️xios-інша помилка==>❌error.response?.data:", error.response?.data);
     throw error;
   };
 };

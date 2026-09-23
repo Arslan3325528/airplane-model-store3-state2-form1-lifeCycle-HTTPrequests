@@ -108,6 +108,7 @@ export class App extends Component {
     modalType: "",  //! 🧾 індикатор типу модального вікна
     isCartButtonDisabled: true,  //! 🔐 тригер блокування кнопки «Кошик»
     loader: false, //! ⏳ індикатор завантаження (лоадер)
+    error: null, //! ❌ обробка помилок
   };
 
   //? Вся логіка початкового завантаження знаходитьсяу окремому методі:
@@ -134,7 +135,10 @@ export class App extends Component {
 
     } catch (error) {
       console.log("❌", error);
-      this.setState({ loader: false });
+      this.setState({
+        loader: false,
+        error
+      });
     }
   };
 
@@ -794,6 +798,7 @@ export class App extends Component {
       modalType, //! 🧾 індикатор типу модального вікна
       isCartButtonDisabled, //! 🔐 тригер блокування кнопки «Кошик»
       loader, //! ⏳ індикатор завантаження (лоадер)
+      error, //! ❌ обробка помилок
     } = this.state;
 
     //! Рахуємо кількість типів ЛА
@@ -831,9 +836,9 @@ export class App extends Component {
     
     
     console.log("----------------------------------------------");
-    console.log("✈️Початковий сортований масив aircrafts з json-server", aircrafts);
-    console.log("✈️->✈️Запис початкового сортованого масиву aircrafts в aircraftsArr", aircraftsArr);
-    console.log("ℹ️Mасив індексів обраних моделей ", indicesSelectedModels);
+    console.log("✈️Початковий сортований масив aircrafts з json-server:", aircrafts);
+    console.log("✈️->✈️Запис початкового сортованого масиву aircrafts в aircraftsArr:", aircraftsArr);
+    console.log("ℹ️Mасив індексів обраних моделей:", indicesSelectedModels);
     console.log("Ⓜ️Масив обраних моделей:", selectedModels);
     console.log("🔢Кількість обраних моделей:", numberOfModels);
     console.log("🔡Значення inputSearch:", inputSearchValue);
@@ -848,15 +853,16 @@ export class App extends Component {
     console.log("#️⃣🗣 Індекс Активного(авторизованого) користувача", activeUserId);
     console.log("🧾 Індикатор типу модального вікна:", modalType);
     console.log("🔐 Тригер блокування кнопки «Кошик»:", isCartButtonDisabled);
-    console.log("⏳ Індикатор завантаження (лоадер)", loader);
+    console.log("⏳ Індикатор завантаження (лоадер):", loader);
+    console.log("❌ Помилка:", error);
     console.log("______________________________________________");
-    // console.log("#️⃣🗣#️⃣🗣 Індекс Активного (авторизованого) користувача_render():", activeUser.userName); //!
+
 
     return (
       <>
         {/*//!  Модалка Реєстрації та Ідентифікації/Аутентифікації (Login) користувача */}
         {/* {showModal && !activeUser &&} */}
-        { showModal && !loader &&
+        {showModal && !loader && !error &&
           < ModalRegistrationIdentification
             onClose={this.toggleModal}
           >
@@ -965,6 +971,7 @@ export class App extends Component {
             isCartOn={isCartButton} //! тригер: "якщо активна кнопка «Кошик»"
             isCartButtonDisabled={isCartButtonDisabled} //! 🔐 тригер блокування кнопки «Кошик»
             loader={loader} //! ⏳ індикатор завантаження (лоадер)
+            error={error} //! ❌ обробка помилок
           />
         </Section >
       </>
