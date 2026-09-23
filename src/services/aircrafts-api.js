@@ -11,6 +11,7 @@ const ENDPOINT_AIRCRAFTS = "aircrafts";
 // const ENDPOINT_AIRCRAFTS = "aircrafts1"; //! ❌ викликає помилку 404
 
 const ENDPOINT_USERS_AIRCRAFTS = "usersAircrafts";
+// const ENDPOINT_USERS_AIRCRAFTS = "usersAircrafts1"; //! ❌ викликає помилку 404
 
 const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest"; //todo: тестова DB для налаштування логіки запитів
 // const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest1"; //! ❌ викликає помилку 404
