@@ -30,7 +30,7 @@ export async function fetchAircrafts() {
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
       console.log("🅰️xios==>❌error-aircrafts(Відсутня відповідь сервера):", error.response);
-      throw new Error(`Відсутній зв'язок з сервером aircrafts-DB`);
+      throw new Error(`Відсутній зв'язок з сервером «aircrafts-DB»`);
     };
     //! Помилка: 404
     if (error.response?.status === 404) {
@@ -60,7 +60,7 @@ export async function fetchUsersAircrafts() {
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
       console.log("🅰️xios==>❌error-usersAircrafts(Відсутня відповідь сервера):", error.response);
-      throw new Error(`Відсутній зв'язок з сервером users-DB`);
+      throw new Error(`Відсутній зв'язок з сервером «users-DB»`);
     };
     //! Помилка: 404
     if (error.response?.status === 404) {

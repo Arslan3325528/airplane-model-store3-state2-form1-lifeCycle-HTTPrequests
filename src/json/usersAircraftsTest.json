@@ -1,0 +1,47 @@
+[
+    {
+        "id": "001",
+        "userName": "User1",
+        "userEmail": "user1@gmail.com",
+        "userPassword": "u1",
+        "userExperience": "disciple",
+        "userAge": "18-25",
+        "indicesSelectedModels": ["0001", "0011"]
+    },
+    {
+        "id": "002",
+        "userName": "User2",
+        "userEmail": "user2@gmail.com",
+        "userPassword": "u2",
+        "userExperience": "master",
+        "userAge": "26-35",
+        "indicesSelectedModels": ["0002", "0012"]
+    },
+    {
+        "id": "003",
+        "userName": "User3",
+        "userEmail": "user3@gmail.com",
+        "userPassword": "u3",
+        "userExperience": "guru",
+        "userAge": "36+",
+        "indicesSelectedModels": ["0003", "0013"]
+    },
+    {
+        "id": "004",
+        "userName": "User4",
+        "userEmail": "user4@gmail.com",
+        "userPassword": "u4",
+        "userExperience": "",
+        "userAge": "",
+        "indicesSelectedModels": []
+    },
+    {
+        "id": "005",
+        "userName": "User5",
+        "userEmail": "user5@gmail.com",
+        "userPassword": "u5",
+        "userExperience": "",
+        "userAge": "",
+        "indicesSelectedModels": []
+    }
+]

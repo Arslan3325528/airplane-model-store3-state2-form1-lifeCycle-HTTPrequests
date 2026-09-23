@@ -158,7 +158,8 @@
       "scale": [100, 72],
       "colorsPrice": {
         "main72": 820,
-        "main100": 480
+        "main100_1": 480,
+        "main100_2": 480
       },
       "actualImages": [
         "/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/images/planes-actual/j-20-comp-1.jpg",
