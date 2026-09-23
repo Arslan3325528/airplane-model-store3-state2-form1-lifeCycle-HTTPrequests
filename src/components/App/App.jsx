@@ -137,7 +137,8 @@ export class App extends Component {
       console.log("❌", error);
       this.setState({
         loader: false,
-        error
+        error, //todo: var.1
+        // error: error.message //todo: var.2
       });
     }
   };

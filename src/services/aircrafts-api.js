@@ -18,21 +18,21 @@ export async function fetchAircrafts() {
     // return response.data;
     return aircraftsSort(response.data);
   } catch (error) {
-    //! Помилка: 404
-    // if (error.response?.status === 404) {
-    //   console.log("🅰️xios==>❌error-404", error);
-    //   throw new Error(`Покемена з ім'ям «${name}» не існує`);
-    // };
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
-      console.log("🅰️xios==>❌error-«Відсутня відповідь сервера»:", error.responserror);
+      console.log("🅰️xios==>❌error-aircrafts(Відсутня відповідь сервера):", error.response);
       throw new Error(`Відсутній зв'язок з сервером DB`);
     };
-    //! Інша помилка
-    console.log("🅰️xios==>❌error-aircrafts(інша помилка):", error);
-    // console.log("🅰️🅰️xios-інша помилка==>❌error.response:", error.response);
-    // console.log("🅰️🅰️xios-інша помилка==>❌error.response?.status:", error.response?.status);
-    // console.log("🅰️🅰️xios-інша помилка==>❌error.response?.data:", error.response?.data);
+    //! Помилка: 404
+    // if (error.response?.status === 404) {
+    //   console.log("🅰️xios==>❌rror-aircrafts(404)", error);
+    //   throw new Error(`Літака з ім'ям «${name}» не існує`);
+    // };
+    //! Помилка: Інша помилка
+    console.log("🅰️xios==>❌error-aircrafts(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
     throw error;
   };
 };
