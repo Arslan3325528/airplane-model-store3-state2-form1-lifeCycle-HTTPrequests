@@ -10,12 +10,13 @@
     margin-bottom: 10px;
 }
 
+/*! Cпінер */
 .iconSpin {
     margin-right: 10px;
     color: #a95dff;
     animation: iconSpin 2s infinite linear; /*! анімація іконки завантаження */
 }
-/*! Анімація іконки завантаження */
+/*! Анімація іконки завантаження (cпінер) */
 @keyframes iconSpin {
     0% {
         transform: rotate(0deg);

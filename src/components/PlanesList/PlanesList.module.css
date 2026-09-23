@@ -47,6 +47,7 @@
     font-size: 3rem;
     text-align: center;
     color: #ff5119;
+    /* outline: 1px solid red; */
 }
 
 .spinnerBox {
@@ -56,4 +57,24 @@
     justify-content: center;
     gap: 10px;
     /* outline: 1px dotted red; */
+}
+
+/*! Cпінер */
+.iconSpin {
+    margin-bottom: -35px;
+    margin-left: 20px;
+    color: #a95dff;
+    animation: iconSpin 2s infinite linear;
+    /*! анімація іконки завантаження */
+}
+
+/*! Анімація іконки завантаження (cпінер) */
+@keyframes iconSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
 }

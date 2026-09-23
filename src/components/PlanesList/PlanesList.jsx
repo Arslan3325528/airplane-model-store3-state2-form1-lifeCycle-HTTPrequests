@@ -3,6 +3,8 @@ import css from "./PlanesList.module.css";
 import { Planes } from '@/components/Planes/Planes.jsx'; //? Модальні вікна для блока зображень з Yet Another React Lightbox
 
 //! Бібліотеки з Loaders (спінерами)
+import { ImSpinner } from 'react-icons/im';
+import { PiArrowsClockwiseBold } from "react-icons/pi";
 import { Oval, ThreeDots } from "react-loader-spinner";
 
 import { getBgColorCSSModule } from '@/utils';
@@ -78,7 +80,7 @@ export function PlanesList({
                                     ariaLabel="three-dots-loading"
                                     visible={true}
                                 />
-                                <h2 className={css.invitation}>Завантажуємо дані... ⏳</h2>
+                                <h2 className={css.invitation}>Завантажуємо дані... ⏳ <span><PiArrowsClockwiseBold size="91" className={css.iconSpin} /></span></h2>
                             </div>
                             : <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2>
                         : <h2 className={css.invitation}>Додайте товар до кошику... 😉</h2>
