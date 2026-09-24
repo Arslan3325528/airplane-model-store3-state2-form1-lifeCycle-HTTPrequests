@@ -67,6 +67,16 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?   2.3. Робимо запит на localStorage: localStorage.getItem("activeUserId") ==> user.id
 //?     - якщо activeUserId існуэ, то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State: this.setState({activeUser, activeUserId})
 //?
+//? 3. Активний користувач (this.state.activeUser):
+//?   3.1. State:
+//?    - якщо в localStorage ІСНУЄ поле "activeUserId", то забираємо його значення в this.state.activeUser,
+//?    - якщо в localStorage ВІДСУТНЄ поле "activeUserId", то this.state.activeUserId: null
+//?   3.2. Коли користувач входить до свого акакунта (облікового запису) треба:
+//?     3.2.1. В компоненті FormIdentification.jsx:
+//?       - завантажити "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+//?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {} ⏳
+//?       - в App.jsx в методі accountLogin перезаписати "свіженких" users в state  ⏳
+
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -104,7 +114,8 @@ export class App extends Component {
     // users: JSON.parse(localStorage.getItem("users")) || [], //! масив з даними користувачів
     users: [], //? масив з даними користувачів
     activeUser: null, //! 🗣 активний (авторизований) користувач
-    activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
+    // activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
+    activeUserId: JSON.parse(localStorage.getItem("activeUserId")) || null, //? #️⃣🗣 id Активного (авторизованого) користувача
     modalType: "",  //! 🧾 індикатор типу модального вікна
     isCartButtonDisabled: true,  //! 🔐 тригер блокування кнопки «Кошик»
     loader: false, //! ⏳ індикатор завантаження (лоадер)
@@ -223,8 +234,9 @@ export class App extends Component {
 
     //todo: users
     if (prevState.users !== this.state.users) {
-      console.log("✅🖍✅🖍 Перезаписуємо localStorage 'users_componentDidUpdate");
-      localStorage.setItem("users", JSON.stringify(this.state.users));
+      // console.log("✅🖍✅🖍 Перезаписуємо localStorage 'users_componentDidUpdate");
+      // localStorage.setItem("users", JSON.stringify(this.state.users));
+      console.log("❌🖍❌🖍 НЕ Перезаписуємо localStorage 'users_componentDidUpdate");
     };
   };
 
@@ -690,19 +702,29 @@ export class App extends Component {
   };
 
   //! Вхід в обліковий запис
-  accountLogin = ({ userEmail }) => {
-    console.log("🙆‍♂️Вхід в обліковий запис:", userEmail); //! 
-    const users = JSON.parse(localStorage.getItem("users"));
+  // accountLogin = ({ userEmail }) => {
+  accountLogin = (userEmail, users) => {
+    console.log("🙆‍♂️Вхід в обліковий запис:", userEmail, users); //!
+    //? додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {}
+    //? в App.jsx в методі accountLogin перезаписати "свіженких" users в state 
+    
+    // const users = JSON.parse(localStorage.getItem("users"));
+    // const users = this.state.users; //? тимчасово, доти поки не передали "свіженких" users
+
     const activeUser = users.find(user => user.userEmail === userEmail);
     console.log("❗️🗣 Активний (авторизований) користувач__accountLogin:", activeUser); //!
 
-    const activeUserId = users.findIndex(user => user.userEmail === userEmail);
-    console.log("#️⃣🗣 Індекс активного (авторизованого) користувача_accountLogin:", activeUserId); //!
-    localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача
+    // const activeUserId = users.findIndex(user => user.userEmail === userEmail);
+    const activeUserId = activeUser.id;  //? new
+    console.log("#️⃣🗣 id активного (авторизованого) користувача_accountLogin:", activeUserId); //!
 
-    activeUser.isActive = true;
-    console.log("users:", users); //!
-    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача в localStorage
+    localStorage.setItem("activeUserId", JSON.stringify(activeUserId)); //? new - додаємо id активного (авторизованого) користувача в localStorage
+    
+    // activeUser.isActive = true;
+    console.log('"свіженки "users__accountLogin:', users); 
+    // localStorage.setItem("users", JSON.stringify(users));
+
     this.setState({
       aircraftsArr: this.state.aircrafts, //! 
       aircraftsTitle: "Магазин моделей літальних апаратів",
@@ -716,7 +738,7 @@ export class App extends Component {
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "__", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
-      users,
+      users,  
       activeUser,
       activeUserId,
       isCartButtonDisabled: false,

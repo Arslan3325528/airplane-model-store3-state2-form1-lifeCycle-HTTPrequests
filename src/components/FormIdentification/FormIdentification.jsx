@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { fetchUsersAircrafts } from '@/services' //!  tusers --> запити з json-server
+
 import css from "./FormIdentification.module.css";
 
 const INITIAL_STATE = {
@@ -15,18 +17,30 @@ export class FormIdentification extends Component {
         this.setState({ ...INITIAL_STATE });
     };
 
+    //? Метод для отримання масиву користувачів users з json-server: "http://localhost:3000/usersAircrafts"
+    loadInitialData = async () => {
+        try {
+            return fetchUsersAircrafts()
+        } catch (error) {
+            console.log("❌", error);
+        };
+    };
+
     // todo: NEW
-    handleSubmit = event => {
+    // handleSubmit = event => {
+    handleSubmit = async (event) => { //? робимо метод асинхронним 
         event.preventDefault();
         //! isActive - це тригер 🗣 активного (авторизованого) користувача
-        const {  userEmail, userPassword } = this.state;
-        
+        const { userEmail, userPassword } = this.state;
         // console.log(`✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
+
         //! Перевірка на наявність userEmail (Ідентифікація)
-        const users = JSON.parse(localStorage.getItem("users"));
+        // const users = JSON.parse(localStorage.getItem("users")); // todo: old - завантажуємо "свіженких" users з localStorage
+        const users = await this.loadInitialData(); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        console.log("users:", users); //?
         const isEmail = users.some(user => user.userEmail === userEmail);
         console.log("📩Такий Email є в db?:", isEmail); //!
-        
+
         if (!isEmail) {
             alert(`Користувач з таким E-mail: ${userEmail} відсутній☹️`);
             console.log(`Користувач з таким E-mail: ${userEmail} відсутній☹️`);
@@ -43,7 +57,8 @@ export class FormIdentification extends Component {
             return;
         };
         alert(`Вітаю Вас, ${user.userName} 😊 \nІдентифікація/Аутентифікація пройдена ✅`);
-        this.props.onAccountLogin({ ...this.state }); //! підняття стану + передача state в App.jsx
+        // this.props.onAccountLogin({ ...this.state }); //! підняття стану + передача state в App.jsx
+        this.props.onAccountLogin(userEmail, users); //? new: підняття стану + передача state в App.jsx
         this.reset();  //! очищуємо поля всіх інпутів
         this.props.onClose(); //todo: var.1 закриваємо модалку  
     };
@@ -94,7 +109,7 @@ export class FormIdentification extends Component {
                             onChange={this.handleChange}
                         />
                     </label>
-                    
+
 
                     <label className={css.labelFormIdentification}>
                         Пароль:
@@ -107,14 +122,14 @@ export class FormIdentification extends Component {
                             onChange={this.handleChange}
                         />
                     </label>
-                    
+
                     {/*//! Кнопки Login та Cancel */}
                     <div className={css.buttonBoxFormIdentification}>
                         <button
                             className={`${css.buttonFormIdentification} ${css.loginButton}`}
                             type="submit"
                             disabled={!userEmail || !userPassword} //! додаткове блокування кнопки Login
-                            // disabled={!true || !true} 
+                        // disabled={!true || !true} 
                         >
                             Login
                         </button>
