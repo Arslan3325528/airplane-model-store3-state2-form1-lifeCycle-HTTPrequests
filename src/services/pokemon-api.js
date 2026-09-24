@@ -25,7 +25,7 @@ import axios from "axios";
 // };
 
 
-//* NEW-3 (axios + обробка помилок (формуємо власну помилку))
+//* NEW-2 (axios + обробка помилок (формуємо власну помилку))
 // function fetchPokemon(name) {
 //   return axios
 //     .get(`https://pokeapi.co/api/v2/pokemon/${name}`)
