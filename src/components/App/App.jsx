@@ -74,8 +74,19 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?   3.2. Коли користувач входить до свого акакунта (облікового запису) треба:
 //?     3.2.1. В компоненті FormIdentification.jsx:
 //?       - завантажити "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
-//?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {} ⏳
-//?       - в App.jsx в методі accountLogin перезаписати "свіженких" users в state  ⏳
+//?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {}
+//?       - в App.jsx в методі accountLogin перезаписати "свіженких" users в state
+
+//? todo_NEW-3: оновлюємо State //? add
+// if (this.state.activeUserId) { //! 1.Якщо існує activeUserId
+//   this.setState({
+//     activeUser: this.state.users[Number(this.state.activeUserId)], //! 🗣 активний (авторизований) користувач
+//     isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
+//     showModal: false, //! контроль відкриття/закриття модального вікна
+//   });
+// };
+
+//? indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
 
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
@@ -89,9 +100,8 @@ export class App extends Component {
     aircraftsArr: [], //? запис початкового масиву aircrafts в aircraftsArr
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
-    indicesSelectedModels: [], //! масив індексів обраних моделей
-    //! 1.localStorage - Ініціалізація state.indicesSelectedModels з localStorage
-    // indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+    // indicesSelectedModels: [], //! масив індексів обраних моделей
+    indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
     selectedModels: [], //! масив обраних моделей
     // selectedModels:
     //   (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
@@ -143,6 +153,10 @@ export class App extends Component {
         modelsSelectedScale: aircrafts,
         users,
         loader: false,
+        //? add
+        activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
+        isCartButtonDisabled: this.state.activeUserId ? false : true,  //! 🔐 тригер блокування кнопки «Кошик»
+        showModal: this.state.activeUserId ? false : true,
       });
 
     } catch (error) {
@@ -218,18 +232,19 @@ export class App extends Component {
     
     if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
       // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
-      console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
-      localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
-      this.setState({
-        selectedModels: this.state.indicesSelectedModels.flatMap(id =>
-          this.state.aircrafts.filter((el) => id === el.id))
-          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
-        activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
-        users: prevState.users.map((user, index) =>
-          index === this.state.activeUserId
-          ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
-          : user)
-      });
+      // console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+      console.log("❌❌❌ НЕ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+      // this.setState({
+      //   selectedModels: this.state.indicesSelectedModels.flatMap(id =>
+      //     this.state.aircrafts.filter((el) => id === el.id))
+      //     .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
+      //   activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
+      //   users: prevState.users.map((user, index) =>
+      //     index === this.state.activeUserId
+      //     ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
+      //     : user)
+      // });
     };
 
     //todo: users
