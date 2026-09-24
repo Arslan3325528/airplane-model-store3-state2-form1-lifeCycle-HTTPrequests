@@ -46,7 +46,7 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 // // console.log("🆗aircrafts__Після кінцевого сортування:", aircrafts);
 // // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
-//? ***** План переходу с localStorage на HTTP-запити с json-server *****
+//* ***** План переходу с localStorage на HTTP-запити с json-server *****
 //?
 //? 1. Перший Render (змінюємо деякі початкові значення State):
 //?   - aircrafts: [], NEW!!! - початковий масив aircraftsArr з json-server
@@ -67,26 +67,30 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?   2.3. Робимо запит на localStorage: localStorage.getItem("activeUserId") ==> user.id
 //?     - якщо activeUserId існуэ, то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State: this.setState({activeUser, activeUserId})
 //?
-//? 3. Активний користувач (this.state.activeUser):
+//? 3. Активний користувач (вже є або входить до свого акакунта (облікового запису)) ===> this.state.activeUser:
 //?   3.1. State:
 //?    - якщо в localStorage ІСНУЄ поле "activeUserId", то забираємо його значення в this.state.activeUser,
 //?    - якщо в localStorage ВІДСУТНЄ поле "activeUserId", то this.state.activeUserId: null
 //?   3.2. Коли користувач входить до свого акакунта (облікового запису) треба:
 //?     3.2.1. В компоненті FormIdentification.jsx:
-//?       - завантажити "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
-//?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {}
-//?       - в App.jsx в методі accountLogin перезаписати "свіженких" users в state
-
-//? todo_NEW-3: оновлюємо State //? add
-// if (this.state.activeUserId) { //! 1.Якщо існує activeUserId
-//   this.setState({
-//     activeUser: this.state.users[Number(this.state.activeUserId)], //! 🗣 активний (авторизований) користувач
-//     isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
-//     showModal: false, //! контроль відкриття/закриття модального вікна
-//   });
-// };
-
-//? indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
+//?       - завантажити "свіженких" users з json-server: "http://localhost:3000/usersAircrafts".
+//?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = (userEmail, users) => {}
+//?     3.2.2. В App.jsx в методі accountLogin
+//?       - ⌛️
+//?       - ⌛️
+//?       - ⌛️
+//?       - перезаписати "свіженких" users в state
+//?  !!! ВРАХУВАТИ ПРИ ПЕРЕЗАВАНТАЖЕННІ: якщо користувач НЕ виходив з свого акакунта (облікового запису)):
+//?   3.3. Якщо існує this.state.activeUserId додатково оновлюємо State в методі loadInitialData:
+//?       activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
+//?       isCartButtonDisabled: this.state.activeUserId ? false : true,
+//?       showModal: this.state.activeUserId ? false : true,
+//?   3.3. Завантажуэмо дані в масив індексів обраних моделей indicesSelectedModels з localStorage, якщо вони існують:
+//?       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
+//?
+//? 4. Активний користувач (виходить з свого акакунта (облікового запису))
+//?     4.1. В App.jsx в методі signOut ⌛️
+//?     - this.state.activeUser: null ⌛️
 
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
@@ -153,7 +157,7 @@ export class App extends Component {
         modelsSelectedScale: aircrafts,
         users,
         loader: false,
-        //? add
+        //? Якщо існує this.state.activeUserId додатково оновлюємо State
         activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
         isCartButtonDisabled: this.state.activeUserId ? false : true,  //! 🔐 тригер блокування кнопки «Кошик»
         showModal: this.state.activeUserId ? false : true,
