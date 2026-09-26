@@ -20,7 +20,7 @@ export class RegistrationIdentification extends Component {
 
       this.setState({
         activeUser: nextActiveUser,
-        activeUserName: nextActiveUser.userName
+        activeUserName: nextActiveUser?.userName
       });
     };
   };
