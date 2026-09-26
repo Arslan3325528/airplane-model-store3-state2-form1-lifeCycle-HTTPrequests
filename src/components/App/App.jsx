@@ -153,22 +153,7 @@ export class App extends Component {
       //! Штучно затримуємо відображення результату на 2 секунди
       await delay(2000);
 
-      // this.setState({
-      //   aircrafts,
-      //   aircraftsArr: aircrafts,
-      //   aircraftsArrAfterFiltration: aircrafts,
-      //   modelsSelectedScale: aircrafts,
-      //   users,
-      //   loader: false,
-      //   //? Якщо існує this.state.activeUserId додатково оновлюємо State
-      //   activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
-      //   isCartButtonDisabled: this.state.activeUserId ? false : true,  //! 🔐 тригер блокування кнопки «Кошик»
-      //   showModal: this.state.activeUserId ? false : true,
-      // });
-      
-
-      //? Якщо існує this.state.activeUserId додатково оновлюємо State
-      this.state.activeUserId
+      this.state.activeUserId //! якщо існує this.state.activeUserId додатково оновлюємо State
         ?
         this.setState({
           aircrafts,
@@ -177,9 +162,12 @@ export class App extends Component {
           modelsSelectedScale: aircrafts,
           users,
           loader: false,
-          //? Якщо існує this.state.activeUserId додатково оновлюємо State
+          //! Якщо існує this.state.activeUserId додатково оновлюємо State
           activeUser, 
           indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
+          selectedModels: activeUser.indicesSelectedModels
+              .flatMap(id => aircrafts.filter((el) => id === el.id))
+              .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
           isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
           showModal: false,
         })
@@ -192,7 +180,7 @@ export class App extends Component {
           users,
           loader: false,
         });
-
+      
     } catch (error) {
       console.log("❌", error);
       this.setState({
@@ -289,29 +277,6 @@ export class App extends Component {
     };
   };
 
-  //! Рахуємо загальну кількість моделей <totalModels> виходячи з наявності фактичної ціни:
-  //todo-1
-  // getTotalModels = () => {
-  //   return this.state.aircrafts.reduce((previousValue, element, index, array) => {
-  //     const valuesArr = Object.values(element.model.colorsPrice);
-  //     const totalAircraftSameType = valuesArr.filter(item => Number(item)).length;
-  //     let total = previousValue + totalAircraftSameType;
-
-  //     console.log("totalAircraftSameType:", totalAircraftSameType); //!
-  //     console.log("valuesArr:", valuesArr); //!
-  //     console.log("total:", total); //!
-  //     console.log("---------------------------------");
-  //     return total;
-  //   }, 0);
-  // };
-  //todo-2
-  // getTotalModels = () => this.state.aircrafts.reduce((previousValue, element) => {
-  //     return previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length;
-  // }, 0);
-  //todo-3
-  // getTotalModels = () =>
-  //   this.state.aircrafts.reduce((previousValue, element) =>
-  //     previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length, 0);
 
   allFiltration = () => {
     console.log("Клік в кнопку ВСІ");
@@ -330,6 +295,7 @@ export class App extends Component {
     // console.log("✈️✈️✈️totalModels:", this.getTotalModels()); //! тимчасово
   };
 
+
   planeFiltration = () => {
     console.log("Клік в кнопку Літаки");
     // const onlyPlanes = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "plane");
@@ -345,6 +311,7 @@ export class App extends Component {
       inputSearchValue: "", //! значення inputSearch
     });
   };
+
 
   biplaneFiltration = () => {
     console.log("Клік в кнопку Біплани");
@@ -362,6 +329,7 @@ export class App extends Component {
     });
   };
 
+
   helicopterFiltration = () => {
     console.log("Клік в кнопку Вертольоти");
     // const onlyHelicopters = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "helicopter");
@@ -378,13 +346,7 @@ export class App extends Component {
     });
   };
 
-  //! Імпортуємо з @/utils/updateSelectedModels.js
-  //! Формуємо(оновлюємо) масив обраних моделей [selectedModels] НЕ зберігаючи його в state:
-  // updateSelectedModels = () => this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id)); //! без сортування
-  // updateSelectedModels = () =>
-  //   this.state.indicesSelectedModels.flatMap(id =>
-  //     this.state.aircrafts.filter((el) => id === el.id))
-  //     .sort((a, b) =>a.name.brief.localeCompare(b.name.brief)); //! з сортуванням за полем "name.brief"
+
   //! Формуємо(оновлюємо) масив обраних моделей [selectedModels] зберігаючи його в state:
   //*✅ Так додає останній елемент
   updateSelectedModels = () => {
@@ -395,6 +357,7 @@ export class App extends Component {
       // activeUser: {...prevState.activeUser, indicesSelectedModels: this.state.indicesSelectedModels},
     }));
   };
+
 
   //! Обробка кнопок-фільтрів
   cartFiltration = () => {
@@ -414,6 +377,7 @@ export class App extends Component {
       aircraftsArrAfterFiltration: this.state.selectedModels,  //! дубльоване значення aircraftsArr після фільтрації
     });
   };
+
 
   //! Обробка кліка на кнопці <Додати до кошику>
   getActiveId = id => {
@@ -440,6 +404,7 @@ export class App extends Component {
     });
     this.updateSelectedModels(); //*✅ так додає останній елемент
   };
+
 
   //! ВСЯ логіка фільтрації для обробки введених даних для пошуку(фільтрації)
   performSearch = textInput => {
@@ -493,15 +458,15 @@ export class App extends Component {
     });
   };
 
+
   //! Створюємо debounce як class property:
   debouncedSearch = debounce((text) => {
     console.log("⏰debounce_text", text);
     this.performSearch(text);
   }, 500);
 
-  
+
   //! Обробка введених даних для пошуку(фільтрації) карток за ім'ям або іншими параметрами
-  // handleChangeInputSearchValue = debounce((event) => {  //? ❌ Так не працює!!!
   handleChangeInputSearchValue = event => {
     console.log("Подія onChange в inputSearch");
     const textInput = event.target.value;
@@ -516,72 +481,14 @@ export class App extends Component {
 
     //! ✅ Запуск debounce з логікою фільтрації:
     this.debouncedSearch(textInput);
-
-    //! Виносимо логіку фільтрації в окремий метод performSearch
-    // const prevArray =
-    //   this.state.isCartButton
-    //     ? this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
-    //       .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief"
-    //     // ? this.state.selectedModels
-    //     : this.state.aircraftsArrAfterFiltration
-
-    // const inputSearchValueBrief = prevArray.filter(
-    //   aircraft => aircraft.name.brief.toLowerCase().startsWith(textInput.trim().toLowerCase())
-    // );
-    // const inputSearchValueNickname = prevArray.filter(
-    //   aircraft => aircraft.name.nickname.toLowerCase().includes(textInput.trim().toLowerCase())
-    // );
-    // const inputSearchValueCountry = prevArray.filter(
-    //   // aircraft => aircraft.info.country.toLowerCase().startsWith(textInput.trim().toLowerCase())
-    //   aircraft => aircraft.info.countries.some(country => country.toLowerCase().startsWith(textInput.trim().toLowerCase()))
-    // );
-    // const inputSearchValueYear = prevArray.filter(
-    //   aircraft => String(aircraft.info.year).startsWith((textInput.trim()))
-    // );
-
-    // console.log("⏰⏰⏰inputSearchValueYear:", inputSearchValueYear);
-    // console.log("⏰⏰⏰inputSearchValueCountry:", inputSearchValueCountry);
-
-    // switch (this.state.radioButtonValue) {
-    //   case "brief":
-    //     this.setState({
-    //       inputSearchValue: textInput,
-    //       aircraftsArr: inputSearchValueBrief,
-    //       selectedModels: inputSearchValueBrief,
-    //     });
-    //     break;
-    //   case "nickname":
-    //     this.setState({
-    //       inputSearchValue: textInput,
-    //       aircraftsArr: inputSearchValueNickname,
-    //       selectedModels: inputSearchValueNickname,
-    //     });
-    //     break;
-    //   case "country":
-    //     this.setState({
-    //       inputSearchValue: textInput,
-    //       aircraftsArr: inputSearchValueCountry,
-    //       selectedModels: inputSearchValueCountry,
-    //     });
-    //     break;
-    //   case "year":
-    //     this.setState({
-    //       inputSearchValue: textInput,
-    //       aircraftsArr: inputSearchValueYear,
-    //       selectedModels: inputSearchValueYear,
-    //     });
-    //     break;
-    //   default:
-    //     fieldValue = "";
-    // };
   };
-  // }, 500); //? ❌ Так не працює!!!
 
 
   //! Припинення debounce:
   componentWillUnmount() {
     this.debouncedSearch.cancel();
   };
+
 
   //! Обробка введених даних: значення параметра для пошуку/фільтрації радіо-кнопки
   handleChangeRadioButtonValue = event => {
@@ -621,43 +528,6 @@ export class App extends Component {
     });
   };
 
-  //! Функція підсвічування тексту та допоміжна функція ---> ВИНОСИМО в utils
-  //* Якщо користувач буде вводити: . + * ? [ ] ( )
-  //* то RegExp потрібно екранувати допоміжною функцією:
-  // escapeRegExp = (str) => {
-  //   return str.replace(
-  //     /[.*+?^${}()|[\]\\]/g,
-  //     "\\$&"
-  //   );
-  // };
-
-  //! ---> ВИНОСИМО в utils
-  //* Використання RegExp з экрануванням допоміжною функцією:
-  // highlightTextProtection = (text, keyword) => {
-  //   if (!keyword) return text;
-
-  //   const escapedKeyword = this.escapeRegExp(keyword);
-
-  //   const regex = new RegExp(
-  //     `(${escapedKeyword})`,
-  //     "gi"
-  //   );
-
-  //   return text
-  //     .split(regex)
-  //     .map((part, index) =>
-  //       part.toLowerCase() === keyword.toLowerCase()
-  //         ? (
-  //           <span
-  //             key={index}
-  //             className={css.highlight}
-  //           >
-  //             {part}
-  //           </span>
-  //         )
-  //         : part
-  //     );
-  // };
 
   //! Функція яка отримує масив моделей обраного масштабу з компоненту ScaleSelection та додає його в state
   getModelsSelectedScale = modelsScale => {
@@ -690,6 +560,7 @@ export class App extends Component {
     });
   };
 
+
   //! Відкриття/закриття модального вікна
   toggleModal = (event) => {
     console.log("🌀toggleModal:", event)
@@ -718,6 +589,7 @@ export class App extends Component {
     };
   };
 
+
   //! Приймаємо об'ект з даних користувача з форми Реєстрації
   submitForm = (data) => {
     // console.log("✅Дані користувач:", data);
@@ -742,6 +614,7 @@ export class App extends Component {
       users: [...prevState.users, data],
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
     }));
+
     //! прокрутити сторінку вгору
     window.scrollTo({
       top: 0,
@@ -750,15 +623,13 @@ export class App extends Component {
     });
   };
 
+
   //! Вхід в обліковий запис
   // accountLogin = ({ userEmail }) => {
-  accountLogin = (userEmail, users) => {
+  accountLogin = (userEmail, users) => { //? додатково передати "свіженких" users
     console.log("🙆‍♂️Вхід в обліковий запис:", userEmail, users); //!
-    //? додатково передати "свіженких" users в App.jsx в метод: accountLogin = ({ userEmail, users }) => {}
-    //? в App.jsx в методі accountLogin перезаписати "свіженких" users в state 
     
     // const users = JSON.parse(localStorage.getItem("users"));
-    // const users = this.state.users; //? тимчасово, доти поки не передали "свіженких" users
 
     const activeUser = users.find(user => user.userEmail === userEmail);
     console.log("❗️🗣 Активний (авторизований) користувач__accountLogin:", activeUser); //!
@@ -767,7 +638,7 @@ export class App extends Component {
     const activeUserId = activeUser.id;  //? new
     console.log("#️⃣🗣 id активного (авторизованого) користувача_accountLogin:", activeUserId); //!
 
-    localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //! створюємо масив індексів обраних моделей активного (авторизованого) користувача в localStorage
+    // localStorage.setItem("indicesSelectedModels", JSON.stringify(activeUser.indicesSelectedModels)); //? НЕ створюємо масив індексів обраних моделей активного (авторизованого) користувача в localStorage
     localStorage.setItem("activeUserId", JSON.stringify(activeUserId)); //? new - додаємо id активного (авторизованого) користувача в localStorage
     
     // activeUser.isActive = true;
@@ -791,13 +662,19 @@ export class App extends Component {
       activeUser,
       activeUserId,
       isCartButtonDisabled: false,
-      indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
-      selectedModels:
-        (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+      // indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
+      indicesSelectedModels: activeUser.indicesSelectedModels, //? масив індексів обраних моделей
+      // selectedModels:
+      //   (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
+      //     .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
+      //     .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+      selectedModels: activeUser.indicesSelectedModels
           .flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
-          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+          .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //? масив обраних моделей
     });
+
     // this.toggleModal(); //todo: var.3 закриваємо модалку
+
     //! прокрутити сторінку вгору
     window.scrollTo({
       top: 0,
@@ -805,6 +682,7 @@ export class App extends Component {
       behavior: "smooth",
     });
   };
+
 
   //! Завершення сеансу облікового запису
   signOut = () => {
@@ -836,7 +714,9 @@ export class App extends Component {
       indicesSelectedModels: [], //! масив індексів обраних моделей
       selectedModels: [], //! масив обраних моделей
     });
+
     this.toggleModal(); //todo: var.3 відкриваємо модалку
+
     //! прокрутити сторінку вгору
     window.scrollTo({
       top: 0,
@@ -882,31 +762,11 @@ export class App extends Component {
       arr.reduce((previousValue, element) =>
         previousValue + Object.values(element.model.colorsPrice).filter(item => Number(item)).length, 0);
 
-    //! Формуємо(оновлюємо) масив обраних моделей [selectedModels]
-    // const selectedModels = indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id));
-    // const selectedModels = this.updateSelectedModels();
-    // const selectedModelsBeforeSorting = updateSelectedModels(indicesSelectedModels, this.state.aircrafts); //! якщо імпортуємо;  це до сортування
-    //! Після сортування
-    // const selectedModels = selectedModelsBeforeSorting.filter(
-    //   aircraft => aircraft.name.brief.toLowerCase().startsWith(inputSearchValue.trim().toLowerCase())
-    // );
-    // const selectedModels = selectedModelsBeforeSorting;
-
     //! Кількість обраних моделей 
     const numberOfModels = indicesSelectedModels.length;
 
     //! Кількість обраних моделей після сортування
     const numberOfModelsAfterSorting = selectedModels.length;
-
-    //! Оновлення users і localStorage "users"
-    // if (users.length && activeUser) {
-    //   const newUsers = users.map((user, index) =>
-    //     index === activeUserId ? activeUser : user
-    //   );
-    //   console.log("newUsers:", newUsers); //!
-    //   localStorage.setItem("users", JSON.stringify(newUsers));
-    // };
-    
     
     console.log("----------------------------------------------");
     console.log("✈️Початковий сортований масив aircrafts з json-server:", aircrafts);
@@ -939,24 +799,6 @@ export class App extends Component {
           < ModalRegistrationIdentification
             onClose={this.toggleModal}
           >
-            {/* <div>
-              <h1>Реєстрація та Ідентифікації/Аутентифікації (Login)</h1>
-              <p>Модалка Реєстрації та Ідентифікації/Аутентифікації (Login) користувача</p>
-              <div>
-                <button
-                  type="button"
-                  onClick={this.toggleModal}
-                >
-                  Реєстрація
-                </button>
-                <button
-                  type="button"
-                  onClick={this.toggleModal}
-                >
-                  Ідентифікація
-                </button>
-              </div>
-            </div> */}
             {/*//!  Екран вибору Реєстрації або Ідентифікації/Аутентифікації (Login) користувача */}
             {!modalType &&
               <FormChoiceRegistrationOrIdentification
