@@ -279,6 +279,8 @@ export class App extends Component {
 
 
   allFiltration = () => {
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
     console.log("Клік в кнопку ВСІ");
     console.log("allAircrafts:", this.state.aircrafts);
     this.setState({
@@ -297,6 +299,8 @@ export class App extends Component {
 
 
   planeFiltration = () => {
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
     console.log("Клік в кнопку Літаки");
     // const onlyPlanes = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "plane");
     const onlyPlanes = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "plane"); //! з додаванням вибору моделей певного масштабу
@@ -314,6 +318,8 @@ export class App extends Component {
 
 
   biplaneFiltration = () => {
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
     console.log("Клік в кнопку Біплани");
     // const onlyBiplane = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "biplane");
     const onlyBiplane = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "biplane"); //! з додаванням вибору моделей певного масштабу
@@ -331,6 +337,8 @@ export class App extends Component {
 
 
   helicopterFiltration = () => {
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
     console.log("Клік в кнопку Вертольоти");
     // const onlyHelicopters = this.state.aircrafts.filter(aircraft => aircraft.aircraftType === "helicopter");
     const onlyHelicopters = this.state.modelsSelectedScale.filter(aircraft => aircraft.aircraftType === "helicopter"); //! з додаванням вибору моделей певного масштабу
@@ -361,6 +369,8 @@ export class App extends Component {
 
   //! Обробка кнопок-фільтрів
   cartFiltration = () => {
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
     console.log("Клік в кнопку Кошик");
     this.updateSelectedModels();
     // Формуємо(оновлюємо) масив обраних моделей [selectedModels] не зберігаючи його в state:
@@ -410,7 +420,7 @@ export class App extends Component {
   performSearch = textInput => {
     const prevArray =
       this.state.isCartButton
-        ? this.state.indicesSelectedModels.flatMap(id => aircrafts.filter((el) => id === el.id))
+        ? this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
           .sort((a, b) => a.name.brief.localeCompare(b.name.brief)) //! з сортуванням за полем "name.brief"
         // ? this.state.selectedModels
         : this.state.aircraftsArrAfterFiltration
@@ -615,16 +625,17 @@ export class App extends Component {
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
     }));
 
-    //! прокрутити сторінку вгору
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
+    // window.scrollTo({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: "smooth",
+    // });
   };
 
 
-  //! Вхід в обліковий запис
+  //! Вхід в обліковий запис ✅
   // accountLogin = ({ userEmail }) => {
   accountLogin = (userEmail, users) => { //? додатково передати "свіженких" users
     console.log("🙆‍♂️Вхід в обліковий запис:", userEmail, users); //!
@@ -675,25 +686,27 @@ export class App extends Component {
 
     // this.toggleModal(); //todo: var.3 закриваємо модалку
 
-    //! прокрутити сторінку вгору
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
+    // window.scrollTo({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: "smooth",
+    // });
   };
 
 
   //! Завершення сеансу облікового запису
   signOut = () => {
     console.log("⬇️Sign Out");
-    localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
-    const users = JSON.parse(localStorage.getItem("users"));
-    const activeUser = users.find(user => user.isActive === true);
-    console.log("❗️🗣 Активний(авторизований) користувач__signOut:", activeUser); //!
-    activeUser.isActive = false;
+    // localStorage.removeItem("indicesSelectedModels"); //! видаляємо масив індексів обраних моделей активного (авторизованого) користувача
+    localStorage.removeItem("activeUserId"); //? видаляємо id активного (авторизованого) користувача
+    // const users = JSON.parse(localStorage.getItem("users"));
+    // const activeUser = users.find(user => user.isActive === true);
+    // console.log("❗️🗣 Активний(авторизований) користувач__signOut:", activeUser); //!
+    // activeUser.isActive = false;
     // console.log("users:", users); //!
-    localStorage.setItem("users", JSON.stringify(users));
+    // localStorage.setItem("users", JSON.stringify(users));
     this.setState({
       aircraftsArr: this.state.aircrafts, //! 
       aircraftsTitle: "Магазин моделей літальних апаратів",
@@ -707,7 +720,7 @@ export class App extends Component {
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
-      users, //! масив з даними користувачів
+      // users, //? масив з даними користувачів
       activeUser: null, //! 🗣 активний (авторизований) користувач
       activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
       isCartButtonDisabled: true, ///! 🔐 тригер блокування кнопки «Кошик»
@@ -715,9 +728,20 @@ export class App extends Component {
       selectedModels: [], //! масив обраних моделей
     });
 
-    this.toggleModal(); //todo: var.3 відкриваємо модалку
+    //! Прокрутити сторінку вгору
+    this.windowSrollTo();
+    // window.scrollTo({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: "smooth",
+    // });
 
-    //! прокрутити сторінку вгору
+    this.toggleModal(); //todo: var.3 відкриваємо модалку
+  };
+
+
+  //! Прокрутити сторінку вгору
+  windowSrollTo = () => {
     window.scrollTo({
       top: 0,
       left: 0,
