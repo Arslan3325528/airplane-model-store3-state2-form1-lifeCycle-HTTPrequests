@@ -86,7 +86,7 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?       isCartButtonDisabled: this.state.activeUserId ? false : true,
 //?       showModal: this.state.activeUserId ? false : true,
 //?   3.3. Завантажуэмо дані в масив індексів обраних моделей indicesSelectedModels з localStorage, якщо вони існують:
-//?       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
+//?       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей ❌
 //?
 //? 4. Активний користувач (виходить з свого акакунта (облікового запису))
 //?     4.1. В App.jsx в методі signOut ⌛️
@@ -104,8 +104,8 @@ export class App extends Component {
     aircraftsArr: [], //? запис початкового масиву aircrafts в aircraftsArr
     aircraftsTitle: "Магазин моделей літальних апаратів",
     activeButton: "allButton", //! візуалізація активної кнопки
-    // indicesSelectedModels: [], //! масив індексів обраних моделей
-    indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей
+    indicesSelectedModels: [], //! масив індексів обраних моделей
+    // indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //! масив індексів обраних моделей
     selectedModels: [], //! масив обраних моделей
     // selectedModels:
     //   (JSON.parse(localStorage.getItem("indicesSelectedModels")) || [])
@@ -146,22 +146,52 @@ export class App extends Component {
         fetchAircrafts(),
         fetchUsersAircrafts(),
       ]);
+      
+      const activeUser = users.find(user => user.id === this.state.activeUserId);
+      // console.log("loadInitialData 🗣 Активний(авторизований) користувач:", activeUser); //!
 
       //! Штучно затримуємо відображення результату на 2 секунди
       await delay(2000);
 
-      this.setState({
-        aircrafts,
-        aircraftsArr: aircrafts,
-        aircraftsArrAfterFiltration: aircrafts,
-        modelsSelectedScale: aircrafts,
-        users,
-        loader: false,
-        //? Якщо існує this.state.activeUserId додатково оновлюємо State
-        activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
-        isCartButtonDisabled: this.state.activeUserId ? false : true,  //! 🔐 тригер блокування кнопки «Кошик»
-        showModal: this.state.activeUserId ? false : true,
-      });
+      // this.setState({
+      //   aircrafts,
+      //   aircraftsArr: aircrafts,
+      //   aircraftsArrAfterFiltration: aircrafts,
+      //   modelsSelectedScale: aircrafts,
+      //   users,
+      //   loader: false,
+      //   //? Якщо існує this.state.activeUserId додатково оновлюємо State
+      //   activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
+      //   isCartButtonDisabled: this.state.activeUserId ? false : true,  //! 🔐 тригер блокування кнопки «Кошик»
+      //   showModal: this.state.activeUserId ? false : true,
+      // });
+      
+
+      //? Якщо існує this.state.activeUserId додатково оновлюємо State
+      this.state.activeUserId
+        ?
+        this.setState({
+          aircrafts,
+          aircraftsArr: aircrafts,
+          aircraftsArrAfterFiltration: aircrafts,
+          modelsSelectedScale: aircrafts,
+          users,
+          loader: false,
+          //? Якщо існує this.state.activeUserId додатково оновлюємо State
+          activeUser, 
+          indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
+          isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
+          showModal: false,
+        })
+        :
+        this.setState({
+          aircrafts,
+          aircraftsArr: aircrafts,
+          aircraftsArrAfterFiltration: aircrafts,
+          modelsSelectedScale: aircrafts,
+          users,
+          loader: false,
+        });
 
     } catch (error) {
       console.log("❌", error);
@@ -956,6 +986,7 @@ export class App extends Component {
           onClose={this.toggleModal} //! відкриття/закриття модального вікна
           activeUser={activeUser} //! 🗣 активний (авторизований) користувач
           onSignOut={this.signOut} //! завершення сеансу облікового запису
+          loader={loader} //! ⏳ індикатор завантаження (лоадер)
         />
         
         {/*//!  Вибір масштабу моделі */}

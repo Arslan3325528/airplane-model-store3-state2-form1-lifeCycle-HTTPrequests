@@ -8,14 +8,15 @@ export function RegistrationIdentification({
   onClose, //! відкриття/закриття модального вікна
   activeUser, //! 🗣 активний (авторизований) користувач
   onSignOut, //! завершення сеансу облікового запису
+  loader, //! ⏳ індикатор завантаження (лоадер)
 }) {
-
+  console.log("RegistrationIdentification 🗣 Активний(авторизований) користувач:", activeUser); //!
   return (
     <div className={css.boxRegistrationIdentification}>
       {activeUser 
         ?
         <h2 className={css.titleRegistrationIdentification}>
-          Вітаю вас, <span className={css.titleUserRegistrationIdentification}>{activeUser.userName}</span>
+          Вітаю вас, <span className={css.titleUserRegistrationIdentification}>{activeUser?.userName}</span>
         </h2>
         :
         <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
