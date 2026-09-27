@@ -18,9 +18,9 @@ export class FormIdentification extends Component {
     };
 
     //? Метод для отримання масиву користувачів users з json-server: "http://localhost:3000/usersAircrafts"
-    loadInitialData = async () => {
+    loadInitialDataUsers = async (fetchData) => {
         try {
-            return fetchUsersAircrafts()
+            return fetchData()
         } catch (error) {
             console.log("❌", error);
         };
@@ -36,7 +36,7 @@ export class FormIdentification extends Component {
 
         //! Перевірка на наявність userEmail (Ідентифікація)
         // const users = JSON.parse(localStorage.getItem("users")); // todo: old - завантажуємо "свіженких" users з localStorage
-        const users = await this.loadInitialData(); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        const users = await this.loadInitialDataUsers(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
         console.log("users:", users); //?
         const isEmail = users.some(user => user.userEmail === userEmail);
         console.log("📩Такий Email є в db?:", isEmail); //!

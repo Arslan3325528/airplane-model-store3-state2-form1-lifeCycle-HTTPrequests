@@ -870,7 +870,7 @@ export class App extends Component {
           onClose={this.toggleModal} //! відкриття/закриття модального вікна
           activeUser={activeUser} //! 🗣 активний (авторизований) користувач
           onSignOut={this.signOut} //! завершення сеансу облікового запису
-          loader={loader} //! ⏳ індикатор завантаження (лоадер)
+          // loader={loader} //! ⏳ індикатор завантаження (лоадер)
         />
         
         {/*//!  Вибір масштабу моделі */}

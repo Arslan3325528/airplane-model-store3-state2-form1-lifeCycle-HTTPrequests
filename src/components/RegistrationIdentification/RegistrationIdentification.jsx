@@ -8,7 +8,7 @@ export function RegistrationIdentification({
   activeUser, //! 🗣 активний (авторизований) користувач
   onSignOut, //! завершення сеансу облікового запису
 }) {
-  console.log("RegistrationIdentification 🗣 Активний(авторизований) користувач:", activeUser); //!
+  // console.log("RegistrationIdentification 🗣 Активний(авторизований) користувач:", activeUser); //!
   return (
     <div className={css.boxRegistrationIdentification}>
       {activeUser
