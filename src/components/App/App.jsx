@@ -61,11 +61,20 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?     - aircrafts: [aircrafts],  ==> завантажуємо loader: true
 //?     - aircraftsArr: [aircrafts],
 //?     - aircraftsArrAfterFiltration: [aircrafts],
-//?     - modelsSelectedScale: [aircrafts],
+//?     - modelsSelectedScale: [aircrafts]
 //?   2.2. Робимо HTTP-запит на json-server: "http://localhost:3000/usersAircrafts" ==> [users] та оновлюємо State:
-//?     - users: [users],
-//?   2.3. Робимо запит на localStorage: localStorage.getItem("activeUserId") ==> user.id
-//?     - якщо activeUserId існуэ, то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State: this.setState({activeUser, activeUserId})
+//?     - users: [users]
+//?   2.3. ❗️❗️❗️ ПРИ ПЕРЕЗАВАНТАЖЕННІ робимо запит на localStorage на наявність id Активного (авторизованого) користувача: localStorage.getItem("activeUserId") ==> user.id та записуємо в this.state.activeUserId
+//?     - Якщо існує this.state.activeUserId додатково оновлюємо такі поля State в методі loadInitialData:
+//?   ✅➕то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State:
+//?        const activeUser = users.find(user => user.id === this.state.activeUserId);
+//?        activeUser,
+//?        indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
+//?        selectedModels: activeUser.indicesSelectedModels
+//?            .flatMap(id => aircrafts.filter((el) => id === el.id))
+//?            .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+//?        isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
+//?        showModal: false,
 //?
 //? 3. Активний користувач (вже є або входить до свого акакунта (облікового запису)) ===> this.state.activeUser:
 //?   3.1. State:
@@ -76,22 +85,30 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?       - завантажити "свіженких" users з json-server: "http://localhost:3000/usersAircrafts".
 //?       - додатково передати "свіженких" users в App.jsx в метод: accountLogin = (userEmail, users) => {}
 //?     3.2.2. В App.jsx в методі accountLogin
-//?       - ⌛️
-//?       - ⌛️
-//?       - ⌛️
-//?       - перезаписати "свіженких" users в state
-//?  !!! ВРАХУВАТИ ПРИ ПЕРЕЗАВАНТАЖЕННІ: якщо користувач НЕ виходив з свого акакунта (облікового запису)):
-//?   3.3. Якщо існує this.state.activeUserId додатково оновлюємо State в методі loadInitialData:
-//?       activeUser: this.state.activeUserId ? users[Number(this.state.activeUserId)] : null,
-//?       isCartButtonDisabled: this.state.activeUserId ? false : true,
-//?       showModal: this.state.activeUserId ? false : true,
-//?   3.3. Завантажуэмо дані в масив індексів обраних моделей indicesSelectedModels з localStorage, якщо вони існують:
-//?       indicesSelectedModels: JSON.parse(localStorage.getItem("indicesSelectedModels")) || [], //? масив індексів обраних моделей ❌
+//?       - const activeUserId = activeUser.id;  //? new
+//?       - НЕ створюємо масив індексів обраних моделей активного (авторизованого) користувача в localStorage
+//?       - додаємо id активного (авторизованого) користувача в: localStoragelocalStorage.setItem("activeUserId", JSON.stringify(activeUserId));
+//?       - вже не треба: activeUser.isActive = true;
+//?       - вже не треба: localStorage.setItem("users", JSON.stringify(users));
+//?       - перезаписуємо "свіженких" users в state
+//?       - перезаписуємо масив індексів обраних моделей: indicesSelectedModels: activeUser.indicesSelectedModels
+//?   3.3. ❗️❗️❗️ (повторення) ВРАХУВАТИ ПРИ ПЕРЕЗАВАНТАЖЕННІ: якщо користувач НЕ виходив з свого акакунта (облікового запису)):
+//?     - Якщо існує this.state.activeUserId додатково оновлюємо такі поля State в методі loadInitialData:
+//?   ✅➕то по activeUserId(user.id) шукаемо activeUser в this.state.users та оновлюємо State:
+//?        const activeUser = users.find(user => user.id === this.state.activeUserId);
+//?        activeUser,
+//?        indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
+//?        selectedModels: activeUser.indicesSelectedModels
+//?            .flatMap(id => aircrafts.filter((el) => id === el.id))
+//?            .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+//?        isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
+//?        showModal: false,
 //?
 //? 4. Активний користувач (виходить з свого акакунта (облікового запису))
 //?     4.1. В App.jsx в методі signOut ⌛️
-//?     - this.state.activeUser: null ⌛️
-
+//?     - видаляємо id активного (авторизованого) користувача: localStorage.removeItem("activeUserId");
+//?     - НЕ перезаписуємо масив з даними користувачів users в state: // users,
+//?     - всю іншу логіку (окрім логіки state) прибираємо
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -153,7 +170,8 @@ export class App extends Component {
       //! Штучно затримуємо відображення результату на 2 секунди
       await delay(2000);
 
-      this.state.activeUserId //! якщо існує this.state.activeUserId додатково оновлюємо State
+      //! Оновлюємо State згідно логіки існування this.state.activeUserId
+      this.state.activeUserId 
         ?
         this.setState({
           aircrafts,
@@ -720,7 +738,7 @@ export class App extends Component {
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
-      // users, //? масив з даними користувачів
+      // users, //? НЕ перезаписуємо масив з даними користувачів
       activeUser: null, //! 🗣 активний (авторизований) користувач
       activeUserId: null, //! #️⃣🗣 індекс Активного (авторизованого) користувача
       isCartButtonDisabled: true, ///! 🔐 тригер блокування кнопки «Кошик»
