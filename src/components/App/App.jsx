@@ -106,10 +106,16 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?        showModal: false,
 //?
 //? 4. Активний користувач (виходить з свого акакунта (облікового запису))
-//?     4.1. В App.jsx в методі signOut ⌛️
+//?     4.1. В App.jsx в методі signOut
 //?     - видаляємо id активного (авторизованого) користувача: localStorage.removeItem("activeUserId");
 //?     - НЕ перезаписуємо масив з даними користувачів users в state: // users,
 //?     - всю іншу логіку (окрім логіки state) прибираємо
+//?
+//? 5. Реєстрація нового користувача
+//?     5.1. В FormRegistration.jsx в методі handleSubmit ⌛️
+//?     - 
+//?     - 
+//?     - 
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -621,26 +627,26 @@ export class App extends Component {
 
   //! Приймаємо об'ект з даних користувача з форми Реєстрації
   // submitForm = (data) => {
-  submitForm = async (data) => { //? робимо метод асинхронним 
-    console.log("✅submitForm_Дані користувача:", data);
+  submitForm = async (newUser) => { //? робимо метод асинхронним 
+    console.log("✅submitForm_👤об'ект даних нового користувача:", newUser);
 
-    //? NEW
+    //? NEW 
     try {
-      //! Додаємо нового користувача на json-server
-      await axios.post("http://localhost:3000/usersAircraftsTest", data);
+      //? Додаємо нового користувача в db "usersAircrafts" на json-server
+      await axios.post("http://localhost:3000/usersAircraftsTest", newUser);
 
-      //! Отримуємо оновлений список користувачів з json-server
+      //? Отримуємо оновлений список користувачів з db "usersAircrafts" на json-server
       const response = await axios.get("http://localhost:3000/usersAircraftsTest");
-      console.log("✅submitForm_response.data", response.data);
+      console.log('✅submitForm_👨‍👩‍👦‍👦"свіженки" users_response.data', response.data);
 
-      //! Оновлюємо список користувачів в State
+      //? Оновлюємо список користувачів users в State
       this.setState({
         users: response.data,
       });
 
     } catch (error) {
       console.log('❌ Помилка запита users "http://localhost:3000/usersAircrafts":', error);
-    }
+    };
 
     this.setState(prevState => ({
       aircraftsArr: this.state.aircrafts, //! 
@@ -655,7 +661,7 @@ export class App extends Component {
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "_", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true,
-      //? users: [...prevState.users, data],
+      // users: [...prevState.users, data], //? це оновлення users робимо вище, відразу після отримання відповіді response.data з json-server
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
     }));
 
