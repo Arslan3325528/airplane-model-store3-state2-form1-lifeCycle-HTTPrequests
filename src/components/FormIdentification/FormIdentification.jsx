@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchUsersAircrafts } from '@/services' //!  tusers --> запити з json-server
+import { fetchUsersAircrafts } from '@/services' //? users --> запити з json-server
 
 import css from "./FormIdentification.module.css";
 
@@ -30,7 +30,6 @@ export class FormIdentification extends Component {
     // handleSubmit = event => {
     handleSubmit = async (event) => { //? робимо метод асинхронним 
         event.preventDefault();
-        //! isActive - це тригер 🗣 активного (авторизованого) користувача
         const { userEmail, userPassword } = this.state;
         // console.log(`✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
 

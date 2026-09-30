@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { fetchUsersAircrafts } from '@/services' //? users --> запити з json-server
+
 import css from "./FormRegistration.module.css";
 
 const INITIAL_STATE = {
@@ -19,16 +21,31 @@ export class FormRegistration extends Component {
         this.setState({ ...INITIAL_STATE });
     };
 
+    //? Метод для отримання масиву користувачів users з json-server: "http://localhost:3000/usersAircrafts"
+    loadInitialDataUsers = async (fetchData) => {
+        try {
+            return fetchData()
+        } catch (error) {
+            console.log("❌", error);
+        };
+    };
+
     // todo: NEW
-    handleSubmit = event => {
+    // handleSubmit = event => {
+    handleSubmit = async (event) => { //? робимо метод асинхронним 
         event.preventDefault();
-        //! isActive - це тригер 🗣 активного (авторизованого) користувача
-        //! indicesSelectedModels - це масив індексів обраних моделей користувача
-        const { userName, userEmail, userPassword, userExperience, userAge, isActive = false, indicesSelectedModels = [] } = this.state;
-        
+        //? isActive - це тригер 🗣 активного (авторизованого) користувача ==> ВЖЕ НЕ ПОТРІБНО
+        //! userAvatar - це зображення-аватар нового користувача
+        //! userNickName - це це нікнейм нового користувача
+        //! indicesSelectedModels - це масив індексів обраних моделей нового користувача
+        // const { userName, userEmail, userPassword, userExperience, userAge, isActive = false, indicesSelectedModels = [] } = this.state; 
+        const { userName, userEmail, userPassword, userExperience, userAge, userAvatar = "", userNickName = "", indicesSelectedModels = [] } = this.state; //? NEW
         // console.log(`Name: ${userName}, ✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
+
         //! Перевірка на унікальність userEmail
-        const users = JSON.parse(localStorage.getItem("users"));
+        // const users = JSON.parse(localStorage.getItem("users")); // todo: old - завантажуємо "свіженких" users з localStorage
+        const users = await this.loadInitialDataUsers(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        console.log("users_db:", users); //?
         const isEmaiNotlUnique = users.some(user => user.userEmail === userEmail);
         console.log("📩Email не унікальний?:", isEmaiNotlUnique); //!
         
@@ -39,7 +56,8 @@ export class FormRegistration extends Component {
         };
 
         // this.props.onSubmit({ ...this.state }); //! підняття стану + передача state в App.jsx
-        this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels }); //! підняття стану + передача частини state в App.jsx
+        // this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels }); //! підняття стану + передача частини state в App.jsx
+        this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, userAvatar, userNickName, indicesSelectedModels }); //? підняття стану + передача частини state в App.jsx
         this.reset();  //! очищуємо поля всіх інпутів
         // this.props.onClose(); //! закриваємо модалку
     };

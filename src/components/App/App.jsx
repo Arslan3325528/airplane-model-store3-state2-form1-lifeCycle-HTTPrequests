@@ -620,7 +620,7 @@ export class App extends Component {
 
   //! Приймаємо об'ект з даних користувача з форми Реєстрації
   submitForm = (data) => {
-    // console.log("✅Дані користувач:", data);
+    console.log("✅submitForm_Дані користувача:", data);
 
     // this.setState({
     //   userData: data
