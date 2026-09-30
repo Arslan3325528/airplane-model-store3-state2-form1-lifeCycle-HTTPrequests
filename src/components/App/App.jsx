@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import debounce from "lodash.debounce";
+import axios from "axios";
 
 import { ModalRegistrationIdentification } from '@/components/ModalRegistrationIdentification/ModalRegistrationIdentification.jsx';
 import { RegistrationIdentification } from '@/components/RegistrationIdentification/RegistrationIdentification.jsx';
@@ -619,12 +620,27 @@ export class App extends Component {
 
 
   //! Приймаємо об'ект з даних користувача з форми Реєстрації
-  submitForm = (data) => {
+  // submitForm = (data) => {
+  submitForm = async (data) => { //? робимо метод асинхронним 
     console.log("✅submitForm_Дані користувача:", data);
 
-    // this.setState({
-    //   userData: data
-    // });
+    //? NEW
+    try {
+      //! Додаємо нового користувача на json-server
+      await axios.post("http://localhost:3000/usersAircraftsTest", data);
+
+      //! Отримуємо оновлений список користувачів з json-server
+      const response = await axios.get("http://localhost:3000/usersAircraftsTest");
+      console.log("✅submitForm_response.data", response.data);
+
+      //! Оновлюємо список користувачів в State
+      this.setState({
+        users: response.data,
+      });
+
+    } catch (error) {
+      console.log('❌ Помилка запита users "http://localhost:3000/usersAircrafts":', error);
+    }
 
     this.setState(prevState => ({
       aircraftsArr: this.state.aircrafts, //! 
@@ -639,7 +655,7 @@ export class App extends Component {
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
       modelScale: "_", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true,
-      users: [...prevState.users, data],
+      //? users: [...prevState.users, data],
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
     }));
 
