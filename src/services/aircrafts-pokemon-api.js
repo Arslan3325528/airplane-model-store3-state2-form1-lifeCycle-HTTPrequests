@@ -5,17 +5,16 @@ import { generatesRandomNumber } from '@/utils'; //! приймає два чи�
 //? Константи для створення url:
 const BASE_URL = "https://pokeapi.co/api/v2/";
 
-const ENDPOINT_POKEMONS = "pokemon";
-// const ENDPOINT_POKEMONS = "pokemon1"; //! ❌ викликає помилку 404
+// const ENDPOINT_POKEMONS = "pokemon";
+const ENDPOINT_POKEMONS = "pokemon1"; //! ❌ викликає помилку 400
 
-const min = 1;
-const max = 1025;
-const pokemonId = generatesRandomNumber(min, max);
 
 //? Запит на "https://pokeapi.co/api/v2/pokemon/${number}"
 export async function fetchPokemonForAircrafts() {
-  // const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`; //! ❌ Так генерить одне і теж число до наступного перевантаження
-  const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${generatesRandomNumber(min, max)}`; //* ✅ Так генерить різні числа
+  const min = 1;
+  const max = 1025;
+  const pokemonId = generatesRandomNumber(min, max);
+  const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`;
 
   try {
     const response = await axios.get(url);
