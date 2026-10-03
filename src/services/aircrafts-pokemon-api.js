@@ -14,7 +14,8 @@ const pokemonId = generatesRandomNumber(min, max);
 
 //? Запит на "https://pokeapi.co/api/v2/pokemon/${number}"
 export async function fetchPokemonForAircrafts() {
-  const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`;
+  // const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`; //! ❌ Так генерить одне і теж число до наступного перевантаження
+  const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${generatesRandomNumber(min, max)}`; //* ✅ Так генерить різні числа
 
   try {
     const response = await axios.get(url);
@@ -24,12 +25,12 @@ export async function fetchPokemonForAircrafts() {
     //! Помилка: 404
     if (error.response?.status === 404) {
       console.log("🅰️xios==>❌error-404", error);
-      throw new Error(`Покемена з ім'ям «${name}» не існує`);
+      throw new Error(`Покемена з ім'ям «${pokemonId}» не існує`);
     };
     //! Помилка: 400
     if (error.response?.status === 400) {
       console.log("🅰️xios==>❌error-400:", error);
-      throw new Error(`Сталася синтаксична помилка при введенні імені «${name}»`);
+      throw new Error(`Сталася синтаксична помилка при введенні імені «${pokemonId}»`);
     };
     //! Інша помилка
     console.log("🅰️xios==>❌error-(інша помилка):", error);
