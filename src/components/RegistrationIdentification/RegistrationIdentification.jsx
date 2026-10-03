@@ -1,3 +1,7 @@
+// import defaultImage from "./default.png" //! Дефолтне зображення
+// import defaultImage from "./defaultPikachu1.jpg" //! Дефолтне зображення
+import defaultImage from "./defaultDragon.png" //! Дефолтне зображення
+
 import css from "./RegistrationIdentification.module.css";
 
 
@@ -14,10 +18,11 @@ export function RegistrationIdentification({
       {activeUser
         ?
         <h2 className={css.titleRegistrationIdentification}>
-          Вітаю вас,&nbsp;
+          Вітаю вас,
+          &nbsp;
           <span className={css.titleUserRegistrationIdentification}>{activeUser.userName}</span>
           &nbsp;
-          <span className={css.titleUserRegistrationIdentification} style={{ color: "#d32f2f" }}>({activeUser.userNickName})</span>
+          <span className={css.titleUserRegistrationIdentification} style={{ color: "#d32f2f" }}>{activeUser.userNickName ? `(${activeUser.userNickName})` : null}</span>
         </h2>
         :
         <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
@@ -52,7 +57,7 @@ export function RegistrationIdentification({
 
         {activeUser &&
           <>
-            <img src={activeUser.userAvatar} alt={activeUser.userName} style={{width: "59px"}} />
+          <img src={activeUser.userAvatar ?? defaultImage} alt={activeUser.userName} style={{width: "59px"}} />
             <button
               className={`${css.buttonRegistrationIdentification} ${css.buttonSignOut}`}
               type="button"
