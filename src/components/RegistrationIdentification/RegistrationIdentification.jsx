@@ -14,7 +14,10 @@ export function RegistrationIdentification({
       {activeUser
         ?
         <h2 className={css.titleRegistrationIdentification}>
-          Вітаю вас, <span className={css.titleUserRegistrationIdentification}>{activeUser.userName}</span>
+          Вітаю вас,&nbsp;
+          <span className={css.titleUserRegistrationIdentification}>{activeUser.userName}</span>
+          &nbsp;
+          <span className={css.titleUserRegistrationIdentification} style={{ color: "#d32f2f" }}>({activeUser.userNickName})</span>
         </h2>
         :
         <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
@@ -48,13 +51,16 @@ export function RegistrationIdentification({
         }
 
         {activeUser &&
-          <button
-            className={`${css.buttonRegistrationIdentification} ${css.buttonSignOut}`}
-            type="button"
-            onClick={onSignOut}
-          >
-            SignOut
-          </button>
+          <>
+            <img src={activeUser.userAvatar} alt={activeUser.userName} style={{width: "59px"}} />
+            <button
+              className={`${css.buttonRegistrationIdentification} ${css.buttonSignOut}`}
+              type="button"
+              onClick={onSignOut}
+            >
+              SignOut
+            </button>
+          </>
         }
 
       </div>
