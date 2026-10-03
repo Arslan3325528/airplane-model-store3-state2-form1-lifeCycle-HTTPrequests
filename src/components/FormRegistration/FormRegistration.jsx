@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchUsersAircrafts } from '@/services' //? users --> запити з json-server
+import { fetchUsersAircrafts, fetchPokemonForAircrafts } from '@/services' //? users &  pokemon --> запити з json-server
 
 import css from "./FormRegistration.module.css";
 
@@ -21,8 +21,9 @@ export class FormRegistration extends Component {
         this.setState({ ...INITIAL_STATE });
     };
 
-    //? Метод для отримання масиву користувачів users з json-server: "http://localhost:3000/usersAircrafts"
-    loadInitialDataUsers = async (fetchData) => {
+    //? Метод-обгортка для отримання даних за допомогою колбек функції fetchData
+    //? Метод отримуєння масив користувачів users з json-server: "http://localhost:3000/usersAircrafts"
+    loadData = async (fetchData) => {
         try {
             return fetchData()
         } catch (error) {
@@ -39,12 +40,19 @@ export class FormRegistration extends Component {
         //! userNickName - це це нікнейм нового користувача
         //! indicesSelectedModels - це масив індексів обраних моделей нового користувача
         // const { userName, userEmail, userPassword, userExperience, userAge, isActive = false, indicesSelectedModels = [] } = this.state; 
-        const { userName, userEmail, userPassword, userExperience, userAge, userAvatar = "", userNickName = "", indicesSelectedModels = [] } = this.state; //? NEW
+        const {
+            userName,
+            userEmail,
+            userPassword,
+            userExperience,
+            userAge,
+            indicesSelectedModels = []
+        } = this.state; //? NEW
         // console.log(`Name: ${userName}, ✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
 
         //! Перевірка на унікальність userEmail
         // const users = JSON.parse(localStorage.getItem("users")); // todo: old - завантажуємо "свіженких" users з localStorage
-        const users = await this.loadInitialDataUsers(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        const users = await this.loadData(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
         console.log("users_db:", users); //?
         const isEmaiNotlUnique = users.some(user => user.userEmail === userEmail);
         console.log("📩Email не унікальний?:", isEmaiNotlUnique); //!
@@ -55,9 +63,27 @@ export class FormRegistration extends Component {
             return;
         };
 
+        //? Створюємо значення додаткових властивостей userAvatar і userNickName
+        const pokemon = await this.loadData(fetchPokemonForAircrafts); //? завантажуємо об'єкт pokemon
+        console.log("❗️{🐷} Покемон-об'єкт:", pokemon);
+        const userAvatar = pokemon.sprites.front_default; //todo: var.1
+        // const userAvatar = pokemon.sprites.other.home?.front_default; //todo: var.2
+        // const userAvatar = pokemon.sprites.other['official-artwork'].front_default; //todo: var.3
+        const userNickName = pokemon.name;
+
         // this.props.onSubmit({ ...this.state }); //! підняття стану + передача state в App.jsx
         // this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels }); //! підняття стану + передача частини state в App.jsx
-        this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, userAvatar, userNickName, indicesSelectedModels }); //? підняття стану + передача частини state в App.jsx
+        this.props.onSubmit({
+            userName,
+            userEmail,
+            userPassword,
+            userExperience,
+            userAge,
+            userAvatar,
+            userNickName,
+            indicesSelectedModels
+        }); //? підняття стану + передача частини state в App.jsx
+
         this.reset();  //! очищуємо поля всіх інпутів
         // this.props.onClose(); //! закриваємо модалку
     };
