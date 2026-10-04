@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { fetchUsersAircrafts } from '@/services' //? users --> запити з json-server
+import {
+    loadData, //? метод-обгортка для отримання даних за допомогою колбек функції fetchData
+    fetchUsersAircrafts,
+} from '@/services' //? users --> запити з json-server
 
 import css from "./FormIdentification.module.css";
 
@@ -17,15 +20,15 @@ export class FormIdentification extends Component {
         this.setState({ ...INITIAL_STATE });
     };
 
-    //? Метод-обгортка для отримання даних за допомогою колбек функції fetchData
+    //? Метод-обгортка для отримання даних за допомогою колбек функції fetchData (вже є в import)
     //? Метод отримуєння масив користувачів users з json-server: "http://localhost:3000/usersAircrafts"
-    loadData = async (fetchData) => {
-        try {
-            return fetchData()
-        } catch (error) {
-            console.log("❌", error);
-        };
-    };
+    // loadData = async (fetchData) => {
+    //     try {
+    //         return fetchData()
+    //     } catch (error) {
+    //         console.log("❌Помилка loadData()", error);
+    //     };
+    // };
 
     // todo: NEW
     // handleSubmit = event => {
@@ -36,7 +39,8 @@ export class FormIdentification extends Component {
 
         //! Перевірка на наявність userEmail (Ідентифікація)
         // const users = JSON.parse(localStorage.getItem("users")); // todo: old - завантажуємо "свіженких" users з localStorage
-        const users = await this.loadData(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        // const users = await this.loadData(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts"
+        const users = await loadData(fetchUsersAircrafts); //? завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts" (беремо з import)
         console.log("users:", users); //?
         const isEmail = users.some(user => user.userEmail === userEmail);
         console.log("📩Такий Email є в db?:", isEmail); //!
