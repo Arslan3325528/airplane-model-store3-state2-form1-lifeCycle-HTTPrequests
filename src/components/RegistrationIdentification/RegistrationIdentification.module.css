@@ -34,7 +34,7 @@
 
 .buttonBoxRegistrationIdentification {
     display: flex;
-    gap: 10px;
+    gap: 16px;
     justify-content: center;
     align-items: center;
     /* outline: 1px red solid; */

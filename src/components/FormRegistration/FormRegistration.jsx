@@ -74,9 +74,9 @@ export class FormRegistration extends Component {
         const pokemon = await loadData(fetchPokemonForAircrafts); //? завантажуємо об'єкт pokemon (беремо з import)
         console.log("❗️{🐷} Покемон-об'єкт:", pokemon);
         const userNickName = pokemon.name;
-        const userAvatar = pokemon.sprites.front_default; //todo: var.1
+        // const userAvatar = pokemon.sprites.front_default; //todo: var.1
         // const userAvatar = pokemon.sprites.other.home?.front_default; //todo: var.2
-        // const userAvatar = pokemon.sprites.other['official-artwork'].front_default; //todo: var.3
+        const userAvatar = pokemon.sprites.other['official-artwork'].front_default; //todo: var.3
 
         //! Підняття стану + передача state (не всього) та додаткових властивостей в App.jsx в метод submitForm
         // this.props.onSubmit({ ...this.state }); 

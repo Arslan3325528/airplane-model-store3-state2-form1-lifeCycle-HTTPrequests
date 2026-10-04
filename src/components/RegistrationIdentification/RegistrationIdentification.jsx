@@ -22,7 +22,25 @@ export function RegistrationIdentification({
           &nbsp;
           <span className={css.titleUserRegistrationIdentification}>{activeUser.userName}</span>
           &nbsp;
-          <span className={css.titleUserRegistrationIdentification} style={{ color: "#d32f2f" }}>{activeUser.userNickName ? `(${activeUser.userNickName})` : null}</span>
+          {/* <span className={css.titleUserRegistrationIdentification} style={{ color: "#d32f2f" }}>{activeUser.userNickName ? `(${activeUser.userNickName})` : null}</span> */}
+          {/*//! Робимо першу літеру userNickName Великою (var.1) */}
+          {/* <span
+            className={css.titleUserRegistrationIdentification}
+            style={{ color: "#d32f2f", textTransform: "capitalize" }}
+          >
+            {activeUser.userNickName
+              ? `(${activeUser.userNickName})`
+              : null}
+          </span> */}
+          {/*//! Робимо першу літеру userNickName Великою (var.2) */}
+          <span
+            className={css.titleUserRegistrationIdentification}
+            style={{ color: "#d32f2f" }}
+          >
+            {activeUser.userNickName
+              ? `(${activeUser.userNickName[0]?.toUpperCase()}${activeUser.userNickName.slice(1)})`
+              : null}
+          </span>
         </h2>
         :
         <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
@@ -57,7 +75,7 @@ export function RegistrationIdentification({
 
         {activeUser &&
           <>
-          <img src={activeUser.userAvatar ?? defaultImage} alt={activeUser.userName} style={{width: "59px"}} />
+          <img src={activeUser.userAvatar ?? defaultImage} alt={activeUser.userName} style={{width: "80px"}} />
             <button
               className={`${css.buttonRegistrationIdentification} ${css.buttonSignOut}`}
               type="button"
