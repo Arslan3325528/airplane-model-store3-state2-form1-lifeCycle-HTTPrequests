@@ -8,11 +8,11 @@ const BASE_URL = "https://pokeapi.co/api/v2/";
 const ENDPOINT_POKEMONS = "pokemon";
 // const ENDPOINT_POKEMONS = "pokemon1"; //! ❌ викликає помилку 400
 
+const min = 1;
+const max = 1025;
 
 //? Запит на "https://pokeapi.co/api/v2/pokemon/${generatesRandomNumber(1, 1025)}"
 export async function fetchPokemonForAircrafts() {
-  const min = 1;
-  const max = 1025;
   const pokemonId = generatesRandomNumber(min, max);
   const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`;
 
