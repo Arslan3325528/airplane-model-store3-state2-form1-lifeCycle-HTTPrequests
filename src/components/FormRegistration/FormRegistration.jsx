@@ -46,6 +46,7 @@ export class FormRegistration extends Component {
             userPassword,
             userExperience,
             userAge,
+            // userLicence, //! не потрібна
             indicesSelectedModels = []
         } = this.state; //? NEW
         // console.log(`Name: ${userName}, ✉️E-mail: ${userEmail},🈳Password: ${userPassword}`);
@@ -66,23 +67,24 @@ export class FormRegistration extends Component {
         //? Створюємо значення додаткових властивостей userAvatar і userNickName
         const pokemon = await this.loadData(fetchPokemonForAircrafts); //? завантажуємо об'єкт pokemon
         console.log("❗️{🐷} Покемон-об'єкт:", pokemon);
+        const userNickName = pokemon.name;
         const userAvatar = pokemon.sprites.front_default; //todo: var.1
         // const userAvatar = pokemon.sprites.other.home?.front_default; //todo: var.2
         // const userAvatar = pokemon.sprites.other['official-artwork'].front_default; //todo: var.3
-        const userNickName = pokemon.name;
 
-        // this.props.onSubmit({ ...this.state }); //! підняття стану + передача state в App.jsx
-        // this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels }); //! підняття стану + передача частини state в App.jsx
+        //! Підняття стану + передача state (не всього) та додаткових властивостей в App.jsx в метод submitForm
+        // this.props.onSubmit({ ...this.state }); 
+        // this.props.onSubmit({ userName, userEmail, userPassword, userExperience, userAge, isActive, indicesSelectedModels });
         this.props.onSubmit({
             userName,
             userEmail,
             userPassword,
-            userExperience,
             userAge,
-            userAvatar,
-            userNickName,
+            userExperience,
+            userNickName, //? передача нової (додаткової) властивості
+            userAvatar, //? передача нової (додаткової) властивості
             indicesSelectedModels
-        }); //? підняття стану + передача частини state в App.jsx
+        }); 
 
         this.reset();  //! очищуємо поля всіх інпутів
         // this.props.onClose(); //! закриваємо модалку
