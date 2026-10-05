@@ -19,6 +19,7 @@ import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 import {
   fetchAircrafts,
   fetchUsersAircrafts,
+  updateUserSelectedModels,
 } from "@/services";
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
@@ -269,37 +270,56 @@ export class App extends Component {
 
   };
 
+  //? Логіка запиту на http://localhost:3000/usersAircrafts/id для зміни indicesSelectedModels знаходитьсяу окремому методі
+  updateUserInDatabase = async () => {
+    const { activeUser, indicesSelectedModels } = this.state;
+    try {
+      await updateUserSelectedModels(activeUser.id, indicesSelectedModels);
+      console.log("✅ indicesSelectedModels успішно оновлено:",indicesSelectedModels);
+    } catch (error) {
+      console.error("❌ Помилка оновлення користувача:", error);
+    };
+  };
+
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
   componentDidUpdate(prevProps, prevState) {
-    //todo: indicesSelectedModels
+    //todo-1_OLD: indicesSelectedModels
     // if (localStorage.getItem("indicesSelectedModels") && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
     //   console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
     //   localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
     // };
-    
-    if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
-      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
-      // console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
-      console.log("❌❌❌ НЕ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
-      // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
-      // this.setState({
-      //   selectedModels: this.state.indicesSelectedModels.flatMap(id =>
-      //     this.state.aircrafts.filter((el) => id === el.id))
-      //     .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
-      //   activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
-      //   users: prevState.users.map((user, index) =>
-      //     index === this.state.activeUserId
-      //     ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
-      //     : user)
-      // });
-    };
 
+    //todo-2_OLD: indicesSelectedModels
+    // if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+    //   // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+    //   // console.log("✅✅✅ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+    //   console.log("❌❌❌ НЕ Перезаписуємо localStorage 'indicesSelectedModels_componentDidUpdate");
+    //   // localStorage.setItem("indicesSelectedModels", JSON.stringify(this.state.indicesSelectedModels));
+    //   // this.setState({
+    //   //   selectedModels: this.state.indicesSelectedModels.flatMap(id =>
+    //   //     this.state.aircrafts.filter((el) => id === el.id))
+    //   //     .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
+    //   //   activeUser: { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels },
+    //   //   users: prevState.users.map((user, index) =>
+    //   //     index === this.state.activeUserId
+    //   //     ? { ...this.state.activeUser, indicesSelectedModels: this.state.indicesSelectedModels }
+    //   //     : user)
+    //   // });
+    // };
+
+    //? todo-3_NEW: indicesSelectedModels
+    if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+      console.log('✅🖍 componentDidUpdate_Перезаписуємо indicesSelectedModels в "http://localhost:3000/usersAircrafts/userId"');
+        this.updateUserInDatabase();
+    };
+  
     //todo: users
     if (prevState.users !== this.state.users) {
       // console.log("✅🖍✅🖍 Перезаписуємо localStorage 'users_componentDidUpdate");
       // localStorage.setItem("users", JSON.stringify(this.state.users));
-      console.log("❌🖍❌🖍 НЕ Перезаписуємо localStorage 'users_componentDidUpdate");
+      console.log("❌🖍 componentDidUpdate_НЕ Перезаписуємо users в localStorage");
     };
+
   };
 
 

@@ -17,7 +17,7 @@ const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest"; //todo: тестов
 // const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest1"; //! ❌ викликає помилку 404
 
 
-//? Запит на "http://localhost:3000/aircrafts"
+//? Запит GET на "http://localhost:3000/aircrafts"
 export async function fetchAircrafts() {
   const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`;
 
@@ -47,7 +47,7 @@ export async function fetchAircrafts() {
 };
 
 
-//? Запит на "http://localhost:3000/usersAircrafts"
+//? Запит GET на "http://localhost:3000/usersAircrafts"
 export async function fetchUsersAircrafts() {
   // const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS}`;
   const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тестова DB для налаштування логіки запитів
@@ -74,4 +74,13 @@ export async function fetchUsersAircrafts() {
     // console.log("🅰️🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
     throw error;
   };
+};
+
+
+//? Запит PATCH на "http://localhost:3000/usersAircrafts/userId"
+// export const updateUserSelectedModels = async (userId, indicesSelectedModels) => {
+export async function updateUserSelectedModels(userId, indicesSelectedModels) {
+  const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS_TEST}/${userId}`; //todo: тестова DB для налаштування логіки запитів
+  const response = await axios.patch(url, {indicesSelectedModels});
+  return response.data;
 };
