@@ -435,29 +435,69 @@ export class App extends Component {
 
 
   //! Обробка кліка на кнопці <Додати до кошику>
+  //todo: OLD
+  // getActiveId = id => {
+  //   console.log('🆔Індекс обраної моделі ("id"):', id); //!
+  //   this.setState((prevState) => {
+  //     //! Перевіряємо наявність елемента зі значенням <id> у масиві індексів обраних моделей [indicesSelectedModels]
+  //     const exists = this.state.indicesSelectedModels.includes(id);
+  //     if (exists) {
+  //       console.log("Такий індекс моделі вже є,тоді ВИДАЛЯЄМО його!❌");
+  //     } else {
+  //       console.log("Такого індекса моделі ще немає,тоді ДОДАЄМО його!✅");
+  //     };
+  //     return {
+  //       // inputSearchValue: "",
+  //       indicesSelectedModels:
+  //         exists
+  //           // ? this.state.indicesSelectedModels.filter(item => item !== id)
+  //           ? prevState.indicesSelectedModels.filter(item => item !== id)
+  //           // : [...prevState.indicesSelectedModels, id] //! без сортування
+  //           // : [...this.state.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
+  //           : [...prevState.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
+  //       // selectedModels: updateSelectedModels(prevState.indicesSelectedModels, this.state.aircrafts), //!❌ так НЕ додає останній елемент
+  //     };
+  //   });
+  //   this.updateSelectedModels(); //*✅ так додає останній елемент
+  // };
+
+  //todo: NEW
   getActiveId = id => {
     console.log('🆔Індекс обраної моделі ("id"):', id); //!
-    this.setState((prevState) => {
+    this.setState(prevState => {
       //! Перевіряємо наявність елемента зі значенням <id> у масиві індексів обраних моделей [indicesSelectedModels]
-      const exists = this.state.indicesSelectedModels.includes(id);
+      const exists = prevState.indicesSelectedModels.includes(id);
       if (exists) {
         console.log("Такий індекс моделі вже є,тоді ВИДАЛЯЄМО його!❌");
       } else {
         console.log("Такого індекса моделі ще немає,тоді ДОДАЄМО його!✅");
       };
+
+      const indicesSelectedModels = exists
+        ? prevState.indicesSelectedModels.filter(item => item !== id)
+        : [...prevState.indicesSelectedModels, id].sort((a, b) => a - b);
+
+      const selectedModels = indicesSelectedModels.flatMap(selectedId => prevState.aircrafts.filter(aircraft => aircraft.id === selectedId))
+        .sort((a, b) => a.name.brief.localeCompare(b.name.brief)
+      );
+
+      //! Змінюємо indicesSelectedModels в activeUser
+      const activeUser = this.state.activeUser
+      activeUser.indicesSelectedModels = indicesSelectedModels;
+
+      //! Змінюємо indicesSelectedModels в users
+      const users = this.state.users;
+      // console.log('👤👥users:', users); //!
+      const index = users.findIndex(user => user.id === this.state.activeUserId);
+      users[index].indicesSelectedModels = indicesSelectedModels;
+
       return {
-        // inputSearchValue: "",
-        indicesSelectedModels:
-          exists
-            // ? this.state.indicesSelectedModels.filter(item => item !== id)
-            ? prevState.indicesSelectedModels.filter(item => item !== id)
-            // : [...prevState.indicesSelectedModels, id] //! без сортування
-            // : [...this.state.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
-            : [...prevState.indicesSelectedModels, id].sort((a, b) => a - b), //! сортування за id
-        // selectedModels: updateSelectedModels(prevState.indicesSelectedModels, this.state.aircrafts), //!❌ так НЕ додає останній елемент
+        indicesSelectedModels,
+        selectedModels,
+        activeUser,
+        users
       };
     });
-    this.updateSelectedModels(); //*✅ так додає останній елемент
   };
 
 
