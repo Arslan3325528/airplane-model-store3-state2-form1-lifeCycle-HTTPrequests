@@ -173,13 +173,16 @@ export class App extends Component {
       ]);
       
       const activeUser = users.find(user => user.id === this.state.activeUserId);
-      // console.log("loadInitialData 🗣 Активний(авторизований) користувач:", activeUser); //!
+      console.log("loadInitialData_🗣 Активний(авторизований) користувач:", activeUser); //!
+      if (!activeUser) localStorage.removeItem("activeUserId"); //? якщо activeUser з activeUserId(this.state.activeUserId) відсутній, видаляємо id Активного(авторизованого) користувача з localStorage 
 
       //! Штучно затримуємо відображення результату на 2 секунди
       await delay(2000);
 
-      //! Оновлюємо State згідно логіки існування this.state.activeUserId
-      this.state.activeUserId 
+      // // Оновлюємо State згідно логіки існування this.state.activeUserId
+      // this.state.activeUserId
+      //! Оновлюємо State якщо існує activeUser
+      activeUser
         ?
         this.setState({
           aircrafts,
@@ -188,7 +191,8 @@ export class App extends Component {
           modelsSelectedScale: aircrafts,
           users,
           loader: false,
-          //! Якщо існує this.state.activeUserId додатково оновлюємо State
+          // // Якщо існує this.state.activeUserId додатково оновлюємо State
+          //! Якщо існує activeUser додатково оновлюємо State
           activeUser, 
           indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
           selectedModels: activeUser.indicesSelectedModels
@@ -204,6 +208,8 @@ export class App extends Component {
           aircraftsArrAfterFiltration: aircrafts,
           modelsSelectedScale: aircrafts,
           users,
+          activeUser: null,
+          activeUserId: null,
           loader: false,
         });
       
