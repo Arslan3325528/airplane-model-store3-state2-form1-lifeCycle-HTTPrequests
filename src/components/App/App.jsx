@@ -308,7 +308,14 @@ export class App extends Component {
     // };
 
     //? todo-3_NEW: indicesSelectedModels
-    if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+    // if (this.state.activeUser && prevState.indicesSelectedModels !== this.state.indicesSelectedModels) {
+    if (
+      // this.state.activeUser
+      // &&
+      prevState.activeUser === this.state.activeUser
+      &&
+      prevState.indicesSelectedModels !== this.state.indicesSelectedModels
+    ){
       console.log('✅🖍 componentDidUpdate_Перезаписуємо indicesSelectedModels в "http://localhost:3000/usersAircrafts/userId"');
         this.updateUserInDatabase();
     };
