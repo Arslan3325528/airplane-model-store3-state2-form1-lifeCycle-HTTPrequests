@@ -409,22 +409,22 @@ export class App extends Component {
 
   //! Формуємо(оновлюємо) масив обраних моделей [selectedModels] зберігаючи його в state:
   //*✅ Так додає останній елемент
-  updateSelectedModels = () => {
-    this.setState(prevState => ({
-      selectedModels:
-        prevState.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
-        .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
-      // activeUser: {...prevState.activeUser, indicesSelectedModels: this.state.indicesSelectedModels},
-    }));
-  };
+  // updateSelectedModels = () => {
+  //   this.setState(prevState => ({
+  //     selectedModels:
+  //       prevState.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id))
+  //       .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! з сортуванням за полем "name.brief"
+  //     // activeUser: {...prevState.activeUser, indicesSelectedModels: this.state.indicesSelectedModels},
+  //   }));
+  // };
 
 
   //! Обробка кнопок-фільтрів
   cartFiltration = () => {
     //! Прокрутити сторінку вгору
-    this.windowSrollTo();
     console.log("Клік в кнопку Кошик");
-    this.updateSelectedModels();
+    this.windowSrollTo();
+    // this.updateSelectedModels(); 
     // Формуємо(оновлюємо) масив обраних моделей [selectedModels] не зберігаючи його в state:
     // const selectedModels = this.state.indicesSelectedModels.flatMap(id => this.state.aircrafts.filter((el) => id === el.id));
     // console.log("selectedModels:", selectedModels);
