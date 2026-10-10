@@ -1,14 +1,8 @@
 import PropTypes from 'prop-types';
-import { useState } from "react"; //* NEW --> для завантаження дефолтного зображення
-
 import { ActualImageModal } from '@/components/ActualImageModal/ActualImageModal.jsx'; //? Модальні вікна для блока зображень з бібліотекою Yet Another React Lightbox
-
-import defaultImage from "@/components/Planes/defaultImage.jpg";
-// import defaultImagePlane from "@/components/Planes/defaultImagePlane.jpg";
+import defaultImage from "@/components/Planes/defaultImage.jpg"; 
 import template from "@/components/Planes/template-out-of-stock.jpg";
-
 import css from "./Planes.module.css"; 
-
 
 //! Бібліотека react-icons
 import { AiOutlineFlag, AiOutlineInfoCircle, AiOutlineClockCircle, AiOutlineDollarCircle } from "react-icons/ai";
@@ -58,17 +52,6 @@ export function Planes({
   //! Рахуємо кількість моделей <numberModels> виходячи з наявності фактичної ціни
   const numberModels = Object.values(modelColorsPrice).filter(el => Number(el)).length;
   // console.log("📌📌📌numberModels :", numberModels);
-
-  //* NEW --> для завантаження дефолтного зображення
-  const [isPromotionalLoaded, setIsPromotionalLoaded] = useState(false);
-  const [isPromotionalError, setIsPromotionalError] = useState(false);
-  //* NEW --> для завантаження дефолтного зображення
-  const promotionalSrc =
-    urlPromotional && !isPromotionalError
-      ? urlPromotional
-      : defaultImage;
-  
-  
   return (
     <>
       {/* <h3 className={css.planeTitle}>{nameBrief}</h3> */}
@@ -97,31 +80,7 @@ export function Planes({
       <p className={css.textField}><AiOutlineInfoCircle size={iconSize.md} className={css.icon} /> Опис: <span className={css.textFieldValue}>{description}</span></p>
       {/*//! заголовок зображень */}
       <h4 className={css.imageTitles}><GiAirplaneDeparture size={iconSize.lg} className={css.iconImageTitles} /> Рекламна модель:</h4>
-      {/* <img src={urlPromotional} alt={nameBrief} /> */}
-      {/* //* NEW --> для завантаження дефолтного зображення */}
-      <div className={css.promotionalImageWrapper}>
-        {!isPromotionalLoaded && !isPromotionalError && (
-          <img
-            src={defaultImage}
-            alt="defaultImage"
-            aria-hidden="true"
-            className={css.promotionalImage}
-          />
-        )}
-
-        <img
-          src={promotionalSrc}
-          alt={nameBrief}
-          className={css.promotionalImage}
-          onLoad={() => setIsPromotionalLoaded(true)}
-          onError={() => setIsPromotionalError(true)}
-          style={{
-            display: isPromotionalError ? "none" : "block",
-            opacity: isPromotionalLoaded ? 1 : 0,
-          }}
-        />
-      </div>
-
+      <img src={urlPromotional ?? defaultImage} alt={nameBrief} className="promotionalImage" />
       {/*//! заголовок зображень */}
       <h4 className={css.imageTitles}><CiAirportSign1 size={iconSize.lg} className={css.iconImageTitles} /> Реальна модель:</h4>
       {/* //? Блок зображень без модальних вікон */}
