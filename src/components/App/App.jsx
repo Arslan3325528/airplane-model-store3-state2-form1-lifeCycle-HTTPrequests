@@ -163,65 +163,98 @@ export class App extends Component {
 
   //? Вся логіка початкового завантаження знаходитьсяу окремому методі
   //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
-  loadInitialData = async () => {
-    this.setState({ loader: true });
+  //todo: old (без розділення логіки) 
+  // loadInitialData = async () => {
+  //   this.setState({ loader: true });
 
+  //   try {
+  //     const [aircrafts, users] = await Promise.all([
+  //       fetchAircrafts(),
+  //       fetchUsersAircrafts(),
+  //     ]);
+      
+  //     const activeUser = users.find(user => user.id === this.state.activeUserId);
+  //     console.log("loadInitialData_🗣 Активний(авторизований) користувач:", activeUser); //!
+  //     if (!activeUser) localStorage.removeItem("activeUserId"); //? якщо activeUser з activeUserId(this.state.activeUserId) відсутній, видаляємо id Активного(авторизованого) користувача з localStorage 
+
+  //     //! Штучно затримуємо відображення результату на 2 секунди
+  //     await delay(2000);
+
+  //     // // Оновлюємо State згідно логіки існування this.state.activeUserId
+  //     // this.state.activeUserId
+  //     //! Оновлюємо State якщо існує activeUser
+  //     activeUser
+  //       ?
+  //       this.setState({
+  //         aircrafts,
+  //         aircraftsArr: aircrafts,
+  //         aircraftsArrAfterFiltration: aircrafts,
+  //         modelsSelectedScale: aircrafts,
+  //         users,
+  //         loader: false,
+  //         // // Якщо існує this.state.activeUserId додатково оновлюємо State
+  //         //! Якщо існує activeUser додатково оновлюємо State
+  //         activeUser, 
+  //         indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
+  //         selectedModels: activeUser.indicesSelectedModels
+  //             .flatMap(id => aircrafts.filter((el) => id === el.id))
+  //             .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
+  //         isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
+  //         showModal: false,
+  //       })
+  //       :
+  //       this.setState({
+  //         aircrafts,
+  //         aircraftsArr: aircrafts,
+  //         aircraftsArrAfterFiltration: aircrafts,
+  //         modelsSelectedScale: aircrafts,
+  //         users,
+  //         activeUser: null,
+  //         activeUserId: null,
+  //         loader: false,
+  //       });
+      
+  //   } catch (error) {
+  //     console.log("❌", error);
+  //     this.setState({
+  //       loader: false,
+  //       // error: error.message //todo: var.1
+  //       error, //todo: var.2
+  //     });
+  //   }
+  // };
+  //* todo: NEW (з розділенням логіки)
+  //! Завантаження початкових даних з json-server
+  //! Метод виконує HTTP-запити, затримку та повертає результат.
+  //! State тут НЕ змінюємо.
+  loadInitialData = async () => {
     try {
+      //! 1. Виконуємо два HTTP-запити паралельно
       const [aircrafts, users] = await Promise.all([
         fetchAircrafts(),
         fetchUsersAircrafts(),
       ]);
-      
-      const activeUser = users.find(user => user.id === this.state.activeUserId);
-      console.log("loadInitialData_🗣 Активний(авторизований) користувач:", activeUser); //!
-      if (!activeUser) localStorage.removeItem("activeUserId"); //? якщо activeUser з activeUserId(this.state.activeUserId) відсутній, видаляємо id Активного(авторизованого) користувача з localStorage 
 
-      //! Штучно затримуємо відображення результату на 2 секунди
+      //! 2. Штучно затримуємо отримання результату на 2 секунди
       await delay(2000);
 
-      // // Оновлюємо State згідно логіки існування this.state.activeUserId
-      // this.state.activeUserId
-      //! Оновлюємо State якщо існує activeUser
-      activeUser
-        ?
-        this.setState({
-          aircrafts,
-          aircraftsArr: aircrafts,
-          aircraftsArrAfterFiltration: aircrafts,
-          modelsSelectedScale: aircrafts,
-          users,
-          loader: false,
-          // // Якщо існує this.state.activeUserId додатково оновлюємо State
-          //! Якщо існує activeUser додатково оновлюємо State
-          activeUser, 
-          indicesSelectedModels: activeUser.indicesSelectedModels, //! масив індексів обраних моделей
-          selectedModels: activeUser.indicesSelectedModels
-              .flatMap(id => aircrafts.filter((el) => id === el.id))
-              .sort((a, b) => a.name.brief.localeCompare(b.name.brief)), //! масив обраних моделей
-          isCartButtonDisabled: false,  //! 🔐 тригер блокування кнопки «Кошик»
-          showModal: false,
-        })
-        :
-        this.setState({
-          aircrafts,
-          aircraftsArr: aircrafts,
-          aircraftsArrAfterFiltration: aircrafts,
-          modelsSelectedScale: aircrafts,
-          users,
-          activeUser: null,
-          activeUserId: null,
-          loader: false,
-        });
-      
+      //! ✅ 3. Повертаємо успішний результат
+      return {
+        aircrafts,
+        users,
+        error: null,
+      };
     } catch (error) {
-      console.log("❌", error);
-      this.setState({
-        loader: false,
-        // error: error.message //todo: var.1
-        error, //todo: var.2
-      });
+      console.error("❌ Помилка завантаження початкових даних:", error);
+      //! ❌ 4. Повертаємо інформацію про помилку
+      return {
+        aircrafts: null,
+        users: null,
+        error,
+      };
     }
   };
+
 
   //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   //todo_NEW-2: aircrafts + users
@@ -272,7 +305,68 @@ export class App extends Component {
     //todo_NEW-2: aircrafts + users
     //? Вся логіка початкового завантаження знаходитьсяу окремому методі
     //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
-    this.loadInitialData();
+    //todo: old (без розділення логіки) 
+    // this.loadInitialData();
+    //* todo: NEW (з розділенням логіки)
+    //* 1. Вмикаємо лоадер перед HTTP-запитами
+    this.setState({ loader: true });
+
+    //* 2. Отримуємо результат завантаження
+    this.loadInitialData().then(({ aircrafts, users, error }) => {
+      //! 1. Якщо під час HTTP-запитів виникла помилка
+      if (error) {
+        this.setState({
+          loader: false,
+          error,
+        });
+        return;
+      };
+
+      //! 2. Визначаємо активного користувача за id з localStorage
+      const activeUserId = this.state.activeUserId;
+      const activeUser = users.find(user => user.id === activeUserId);
+      console.log("componentDidMount_🗣 Активний користувач:", activeUser);
+
+      //! 3. Якщо користувача з таким id більше не існує, видаляємо його id з localStorage
+      if (!activeUser) localStorage.removeItem("activeUserId");
+
+      // 4. Формуємо масиви обраних моделей
+      const indicesSelectedModels = activeUser?.indicesSelectedModels ?? [];
+
+      const selectedModels = indicesSelectedModels
+        .flatMap(id => aircrafts.filter(aircraft => aircraft.id === id))
+        .sort((a, b) =>
+          a.name.brief.localeCompare(b.name.brief)
+        );
+
+      //! 5. Оновлюємо state після отримання даних
+      this.setState({
+        //! Початкові масиви всіх моделей
+        aircrafts,
+        aircraftsArr: aircrafts,
+        aircraftsArrAfterFiltration: aircrafts,
+        modelsSelectedScale: aircrafts,
+
+        //! Список користувачів із сервера
+        users,
+
+        //! Дані активного користувача
+        activeUser: activeUser ?? null,
+        activeUserId: activeUser ? activeUser.id : null,
+
+        //! Обрані моделі користувача
+        indicesSelectedModels,
+        selectedModels,
+
+        //! Стан інтерфейсу
+        isCartButtonDisabled: !activeUser,
+        showModal: activeUser ? false : this.state.showModal,
+
+        //! Завантаження завершено
+        loader: false,
+        error: null,
+      });
+    });
 
   };
 
