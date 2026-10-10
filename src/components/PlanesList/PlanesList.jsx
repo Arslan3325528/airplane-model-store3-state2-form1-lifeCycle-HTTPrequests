@@ -76,7 +76,8 @@ export function PlanesList({
                             <div className={css.spinnerBox}>
                                 <ThreeDots
                                     height="90"
-                                    width="max-content"
+                                    // width="max-content"
+                                    width="628"
                                     radius="19"
                                     color="#36d7b7"
                                     ariaLabel="three-dots-loading"

@@ -51,7 +51,10 @@
 }
 
 .spinnerBox {
-    margin-top: 50px;
+    width: max-content;
+    max-width: 100%;
+    margin: 50px auto;
+    /* margin-top: 50px; */
     display: grid;
     align-items: center;
     justify-content: center;

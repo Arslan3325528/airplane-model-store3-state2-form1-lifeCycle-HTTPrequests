@@ -6,13 +6,12 @@
     bottom: 2px;
     /*! Довжина доріжки руху */
     width: 85%;
-    /* width: 90%; */
     height: 42px;
     /*! Не впливаємо на flex-розташування інших елементів */
     margin: 0;
     padding: 0;
-    outline: 1px solid red;
     --pikachu-width: 200px;
+    /* outline: 1px solid red; */
 }
 
 /*! Пікачу GIF-зображення */
@@ -27,20 +26,47 @@
     height: auto;
     object-fit: contain;
     /*! Рух туди і назад за 3 секунди */
-    /* animation: pikachuRun 3s ease-in-out infinite alternate; */
+    /* animation: pikachuRun 1.5s ease-in-out infinite alternate; */
     /*! Один прохід зліва направо за 3 секунди */
-    animation: pikachuRun 3.1s linear forwards;
-    outline: 1px solid blue;
+    animation: pikachuRun 3.0s linear forwards;
+    /* outline: 1px solid blue; */
 }
 
 /*! Анімація руху */
-@keyframes pikachuRun {
+/* @keyframes pikachuRun {
     from {
         left: 0;
     }
     to {
-        /* left: calc(100% - 200px); */
+        left: calc(100% - 200px);
         left: calc(100% - var(--pikachu-width));
+    }
+} */
+
+/*! Анімація руху з поступовою появою та зникненням */
+@keyframes pikachuRun {
+    0% {
+        left: 0;
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.25;
+    }
+    95% {
+        opacity: 0.1;
+    }
+    100% {
+        left: calc(100% - var(--pikachu-width));
+        opacity: 0;
     }
 }
 
@@ -50,3 +76,23 @@
         animation: none;
     }
 }
+
+/** 1. Що таке prefers-reduced-motion? */
+/*?  Це CSS-медіафункція, яка дозволяє дізнатися, */
+/*?  чи вибрав користувач у налаштуваннях операційної системи режим зменшення анімації. */
+/*?  @media — дозволяє застосовувати CSS-правила лише за певних умов. */
+
+/** 2. Як працює такий код? */
+/*?     prefers-reduced-motion - перевіряє налаштування переваги зменшеного руху.  */
+/*?     reduce означає, що користувач увімкнув такий режим.  */
+/*?     .loaderImage - вибирає зображення Пікачу.  */
+/*?     animation: none — вимикає CSS-анімацію переміщення.*/ 
+
+/** 3. Як перевірити це у браузері?  */
+/*?  У Chrome можна перевірити поведінку через DevTools:  */
+/*?   1. Відкрий інструменти розробника клавішею F12.  */
+/*?   2. Натисніть Ctrl+Shift+P.  */
+/*?   3. Введи Rendering та виберіть Show Rendering.  */
+/*?   4. Знайди налаштування Emulate CSS media feature prefers-reduced-motion.  */
+/*?   5. Виберіть reduce.  */
+/*?  Після цього CSS-анімація Пікачу має відключитися. */
