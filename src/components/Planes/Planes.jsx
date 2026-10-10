@@ -3,6 +3,7 @@ import { useState } from "react"; //* NEW --> для завантаження д
 
 import { ActualImageModal } from '@/components/ActualImageModal/ActualImageModal.jsx'; //? Модальні вікна для блока зображень з бібліотекою Yet Another React Lightbox
 
+//! Дефолтні зображення
 import defaultImage from "@/components/Planes/defaultImage.jpg";
 import defaultImagePlane from "@/components/Planes/defaultImagePlane1-1.png";
 import template from "@/components/Planes/template-out-of-stock.jpg";
@@ -95,41 +96,20 @@ export function Planes({
       <p className={css.textField}><TbClockHour4Filled size={iconSize.md} className={css.icon} /> Тривалість виробництва (в роках): <span className={css.textFieldValue}>{getManufacturingYears(manufacturingStart, manufacturingEnd)}</span></p>
       <p className={css.textField}><AiOutlineDollarCircle size={iconSize.md} className={css.icon} /> Ціна: <span className={css.textFieldValue}>{price}</span></p>
       <p className={css.textField}><AiOutlineInfoCircle size={iconSize.md} className={css.icon} /> Опис: <span className={css.textFieldValue}>{description}</span></p>
-      {/*//! заголовок зображень */}
+      
+      {/*//! заголовок зображень "Рекламна модель"*/}
       <h4 className={css.imageTitles}><GiAirplaneDeparture size={iconSize.lg} className={css.iconImageTitles} /> Рекламна модель:</h4>
-      {/* <img src={urlPromotional} alt={nameBrief} /> */}
+      {/* <img src={urlPromotional} alt={nameBrief} /> */} {/*//todo_old: без завантаження дефолтного зображення */}
       {/* //* NEW --> для завантаження дефолтного зображення */}
+      {/* //todo: var.1 */}
       {/* <div className={css.promotionalImageWrapper}>
-        {!isPromotionalLoaded && !isPromotionalError && (
-          <img
-            src={defaultImagePlane}
-            alt="default Image Plane"
-            aria-hidden="true"
-            className={css.promotionalImage}
-          />
-        )}
-
-        <img
-          src={promotionalSrc}
-          alt={nameBrief}
-          className={css.promotionalImage}
-          onLoad={() => setIsPromotionalLoaded(true)}
-          onError={() => setIsPromotionalError(true)}
-          style={{
-            display: isPromotionalError ? "none" : "block",
-            opacity: isPromotionalLoaded ? 1 : 0,
-          }}
-        />
-      </div> */}
-
-      <div className={css.promotionalImageWrapper}>
         <img
           src={promotionalSrc}
           alt={nameBrief}
           className={css.promotionalImage}
           onLoad={() => setIsPromotionalLoaded(true)}
           onError={() => {
-            //! Якщо помилка сталася під час завантаження рекламного зображення, перемикаємося на заглушку.
+            // Якщо помилка сталася під час завантаження рекламного зображення, перемикаємося на заглушку.
             if (urlPromotional && !isPromotionalError) {
               setIsPromotionalError(true);
               setIsPromotionalLoaded(false);
@@ -148,9 +128,38 @@ export function Planes({
             className={css.promotionalImage}
           />
         )}
+      </div> */}
+      {/* //todo: var.2 */}
+      //* Як працює останній варіант var.2:
+      //*  - Під час завантаження: контейнер показує defaultImage як фон.
+      //*  - Якщо основне зображення завантажилося: onLoad встановлює isPromotionalLoaded в true, і зображення плавно стає видимим.
+      //*  - Якщо основне зображення не завантажилося: onError перемикає promotionalSrc на defaultImage. Фон контейнера весь цей час залишається видимим.
+      //*  - Якщо urlPromotional відсутня: відразу використовується defaultImage.
+      //*  Таким чином, навіть якщо рекламного зображення немає або сервер повернув помилку, користувач побачить заглушку, а не порожнє місце.
+      <div
+        className={css.promotionalImageWrapper}
+        style={{
+          backgroundImage: `url("${defaultImagePlane}")`,
+        }}
+      >
+        <img
+          src={promotionalSrc}
+          alt={nameBrief}
+          className={css.promotionalImage}
+          onLoad={() => setIsPromotionalLoaded(true)}
+          onError={() => {
+            if (urlPromotional && !isPromotionalError) {
+              setIsPromotionalError(true);
+              setIsPromotionalLoaded(false);
+            }
+          }}
+          style={{
+            opacity: isPromotionalLoaded ? 1 : 0,
+          }}
+        />
       </div>
 
-      {/*//! заголовок зображень */}
+      {/*//! заголовок зображень "Реальна модель" */}
       <h4 className={css.imageTitles}><CiAirportSign1 size={iconSize.lg} className={css.iconImageTitles} /> Реальна модель:</h4>
       {/* //? Блок зображень без модальних вікон */}
       {/* <div className={css.actualImageBox}>

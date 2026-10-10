@@ -148,3 +148,21 @@
     border-radius: 3px;
     padding: 0 2px;
 }
+
+/** NEW -->для завантаження дефолтного зображення */
+.promotionalImageWrapper {
+    width: 100%;
+    /* aspect-ratio: 4 / 3; */
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.promotionalImage {
+    display: block;
+    width: 100%;
+    /* height: 100%; */
+    object-fit: contain;
+    transition: opacity 0.5s ease;
+}
