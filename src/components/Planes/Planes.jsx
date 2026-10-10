@@ -99,7 +99,7 @@ export function Planes({
       <h4 className={css.imageTitles}><GiAirplaneDeparture size={iconSize.lg} className={css.iconImageTitles} /> Рекламна модель:</h4>
       {/* <img src={urlPromotional} alt={nameBrief} /> */}
       {/* //* NEW --> для завантаження дефолтного зображення */}
-      <div className={css.promotionalImageWrapper}>
+      {/* <div className={css.promotionalImageWrapper}>
         {!isPromotionalLoaded && !isPromotionalError && (
           <img
             src={defaultImagePlane}
@@ -120,6 +120,34 @@ export function Planes({
             opacity: isPromotionalLoaded ? 1 : 0,
           }}
         />
+      </div> */}
+
+      <div className={css.promotionalImageWrapper}>
+        <img
+          src={promotionalSrc}
+          alt={nameBrief}
+          className={css.promotionalImage}
+          onLoad={() => setIsPromotionalLoaded(true)}
+          onError={() => {
+            //! Якщо помилка сталася під час завантаження рекламного зображення, перемикаємося на заглушку.
+            if (urlPromotional && !isPromotionalError) {
+              setIsPromotionalError(true);
+              setIsPromotionalLoaded(false);
+            }
+          }}
+          style={{
+            opacity: isPromotionalLoaded ? 1 : 0,
+          }}
+        />
+
+        {!isPromotionalLoaded && (
+          <img
+            src={defaultImagePlane}
+            alt="default Image Plane"
+            aria-hidden="true"
+            className={css.promotionalImage}
+          />
+        )}
       </div>
 
       {/*//! заголовок зображень */}
