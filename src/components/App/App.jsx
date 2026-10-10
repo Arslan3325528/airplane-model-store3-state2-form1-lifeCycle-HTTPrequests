@@ -237,7 +237,7 @@ export class App extends Component {
       ]);
 
       //! 2. Штучно затримуємо отримання результату на 2 секунди
-      await delay(2000);
+      await delay(3000);
 
       //! ✅ 3. Повертаємо успішний результат
       return {

@@ -8,7 +8,7 @@ import css from "./Loader.module.css";
 export const Loader = () => {
     return (
         <div className={css.loaderBox} >
-            <p className={css.loaderText} >Зачекай трохи...</p>
+            {/* <p className={css.loaderText} >Зачекай трохи...</p> */}
             <img
                 className={css.loaderImage}
                 src={pikachuGif}
