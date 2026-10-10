@@ -161,7 +161,8 @@ export class App extends Component {
     error: null, //! ❌ обробка помилок
   };
 
-  //? Вся логіка початкового завантаження знаходитьсяу окремому методі
+  //? ❗️ Для componentDidMount:
+  //? Вся логіка початкового завантаження знаходитьсяу окремому методі: loadInitialData
   //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
   //todo: old (без розділення логіки) 
   // loadInitialData = async () => {
@@ -258,7 +259,8 @@ export class App extends Component {
 
   //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
   //todo_NEW-2: aircrafts + users
-  componentDidMount() {
+  // componentDidMount() {
+  componentDidMount = async () => {
     // //todo_NEW-1: aircrafts
     // //? Робимо HTTP-запит на json-server:
     // setTimeout(() => { //! імітуємо час завантаження даних
@@ -312,7 +314,8 @@ export class App extends Component {
     this.setState({ loader: true });
 
     //* 2. Отримуємо результат завантаження
-    this.loadInitialData().then(({ aircrafts, users, error }) => {
+    // this.loadInitialData().then(({ aircrafts, users, error }) => {
+    const { aircrafts, users, error } = await this.loadInitialData();
       //! 1. Якщо під час HTTP-запитів виникла помилка
       if (error) {
         this.setState({
@@ -330,7 +333,7 @@ export class App extends Component {
       //! 3. Якщо користувача з таким id більше не існує, видаляємо його id з localStorage
       if (!activeUser) localStorage.removeItem("activeUserId");
 
-      // 4. Формуємо масиви обраних моделей
+      //! 4. Формуємо масиви обраних моделей
       const indicesSelectedModels = activeUser?.indicesSelectedModels ?? [];
 
       const selectedModels = indicesSelectedModels
@@ -366,10 +369,10 @@ export class App extends Component {
         loader: false,
         error: null,
       });
-    });
-
+    // });
   };
 
+  //? ❗️ Для componentDidUpdate:
   //? Логіка запиту на http://localhost:3000/usersAircrafts/id для зміни indicesSelectedModels знаходитьсяу окремому методі
   updateUserInDatabase = async () => {
     const { activeUser, indicesSelectedModels } = this.state;
