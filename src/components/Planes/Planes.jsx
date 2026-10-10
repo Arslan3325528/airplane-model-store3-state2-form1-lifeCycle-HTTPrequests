@@ -4,7 +4,7 @@ import { useState } from "react"; //* NEW --> для завантаження д
 import { ActualImageModal } from '@/components/ActualImageModal/ActualImageModal.jsx'; //? Модальні вікна для блока зображень з бібліотекою Yet Another React Lightbox
 
 import defaultImage from "@/components/Planes/defaultImage.jpg";
-// import defaultImagePlane from "@/components/Planes/defaultImagePlane.jpg";
+import defaultImagePlane from "@/components/Planes/defaultImagePlane1-1.png";
 import template from "@/components/Planes/template-out-of-stock.jpg";
 
 import css from "./Planes.module.css"; 
@@ -66,7 +66,7 @@ export function Planes({
   const promotionalSrc =
     urlPromotional && !isPromotionalError
       ? urlPromotional
-      : defaultImage;
+      : defaultImagePlane;
   
   
   return (
@@ -102,8 +102,8 @@ export function Planes({
       <div className={css.promotionalImageWrapper}>
         {!isPromotionalLoaded && !isPromotionalError && (
           <img
-            src={defaultImage}
-            alt="defaultImage"
+            src={defaultImagePlane}
+            alt="default Image Plane"
             aria-hidden="true"
             className={css.promotionalImage}
           />
