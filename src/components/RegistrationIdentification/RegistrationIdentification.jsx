@@ -1,3 +1,5 @@
+import { Loader } from '@/components/Loader/Loader.jsx'; //! Loader "Пикачу біжить"
+
 // import defaultImage from "./default.png" //! Дефолтне зображення
 // import defaultImage from "./defaultPikachu1.jpg" //! Дефолтне зображення
 import defaultImage from "./defaultDragon.png" //! Дефолтне зображення
@@ -11,6 +13,7 @@ export function RegistrationIdentification({
   onClose, //! відкриття/закриття модального вікна
   activeUser, //! 🗣 активний (авторизований) користувач
   onSignOut, //! завершення сеансу облікового запису
+  loader, //! ⏳ індикатор завантаження (лоадер)
 }) {
   // console.log("RegistrationIdentification 🗣 Активний(авторизований) користувач:", activeUser); //!
   return (
@@ -43,13 +46,17 @@ export function RegistrationIdentification({
           </span>
         </h2>
         :
-        <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
-          <i>Для здійснення покупок необхідно увійти до свого акаунту ⇒</i>
-        </h2>
+        loader
+          ?
+          <Loader/>
+          :
+          <h2 className={`${css.titleRegistrationIdentification} ${css.titleReminderRegistrationIdentification}`}>
+            <i>Для здійснення покупок необхідно увійти до свого акаунту ⇒</i>
+          </h2>
       }
       <div className={css.buttonBoxRegistrationIdentification}>
 
-        {!activeUser &&
+        {!activeUser && !loader &&
           <button
             className={`${css.buttonRegistrationIdentification} ${css.buttonRegistration}`}
             type="button"
@@ -61,7 +68,7 @@ export function RegistrationIdentification({
           </button>
         }
 
-        {!activeUser &&
+        {!activeUser && !loader &&
           <button
             className={`${css.buttonRegistrationIdentification} ${css.buttonLogin}`}
             type="button"
@@ -73,7 +80,7 @@ export function RegistrationIdentification({
           </button>
         }
 
-        {activeUser &&
+        {activeUser && !loader &&
           <>
           <img src={activeUser.userAvatar ?? defaultImage} alt={activeUser.userName} style={{width: "80px"}} />
             <button

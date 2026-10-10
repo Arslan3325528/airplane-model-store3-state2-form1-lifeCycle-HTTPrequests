@@ -369,6 +369,7 @@ export class App extends Component {
         loader: false,
         error: null,
       });
+      // if (activeUser) this.setState({ indicesSelectedModels: activeUser.indicesSelectedModels})
     // });
   };
 
@@ -377,7 +378,7 @@ export class App extends Component {
   updateUserInDatabase = async () => {
     const { activeUser, indicesSelectedModels } = this.state;
     try {
-      await updateUserSelectedModels(activeUser.id, indicesSelectedModels);
+      await updateUserSelectedModels(activeUser?.id, indicesSelectedModels);
       console.log("✅ indicesSelectedModels успішно оновлено:",indicesSelectedModels);
     } catch (error) {
       console.error("❌ Помилка оновлення користувача:", error);
@@ -418,7 +419,13 @@ export class App extends Component {
       prevState.activeUser === this.state.activeUser
       &&
       prevState.indicesSelectedModels !== this.state.indicesSelectedModels
-    ){
+      &&
+      (prevState.indicesSelectedModels.length || this.state.indicesSelectedModels.length)
+    ) {
+      console.log("❓ prevState.activeUser:", prevState.activeUser);
+      console.log("❓ this.state.activeUser:", this.state.activeUser);
+      console.log("❓ prevState.indicesSelectedModels:", prevState.indicesSelectedModels);
+      console.log("❓ this.state.indicesSelectedModels:", this.state.indicesSelectedModels);
       console.log('✅🖍 componentDidUpdate_Перезаписуємо indicesSelectedModels в "http://localhost:3000/usersAircrafts/userId"');
         this.updateUserInDatabase();
     };
@@ -1062,7 +1069,7 @@ export class App extends Component {
           onClose={this.toggleModal} //! відкриття/закриття модального вікна
           activeUser={activeUser} //! 🗣 активний (авторизований) користувач
           onSignOut={this.signOut} //! завершення сеансу облікового запису
-          // loader={loader} //! ⏳ індикатор завантаження (лоадер)
+          loader={loader} //! ⏳ індикатор завантаження (лоадер)
         />
         
         {/*//!  Вибір масштабу моделі */}

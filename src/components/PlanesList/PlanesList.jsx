@@ -6,6 +6,7 @@ import { Planes } from '@/components/Planes/Planes.jsx'; //? Модальні в
 import { ImSpinner } from 'react-icons/im';
 import { PiArrowsClockwiseBold } from "react-icons/pi";
 import { Oval, ThreeDots } from "react-loader-spinner";
+import { Loader } from '@/components/Loader/Loader.jsx'; //! Loader "Пикачу біжить"
 
 import { getBgColorCSSModule } from '@/utils';
 
@@ -71,7 +72,8 @@ export function PlanesList({
                     : (inputSearchValue || inputSearchValueTrigger || !isCartOn)
                         ?
                         loader
-                            ? <div className={css.spinnerBox}>
+                            ?
+                            <div className={css.spinnerBox}>
                                 <ThreeDots
                                     height="90"
                                     width="max-content"
@@ -82,7 +84,10 @@ export function PlanesList({
                                 />
                                 <h2 className={css.invitation}>Завантажуємо дані... ⏳ <span><PiArrowsClockwiseBold size="91" className={css.iconSpin} /></span></h2>
                             </div>
-                            : <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2>
+                            // ! Loader "Пикачу біжить"
+                            // <Loader /> 
+                            :
+                            <h2 className={css.invitation}>Нічого не знайдено... ☹️</h2>
                         : <h2 className={css.invitation}>Додайте товар до кошику... 😉</h2>
                 }
             </>
