@@ -3,7 +3,8 @@ import axios from "axios";
 import { aircraftsSort } from '@/utils'; //! початкове сортування на ім'я (за полем name.brief) + сортування з перенесенням відсутніх моделей у кінець списку
 
 //? Константи для створення url:
-const BASE_URL = "http://localhost:3000/";
+// const BASE_URL_AIRCRAFTS = "http://localhost:3000/";
+const BASE_URL_AIRCRAFTS = import.meta.env.VITE_API_BASE_URL_AIRCRAFTS;
 
 const ENDPOINT_AIRCRAFTS_DB = "aircraftsDB"; //* незмінна DB (тільки для читання), для оновлення карток в початковий стан
 
@@ -19,7 +20,7 @@ const ENDPOINT_USERS_AIRCRAFTS_TEST = "usersAircraftsTest"; //todo: тестов
 
 //? Запит GET на "http://localhost:3000/aircrafts"
 export async function fetchAircrafts() {
-  const url = `${BASE_URL}${ENDPOINT_AIRCRAFTS}`;
+  const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_AIRCRAFTS}`;
 
   try {
     const response = await axios.get(url);
@@ -49,8 +50,8 @@ export async function fetchAircrafts() {
 
 //? Запит GET на "http://localhost:3000/usersAircrafts"
 export async function fetchUsersAircrafts() {
-  // const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS}`;
-  const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тестова DB для налаштування логіки запитів
+  // const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS}`;
+  const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тестова DB для налаштування логіки запитів
 
   try {
     const response = await axios.get(url);
@@ -80,7 +81,7 @@ export async function fetchUsersAircrafts() {
 //? Запит PATCH на "http://localhost:3000/usersAircrafts/userId"
 // export const updateUserSelectedModels = async (userId, indicesSelectedModels) => {
 export async function updateUserSelectedModels(userId, indicesSelectedModels) {
-  const url = `${BASE_URL}${ENDPOINT_USERS_AIRCRAFTS_TEST}/${userId}`; //todo: тестова DB для налаштування логіки запитів
+  const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}/${userId}`; //todo: тестова DB для налаштування логіки запитів
   const response = await axios.patch(url, {indicesSelectedModels});
   return response.data;
 };

@@ -3,7 +3,8 @@ import axios from "axios";
 import { generatesRandomNumber } from '@/utils'; //! приймає два числа a і b та повертає випадкове число в диапазоні від a до b включно
 
 //? Константи для створення url:
-const BASE_URL = "https://pokeapi.co/api/v2/";
+// const BASE_URL_POKEMONS = "https://pokeapi.co/api/v2/";
+const BASE_URL_POKEMONS = import.meta.env.VITE_API_BASE_URL_POKEMONS;
 
 const ENDPOINT_POKEMONS = "pokemon";
 // const ENDPOINT_POKEMONS = "pokemon1"; //! ❌ викликає помилку 400
@@ -14,7 +15,7 @@ const max = 1025;
 //? Запит на "https://pokeapi.co/api/v2/pokemon/${generatesRandomNumber(1, 1025)}"
 export async function fetchPokemonForAircrafts() {
   const pokemonId = generatesRandomNumber(min, max);
-  const url = `${BASE_URL}${ENDPOINT_POKEMONS}/${pokemonId}`;
+  const url = `${BASE_URL_POKEMONS}${ENDPOINT_POKEMONS}/${pokemonId}`;
 
   try {
     const response = await axios.get(url);

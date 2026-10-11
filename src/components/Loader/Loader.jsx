@@ -18,3 +18,7 @@ export const Loader = () => {
         </div>
     );
 };
+
+//?   import.meta.env — об'єкт із змінними оточеннями, які надає Vite.
+//?   import.meta.env.BASE_URL — автоматично сформоване базове посилання на програму - '/airplane-model-store3-state2-form1-lifeCycle-HTTPrequests/'.
+//?   images / gif / pikachu - running.gif - шлях до GIF всередині папки public.
