@@ -11,7 +11,6 @@ import { theme } from '@/constants'; //! Emotion Theme
 //todo: var.2  Підключення Normalize (npm i -D postcss-normalize + postcss.config.js)
 import './index.css'; //! підключення Normalize і Reset CSS
 
-
 //! Aбсолютний шлях + Реекспорт
 import {
   App, //! Aircrafts 
