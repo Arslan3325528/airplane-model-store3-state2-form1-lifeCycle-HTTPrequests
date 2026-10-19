@@ -12,28 +12,28 @@ const ENDPOINT_POKEMONS = "pokemon";
 const min = 1;
 const max = 1025;
 
-//? Запит на "https://pokeapi.co/api/v2/pokemon/${generatesRandomNumber(1, 1025)}"
+//? Запит GET на "https://pokeapi.co/api/v2/pokemon/${generatesRandomNumber(1, 1025)}"
 export async function fetchPokemonForAircrafts() {
   const pokemonId = generatesRandomNumber(min, max);
   const url = `${BASE_URL_POKEMONS}${ENDPOINT_POKEMONS}/${pokemonId}`;
 
   try {
     const response = await axios.get(url);
-    console.log("🅰️xios==>✅response:", response);
+    console.log("🅰️xios==>✅response-GETpokemons/id", response);
     return response.data;
   } catch (error) {
     //! Помилка: 404
     if (error.response?.status === 404) {
-      console.log("🅰️xios==>❌error-404", error);
+      console.log("🅰️xios==>❌error-GETpokemons/id(404)", error);
       throw new Error(`Покемена з ім'ям «${pokemonId}» не існує`);
     };
     //! Помилка: 400
     if (error.response?.status === 400) {
-      console.log("🅰️xios==>❌error-400:", error);
+      console.log("🅰️xios==>❌error-GETpokemons/id(404):", error);
       throw new Error(`Сталася синтаксична помилка при введенні імені «${pokemonId}»`);
     };
     //! Інша помилка
-    console.log("🅰️xios==>❌error-(інша помилка):", error);
+    console.log("🅰️xios==>❌error-GETpokemons/id(інша помилка):", error);
     throw error;
   };
 };

@@ -811,19 +811,28 @@ export class App extends Component {
   submitForm = async (newUser) => { //? робимо метод асинхронним 
     console.log("✅submitForm_👤об'ект даних нового користувача:", newUser);
 
-    //? NEW 
+    //? NEW
+    //? Тут можна використати Метод-обгортку: loadData(fetchData)
+    //? з папки services/aircraftsLoadData.js
+    //? для отримання даних за допомогою колбек функції fetchData(),
+    //? але потрібно його доробити, 
+    //? бо для updateUsers(newUser) не потрібен return fetchData(). 
+    //? Тому залишаємо такий варіант:
     try {
       //? Додаємо нового користувача в db "usersAircrafts" на json-server
       // await axios.post("http://localhost:3000/usersAircraftsTest", newUser);
       await updateUsers(newUser);
 
       //? Отримуємо оновлений список користувачів з db "usersAircrafts" на json-server
-      const response = await axios.get("http://localhost:3000/usersAircraftsTest");
-      console.log('✅submitForm_👨‍👩‍👦‍👦"свіженки" users_response.data', response.data);
+      // const response = await axios.get("http://localhost:3000/usersAircraftsTest");
+      // console.log('✅submitForm_👨‍👩‍👦‍👦"свіженки" users_response.data', response.data);
+      const users = await fetchUsersAircrafts();
+      console.log('✅submitForm_👨‍👩‍👦‍👦"свіженки" users_response.data', users);
 
       //? Оновлюємо список користувачів users в State
       this.setState({
-        users: response.data,
+        // users: response.data,
+        users,
       });
 
     } catch (error) {

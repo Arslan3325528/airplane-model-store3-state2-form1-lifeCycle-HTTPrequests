@@ -24,25 +24,25 @@ export async function fetchAircrafts() {
 
   try {
     const response = await axios.get(url);
-    console.log("🅰️xios==>✅response-aircrafts:", response);
+    console.log("🅰️xios==>✅response-GETaircrafts:", response);
     // return response.data;
     return aircraftsSort(response.data);
   } catch (error) {
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
-      console.log("🅰️xios==>❌error-aircrafts(Відсутня відповідь сервера):", error.response);
+      console.log("🅰️xios==>❌error-GETaircrafts(Відсутня відповідь сервера):", error.response);
       throw new Error(`Відсутній зв'язок з сервером «aircrafts-DB»`);
     };
     //! Помилка: 404
     if (error.response?.status === 404) {
-      console.log("🅰️xios==>❌error-aircrafts(404)", error);
+      console.log("🅰️xios==>❌error-GETaircrafts(404)", error);
       throw new Error(` Сервер не може знайти дані згідно з запитом: «${url}» ❓🙅‍♂️`);
     };
     //! Помилка: Інша помилка
-    console.log("🅰️xios==>❌error-aircrafts(Інша помилка):", error);
-    // console.log("🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response:", error.response);
-    // console.log("🅰️🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
-    // console.log("🅰️🅰️🅰️xios==>❌error-aircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
+    console.log("🅰️xios==>❌error-GETaircrafts(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-GETaircrafts(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-GETaircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-GETaircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
     throw error;
   };
 };
@@ -55,24 +55,24 @@ export async function fetchUsersAircrafts() {
 
   try {
     const response = await axios.get(url);
-    console.log("🅰️xios==>✅response-usersAircrafts:", response);
+    console.log("🅰️xios==>✅response-GETusersAircrafts:", response);
     return response.data;
   } catch (error) {
     //! Помилка: Відсутня відповідь сервера
     if (!error.response) {
-      console.log("🅰️xios==>❌error-usersAircrafts(Відсутня відповідь сервера):", error.response);
+      console.log("🅰️xios==>❌error-GETusersAircrafts(Відсутня відповідь сервера):", error.response);
       throw new Error(`Відсутній зв'язок з сервером «users-DB»`);
     };
     //! Помилка: 404
     if (error.response?.status === 404) {
-      console.log("🅰️xios==>❌error-usersAircrafts(404)", error);
+      console.log("🅰️xios==>❌error-GETusersAircrafts(404)", error);
       throw new Error(` Сервер не може знайти дані згідно з запитом: «${url}» ❓🤷‍♀️`);
     };
     //! Помилка: Інша помилка
-    console.log("🅰️xios==>❌error-usersAircrafts(Інша помилка):", error);
-    // console.log("🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response:", error.response);
-    // console.log("🅰️🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
-    // console.log("🅰️🅰️🅰️xios==>❌error-usersAircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
+    console.log("🅰️xios==>❌error-GETusersAircrafts(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-GETusersAircrafts(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-GETusersAircrafts(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-GETusersAircrafts(Інша помилка)❌error.response?.data:", error.response?.data);
     throw error;
   };
 };
@@ -83,13 +83,41 @@ export async function fetchUsersAircrafts() {
 export async function updateUserSelectedModels(userId, indicesSelectedModels) {
   // const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS}`;
   const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}/${userId}`; //todo: тестова DB для налаштування логіки запитів
-  const response = await axios.patch(url, {indicesSelectedModels});
-  return response.data;
+  
+  // const response = await axios.patch(url, { indicesSelectedModels });
+  // return response.data;
+
+  try {
+    const response = await axios.patch(url, { indicesSelectedModels });
+    console.log("🅰️xios==>✅response-PATCHusersAircrafts/userId:", response);
+    return response.data;
+  } catch (error) {
+    //! Помилка: Інша помилка
+    console.log("🅰️xios==>❌error-PATCHusersAircrafts/userId(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-PATCHusersAircrafts/userId(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-PATCHusersAircrafts/userId(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-PATCHusersAircrafts/userId/userId(Інша помилка)❌error.response?.data:", error.response?.data);
+    throw error;
+  };
 };
 
 //? Запит POST на "http://localhost:3000/usersAircrafts" на додавання нового користувача
 export async function updateUsers(newUser) {
   // const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS}`;
   const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тестова DB для налаштування логіки запитів
-  await axios.post(url, newUser);
+
+  // await axios.post(url, newUser);
+
+  try {
+    await axios.post(url, newUser);
+    // console.log("🅰️xios==>✅response-POSTusersAircrafts:", response); //! увімкнути для демонстрації перевірки роботи помилки
+    console.log("🅰️xios==>✅response-POSTusersAircrafts"); 
+  } catch (error) {
+    //! Помилка: Інша помилка
+    console.log("🅰️xios==>❌error-POSTusersAircrafts/userId(Інша помилка):", error);
+    // console.log("🅰️🅰️xios==>❌error-POSTusersAircrafts/userId(Інша помилка)❌error.response:", error.response);
+    // console.log("🅰️🅰️🅰️xios==>❌error-POSTusersAircrafts/userId(Інша помилка)❌error.response?.status:", error.response?.status);
+    // console.log("🅰️🅰️🅰️xios==>❌error-POSTusersAircrafts/userId/userId(Інша помилка)❌error.response?.data:", error.response?.data);
+    throw error;
+  };
 };
