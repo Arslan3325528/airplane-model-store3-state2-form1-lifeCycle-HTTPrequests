@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from "react"; //* NEW --> для завантаження дефолтного зображення
+import { useState } from "react"; //* ❗️❗️❗️ NEW --> для завантаження дефолтного зображення
 
 import { ActualImageModal } from '@/components/ActualImageModal/ActualImageModal.jsx'; //? Модальні вікна для блока зображень з бібліотекою Yet Another React Lightbox
 
@@ -60,10 +60,10 @@ export function Planes({
   const numberModels = Object.values(modelColorsPrice).filter(el => Number(el)).length;
   // console.log("📌📌📌numberModels :", numberModels);
 
-  //* NEW --> для завантаження дефолтного зображення
+  //* ❗️❗️❗️ NEW --> для завантаження дефолтного зображення
   const [isPromotionalLoaded, setIsPromotionalLoaded] = useState(false);
   const [isPromotionalError, setIsPromotionalError] = useState(false);
-  //* NEW --> для завантаження дефолтного зображення
+  //* ❗️❗️❗️ NEW --> для завантаження дефолтного зображення
   const promotionalSrc =
     urlPromotional && !isPromotionalError
       ? urlPromotional
@@ -100,7 +100,7 @@ export function Planes({
       {/*//! заголовок зображень "Рекламна модель"*/}
       <h4 className={css.imageTitles}><GiAirplaneDeparture size={iconSize.lg} className={css.iconImageTitles} /> Рекламна модель:</h4>
       {/* <img src={urlPromotional} alt={nameBrief} /> */} {/*//todo_old: без завантаження дефолтного зображення */}
-      {/* //* NEW --> для завантаження дефолтного зображення */}
+      {/* //* ❗️❗️❗️ NEW --> для завантаження дефолтного зображення */}
       {/* //todo: var.1 */}
       {/* <div className={css.promotionalImageWrapper}>
         <img
