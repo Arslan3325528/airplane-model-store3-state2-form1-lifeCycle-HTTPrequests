@@ -20,6 +20,7 @@ import {
   fetchAircrafts,
   fetchUsersAircrafts,
   updateUserSelectedModels,
+  updateUsers,
 } from "@/services";
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
@@ -113,10 +114,13 @@ import { updateSelectedModels } from '@/utils'; //! формуємо(оновл�
 //?     - всю іншу логіку (окрім логіки state) прибираємо
 //?
 //? 5. Реєстрація нового користувача
-//?     5.1. В FormRegistration.jsx в методі handleSubmit ⌛️
-//?     - 
-//?     - 
-//?     - 
+//?     5.1. В FormRegistration.jsx в методі handleSubmit
+//?     - завантажуємо "свіженких" users з json-server: "http://localhost:3000/usersAircrafts" замість localStorage
+//?     - створюємо значення додаткових властивостей userAvatar і userNickName для чого завантажуємо об'єкт pokemon з "https://pokeapi.co/api/v2/pokemon/${generatesRandomNumber(1, 1025)}"
+//?     - створюємо об'єкт властивостей нового зареєстрованого користувача з додатковими властивостями userNickName і userAvatar
+//?     5.2. В App.jsx в методі submitForm
+//?     - додаємо нового користувача в db "usersAircrafts" на json-server
+//?     - оновлюємо список користувачів users в State
 
 //! Cтворює Promise для імітації затримки HTTP-запитів, який стане fulfilled через (ms) мс
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -810,7 +814,8 @@ export class App extends Component {
     //? NEW 
     try {
       //? Додаємо нового користувача в db "usersAircrafts" на json-server
-      await axios.post("http://localhost:3000/usersAircraftsTest", newUser);
+      // await axios.post("http://localhost:3000/usersAircraftsTest", newUser);
+      await updateUsers(newUser);
 
       //? Отримуємо оновлений список користувачів з db "usersAircrafts" на json-server
       const response = await axios.get("http://localhost:3000/usersAircraftsTest");

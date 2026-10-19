@@ -81,7 +81,15 @@ export async function fetchUsersAircrafts() {
 //? Запит PATCH на "http://localhost:3000/usersAircrafts/userId"
 // export const updateUserSelectedModels = async (userId, indicesSelectedModels) => {
 export async function updateUserSelectedModels(userId, indicesSelectedModels) {
+  // const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS}`;
   const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}/${userId}`; //todo: тестова DB для налаштування логіки запитів
   const response = await axios.patch(url, {indicesSelectedModels});
   return response.data;
+};
+
+//? Запит POST на "http://localhost:3000/usersAircrafts" на додавання нового користувача
+export async function updateUsers(newUser) {
+  // const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS}`;
+  const url = `${BASE_URL_AIRCRAFTS}${ENDPOINT_USERS_AIRCRAFTS_TEST}`; //todo: тестова DB для налаштування логіки запитів
+  await axios.post(url, newUser);
 };
