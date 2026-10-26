@@ -22,6 +22,7 @@ import {
   fetchUsersAircrafts,
   updateUserSelectedModels,
   updateUsers,
+  updateUserInDatabase
 } from "@/services";
 
 import { updateSelectedModels } from '@/utils'; //! формуємо(оновлюємо) масив обраних моделей [selectedModels]
@@ -381,15 +382,15 @@ export class App extends Component {
 
   //? ❗️ Для componentDidUpdate:
   //? Логіка запиту на http://localhost:3000/usersAircrafts/id для зміни indicesSelectedModels знаходитьсяу окремому методі
-  updateUserInDatabase = async () => {
-    const { activeUser, indicesSelectedModels } = this.state;
-    try {
-      await updateUserSelectedModels(activeUser?.id, indicesSelectedModels);
-      console.log("✅ indicesSelectedModels успішно оновлено:",indicesSelectedModels);
-    } catch (error) {
-      console.error("❌ Помилка оновлення користувача:", error);
-    };
-  };
+  // updateUserInDatabase = async () => {
+  //   const { activeUser, indicesSelectedModels } = this.state;
+  //   try {
+  //     await updateUserSelectedModels(activeUser?.id, indicesSelectedModels);
+  //     console.log("✅indicesSelectedModels успішно оновлено!:", indicesSelectedModels);
+  //   } catch (error) {
+  //     console.error("❌ Помилка оновлення користувача:", error);
+  //   };
+  // }; //? імпортуємо з "@/services/aircraftsLoadData.js"
 
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
   componentDidUpdate(prevProps, prevState) {
@@ -433,7 +434,8 @@ export class App extends Component {
       console.log("❓ prevState.indicesSelectedModels:", prevState.indicesSelectedModels);
       console.log("❓ this.state.indicesSelectedModels:", this.state.indicesSelectedModels);
       console.log('✅🖍 componentDidUpdate_Перезаписуємо indicesSelectedModels в "http://localhost:3000/usersAircrafts/userId"');
-        this.updateUserInDatabase();
+      // this.updateUserInDatabase();
+      updateUserInDatabase(this.state.activeUser, this.state.indicesSelectedModels, updateUserSelectedModels); //? імпортуємо з "@/services/aircraftsLoadData.js"
     };
   
     //todo: users

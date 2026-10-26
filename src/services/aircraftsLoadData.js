@@ -47,4 +47,15 @@ export async function loadInitialData(getAircrafts, getUsers, delayDuration) {
 };
 
 
-
+//? ❗️ Для componentDidUpdate:
+  //? Логіка запиту на http://localhost:3000/usersAircrafts/id для зміни indicesSelectedModels знаходитьсяу окремому методі
+// updateUserInDatabase = async () => {
+export async function updateUserInDatabase(activeUser, indicesSelectedModels, updateUserSelectedModels) {
+  // const { activeUser, activeUser } = this.state;
+    try {
+      await updateUserSelectedModels(activeUser?.id, indicesSelectedModels);
+      console.log("✅indicesSelectedModels успішно оновлено!:", indicesSelectedModels);
+    } catch (error) {
+      console.error("❌ Помилка оновлення користувача:", error);
+    };
+  };
