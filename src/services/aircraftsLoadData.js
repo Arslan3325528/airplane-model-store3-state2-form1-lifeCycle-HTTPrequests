@@ -1,6 +1,7 @@
 import {delay} from "@/utils"
 
 
+
 //! Метод-обгортка для отримання даних за допомогою колбек функції fetchData
 // loadData = async (fetchData) => {
 export async function loadData(fetchData) {
@@ -13,7 +14,7 @@ export async function loadData(fetchData) {
 
 
 //? ❗️ Для componentDidMount:
-//* todo: NEW (з розділенням логіки)
+//todo: NEW (з розділенням логіки)
 //! Завантаження початкових даних з json-server
 //! Метод виконує HTTP-запити, затримку та повертає результат.
 //! State тут НЕ змінюємо.

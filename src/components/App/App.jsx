@@ -260,7 +260,7 @@ export class App extends Component {
   //       error,
   //     };
   //   }
-  // }; //? імпортуємо з "@/services/aircraftsLoadData.js"
+  // }; //? імпортуємо loadInitialData з "@/services/aircraftsLoadData.js"
 
 
   //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
@@ -315,14 +315,16 @@ export class App extends Component {
     //? Робимо два HTTP-запита на json-server: "http://localhost:3000/aircrafts" і "http://localhost:3000/usersAircrafts"
     //todo: old (без розділення логіки) 
     // this.loadInitialData();
-    //* todo: NEW (з розділенням логіки)
+    
+    //todo: NEW (з розділенням логіки)
     //* 1. Вмикаємо лоадер перед HTTP-запитами
     this.setState({ loader: true });
 
     //* 2. Отримуємо результат завантаження
     // this.loadInitialData().then(({ aircrafts, users, error }) => {
     // const { aircrafts, users, error } = await this.loadInitialData();
-    const { aircrafts, users, error } = await loadInitialData(fetchAircrafts, fetchUsersAircrafts, 3000); //? імпортуємо з "@/services/aircraftsLoadData.js"
+    //? Імпортуємо loadInitialData з "@/services/aircraftsLoadData.js"
+    const { aircrafts, users, error } = await loadInitialData(fetchAircrafts, fetchUsersAircrafts, 3000); 
       //! 1. Якщо під час HTTP-запитів виникла помилка
       if (error) {
         this.setState({
@@ -390,7 +392,7 @@ export class App extends Component {
   //   } catch (error) {
   //     console.error("❌ Помилка оновлення користувача:", error);
   //   };
-  // }; //? імпортуємо з "@/services/aircraftsLoadData.js"
+  // }; //? імпортуємо updateUserInDatabase з "@/services/aircraftsLoadData.js"
 
   //! 3.localStorage - Оновлення(синхронізація) localStorage при кожній зміні indicesSelectedModels
   componentDidUpdate(prevProps, prevState) {
@@ -435,7 +437,7 @@ export class App extends Component {
       console.log("❓ this.state.indicesSelectedModels:", this.state.indicesSelectedModels);
       console.log('✅🖍 componentDidUpdate_Перезаписуємо indicesSelectedModels в "http://localhost:3000/usersAircrafts/userId"');
       // this.updateUserInDatabase();
-      updateUserInDatabase(this.state.activeUser, this.state.indicesSelectedModels, updateUserSelectedModels); //? імпортуємо з "@/services/aircraftsLoadData.js"
+      updateUserInDatabase(this.state.activeUser, this.state.indicesSelectedModels, updateUserSelectedModels); //? імпортуємо updateUserInDatabase з "@/services/aircraftsLoadData.js"
     };
   
     //todo: users
