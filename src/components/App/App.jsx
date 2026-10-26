@@ -15,13 +15,13 @@ import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 
 // import aircrafts from '@/json/aircrafts.json'; //! aircrafts --> з файла aircrafts.json
 // import { fetchAircrafts } from '@/services' //!  this.state.aircrafts --> запити з json-server
-//!  this.state.aircrafts  + this.state.users --> запити з json-server
+//!  this.state.aircrafts  + this.state.users --> запити з json-server + методи-обгортки для запитів
 import {
-  loadInitialData,
   fetchAircrafts,
   fetchUsersAircrafts,
   updateUserSelectedModels,
   updateUsers,
+  loadInitialData,
   updateUserInDatabase
 } from "@/services";
 
