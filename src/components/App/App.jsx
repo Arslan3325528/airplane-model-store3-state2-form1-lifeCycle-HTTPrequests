@@ -17,6 +17,7 @@ import { PlanesList } from '@/components/PlanesList/PlanesList.jsx';
 // import { fetchAircrafts } from '@/services' //!  this.state.aircrafts --> запити з json-server
 //!  this.state.aircrafts  + this.state.users --> запити з json-server
 import {
+  loadInitialData,
   fetchAircrafts,
   fetchUsersAircrafts,
   updateUserSelectedModels,
@@ -232,33 +233,33 @@ export class App extends Component {
   //! Завантаження початкових даних з json-server
   //! Метод виконує HTTP-запити, затримку та повертає результат.
   //! State тут НЕ змінюємо.
-  loadInitialData = async () => {
-    try {
-      //! 1. Виконуємо два HTTP-запити паралельно
-      const [aircrafts, users] = await Promise.all([
-        fetchAircrafts(),
-        fetchUsersAircrafts(),
-      ]);
+  // loadInitialData = async () => {
+  //   try {
+  //     //! 1. Виконуємо два HTTP-запити паралельно
+  //     const [aircrafts, users] = await Promise.all([
+  //       fetchAircrafts(),
+  //       fetchUsersAircrafts(),
+  //     ]);
 
-      //! 2. Штучно затримуємо отримання результату на 2 секунди
-      await delay(3000);
+  //     //! 2. Штучно затримуємо отримання результату на 2 секунди
+  //     await delay(3000);
 
-      //! ✅ 3. Повертаємо успішний результат
-      return {
-        aircrafts,
-        users,
-        error: null,
-      };
-    } catch (error) {
-      console.error("❌ Помилка завантаження початкових даних:", error);
-      //! ❌ 4. Повертаємо інформацію про помилку
-      return {
-        aircrafts: null,
-        users: null,
-        error,
-      };
-    }
-  };
+  //     //! ✅ 3. Повертаємо успішний результат
+  //     return {
+  //       aircrafts,
+  //       users,
+  //       error: null,
+  //     };
+  //   } catch (error) {
+  //     console.error("❌ Помилка завантаження початкових даних:", error);
+  //     //! ❌ 4. Повертаємо інформацію про помилку
+  //     return {
+  //       aircrafts: [],
+  //       users: [],
+  //       error,
+  //     };
+  //   }
+  // }; //? імпортуємо з "@/services/aircraftsLoadData.js"
 
 
   //todo_old 2.localStorage - Створення запису в localStorage під час першого запуску якщо його немає
@@ -319,7 +320,8 @@ export class App extends Component {
 
     //* 2. Отримуємо результат завантаження
     // this.loadInitialData().then(({ aircrafts, users, error }) => {
-    const { aircrafts, users, error } = await this.loadInitialData();
+    // const { aircrafts, users, error } = await this.loadInitialData();
+    const { aircrafts, users, error } = await loadInitialData(fetchAircrafts, fetchUsersAircrafts, 3000); //? імпортуємо з "@/services/aircraftsLoadData.js"
       //! 1. Якщо під час HTTP-запитів виникла помилка
       if (error) {
         this.setState({

@@ -5,3 +5,4 @@ export * from './highlightTextProtection.jsx';
 export * from './updateSelectedModels.js';
 export * from './sortAircrafts.js';
 export * from './getRandomNumber.js';
+export * from './delayPromise.js';
