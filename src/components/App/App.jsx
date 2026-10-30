@@ -752,7 +752,7 @@ export class App extends Component {
 
 
   //! Функція яка отримує масив моделей обраного масштабу з компоненту ScaleSelection та додає його в state
-  getModelsSelectedScale = modelsScale => {
+  getModelsSelectedScale = (modelsScale, scale) => {
     // console.log("📗Масив моделей обраного масштабу :", modelsScale);
 
     //! Умови за допомогою switch, які відобрадають стан кнопок-фільтрів
@@ -779,6 +779,7 @@ export class App extends Component {
       aircraftsArr: result,
       aircraftsArrAfterFiltration: result,
       inputSearchValue: "", //! значення inputSearch
+      modelScale: scale, //! початковий масштаб моделі в ScaleSelection
     });
   };
 
@@ -856,7 +857,7 @@ export class App extends Component {
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
-      modelScale: "_", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
+      modelScale: "all", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true,
       // users: [...prevState.users, data], //? це оновлення users робимо вище, відразу після отримання відповіді response.data з json-server
       modalType: "Login", //! для подальшого вікриття форми Ідентифікації/Аутентифікації (Login) користувача
@@ -904,7 +905,7 @@ export class App extends Component {
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
-      modelScale: "__", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
+      modelScale: "all", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: !this.state.showModal, //todo: var.2 закриваємо модалку  
       users,  
       activeUser,
@@ -955,7 +956,7 @@ export class App extends Component {
       inputSearchPlaceholder: "Введіть назву ЛА", //! значення placeholder для inputSearch
       inputSearchValueTrigger: false, //! тригер для коректної роботи інпуту після очищення
       modelsSelectedScale: this.state.aircrafts, //! масив моделей обраного масштабу
-      modelScale: "", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
+      modelScale: "all", //! початковий масштаб моделі в ScaleSelection (для перерендеру)
       // showModal: true, //todo: var.2 відкриваємо модалку
       // users, //? НЕ перезаписуємо масив з даними користувачів
       activeUser: null, //! 🗣 активний (авторизований) користувач
